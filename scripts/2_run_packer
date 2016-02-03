@@ -1,0 +1,30 @@
+#!/bin/bash -e
+
+#############
+# Constants #
+#############
+
+main_dir=/home/ubuntu/snowplow
+
+configs_dir=$main_dir/configs
+executables_dir=$main_dir/bin
+unix_pipes_dir=$main_dir/pipes
+scripts_dir=$main_dir/scripts
+
+raw_events_pipe=$unix_pipes_dir/raw-events-pipe
+enriched_pipe=$unix_pipes_dir/enriched-events-pipe
+
+#####################
+# Start ES + Kibana #
+#####################
+
+sudo service elasticsearch start
+sudo service kibana4_init start
+
+#################################################
+# Start Collector/Enrichment/Elasticsearch Sink #
+#################################################
+
+${executables_dir}/snowplow-stream-collector-0.5.0 --config ${configs_dir}/scala-stream-collector.hocon > $raw_events_pipe &
+cat $raw_events_pipe | ${executables_dir}/snowplow-kinesis-enrich-0.6.0 --config ${configs_dir}/scala-kinesis-enrich.hocon --resolver file:${configs_dir}/default-iglu-resolver.json > $enriched_pipe &
+cat $enriched_pipe | ${executables_dir}/snowplow-elasticsearch-sink-0.4.0 --config ${configs_dir}/kinesis-elasticsearch-sink-good.hocon | ${scripts_dir}/elasticsearch_upload.pl &

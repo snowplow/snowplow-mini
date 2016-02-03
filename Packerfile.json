@@ -1,0 +1,71 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "eu-west-1",
+      "source_ami": "ami-65cb5a12",
+      "instance_type": "t2.small",
+      "ssh_username": "ubuntu",
+      "ami_name": "snowplow-mini-0.1.0-{{ timestamp }}",
+      "ami_groups": [ "all" ],
+      "ami_regions": [ "us-east-1", "us-west-2", "us-west-1", "eu-central-1", "ap-southeast-1", "ap-northeast-1", "ap-southeast-2", "sa-east-1" ],
+      "ami_description": "SnowplowMini - The Snowplow Pipeline in a box",
+      "tags": {
+        "OS_Version": "Ubuntu-12.04",
+        "Release": "0.1.0"
+      }
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "mkdir -p /home/ubuntu/snowplow/configs",
+        "mkdir -p /home/ubuntu/snowplow/elasticsearch",
+        "mkdir -p /home/ubuntu/snowplow/scripts"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "resources/kibana/kibana4_init",
+      "destination": "/home/ubuntu/kibana4_init"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo cp /home/ubuntu/kibana4_init /etc/init.d",
+        "sudo chmod 0755 /etc/init.d/kibana4_init",
+        "sudo update-rc.d kibana4_init defaults 95 10"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "resources/configs",
+      "destination": "/home/ubuntu/snowplow"
+    },
+    {
+      "type": "file",
+      "source": "resources/elasticsearch",
+      "destination": "/home/ubuntu/snowplow"
+    },
+    {
+      "type": "file",
+      "source": "scripts",
+      "destination": "/home/ubuntu/snowplow"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo cp /home/ubuntu/snowplow/scripts/2_run_packer /etc/init.d",
+        "sudo chmod 0755 /etc/init.d/2_run_packer",
+        "sudo update-rc.d 2_run_packer defaults 95 10"
+      ]
+    },
+    {
+      "type": "shell",
+      "script": "scripts/1_setup_packer.sh",
+      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
+    }
+  ]
+}
