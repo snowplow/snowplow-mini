@@ -1,12 +1,6 @@
 #!/bin/bash
 set -e
 
-bintray_user=snowplowbot
-bintray_repository=snowplow-docker-snowplow-docker.bintray.io
-bintray_email=systems@snowplowanalytics.com
-img_name=generic/snowplow-mini
-tar_name=generic-snowplow-mini
-
 # Similar to Perl die
 function die() {
 	echo "$@" 1>&2 ; exit 1;
@@ -37,26 +31,6 @@ function is_running {
 	fi
 }
 
-# Get version, checking we are on the latest
-#
-# Parameters:
-# 1. out_version (out parameter)
-# 2. out_error (out parameter)
-function get_version {
-	[ "$#" -eq 2 ] || die "2 arguments required, $# provided"
-	local __out_version=$1
-	local __out_error=$2
-
-	file_version=`cat VERSION`
-	expected_tag="$file_version"
-	tag_version=`git describe --abbrev=0 --tags`
-	if [ ${expected_tag} != ${tag_version} ] ; then
-		eval ${__out_error}="'File version ${expected_tag} != tag version ${tag_version}'"
-	else
-		eval ${__out_version}=${expected_tag}
-	fi
-}
-
 # Go to parent-parent dir of this script
 function cd_root() {
 	source="${BASH_SOURCE[0]}"
@@ -71,27 +45,15 @@ cd_root
 running=0 && is_running "running"
 [ ${running} -eq 1 ] || die "Vagrant guest must be running to push"
 
-# Git tag must match version in package.json
-version=`cat VERSION`
-#version="" && error="" && get_version "version" "error"
-#[ "${error}" ] && die "Versions don't match: ${error}. Are you trying to publish an old version, or maybe on the wrong branch?"
-
 # Can't pass args thru vagrant push so have to prompt
-read -e -p "Please enter API key for Bintray user ${bintray_user}: " bintray_api_key
+read -e -p "Please enter your AWS_ACCESS_KEY_ID: " aws_access_key_id
+read -e -p "Please enter your AWS_SECRET_ACCESS_KEY: " aws_secret_access_key
 
-# Build Docker Image
-cmd="cd /vagrant && sudo docker build -t ${img_name}:${version} ."
-vagrant ssh -c "${cmd}"
-
-# Get Image ID
-cmd="sudo docker images | grep \"^${img_name}\" -m 1 | awk '{print \$3}'"
-img_id=`vagrant ssh -c "${cmd}"`
-[ "${img_id}" != "" ] || die "Image ID not found cannot push to Bintray."
-
-# Upload to Bintray
-cmd="sudo docker login -u ${bintray_user} -p ${bintray_api_key} -e ${bintray_email} ${bintray_repository} && \
-     sudo docker tag ${img_id:0:12} ${bintray_repository}/${img_name}:${version} && \
-     sudo docker push ${bintray_repository}/${img_name}:${version}"
+# Build AMI
+cmd="export AWS_ACCESS_KEY_ID=$aws_access_key_id && \
+     export AWS_SECRET_ACCESS_KEY=$aws_secret_access_key && \
+     cd /vagrant && \
+     packer build Packerfile.json"
 vagrant ssh -c "${cmd}"
 
 exit 0
