@@ -24,8 +24,16 @@
             },
             "properties": {
                 "errors": {
-                    "type": "string",
-                    "analyzer": "standard"
+                    "properties": {
+                        "message" : {
+                            "type": "string",
+                            "analyzer": "standard"
+                        },
+                        "level" : {
+                            "type": "string",
+                            "analyzer": "standard"
+                        }
+                    }
                 },
                 "failure_tstamp": {
                     "type": "date",
