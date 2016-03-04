@@ -9,32 +9,14 @@ sudo apt-get install -y unzip
 
 main_dir=/home/ubuntu/snowplow
 
-configs_dir=$main_dir/configs
+# Directories
 staging_dir=$main_dir/staging
 executables_dir=$main_dir/bin
-unix_pipes_dir=$main_dir/pipes
 es_dir=$main_dir/elasticsearch
-scripts_dir=$main_dir/scripts
 
-raw_events_pipe=$unix_pipes_dir/raw-events-pipe
-enriched_pipe=$unix_pipes_dir/enriched-events-pipe
-
-kinesis_package=snowplow_kinesis_r67_bohemian_waxwing.zip
+# Packagaes
+kinesis_package=snowplow_kinesis_r78_great_hornbill.zip
 kibana_v=4.0.1
-
-###########################
-# Setup Directories/Files #
-###########################
-
-mkdir -p $configs_dir
-mkdir -p $staging_dir
-mkdir -p $executables_dir
-mkdir -p $unix_pipes_dir
-mkdir -p $es_dir
-mkdir -p $scripts_dir
-
-mkfifo $raw_events_pipe
-mkfifo $enriched_pipe
 
 ##################
 # Install Java 7 #
@@ -59,7 +41,6 @@ unzip $staging_dir/${kinesis_package} -d $executables_dir
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 echo "deb http://packages.elastic.co/elasticsearch/1.4/debian stable main" | sudo tee -a /etc/apt/sources.list
 sudo apt-get update -y && sudo apt-get install elasticsearch -y
-sudo update-rc.d elasticsearch defaults 95 10
 sudo /usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
 
 ##################
