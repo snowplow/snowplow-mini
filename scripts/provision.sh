@@ -16,6 +16,7 @@ es_dir=$main_dir/elasticsearch
 
 # Packagaes
 kinesis_package=snowplow_kinesis_r78_great_hornbill.zip
+iglu_server_package=iglu_server_0.2.0.zip
 kibana_v=4.0.1
 
 ##################
@@ -33,6 +34,24 @@ sudo apt-get install oracle-java7-installer -y
 
 wget http://dl.bintray.com/snowplow/snowplow-generic/${kinesis_package} -P $staging_dir
 unzip $staging_dir/${kinesis_package} -d $executables_dir
+
+#######################
+# Install Iglu Server #
+#######################
+
+wget http://bintray.com/artifact/download/snowplow/snowplow-generic/${iglu_server_package} -P $staging_dir
+unzip $staging_dir/${iglu_server_package} -d $executables_dir
+
+######################
+# Install PostgreSQL #
+######################
+
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install postgresql postgresql-contrib -y
+sudo -u postgres psql -c "create user snowplow createdb password 'snowplow';"
+sudo -u postgres psql -c "create database iglu owner snowplow;"
 
 #########################
 # Install Elasticsearch #

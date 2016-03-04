@@ -16,14 +16,14 @@
         }
       },
       {
-        "name": "Iglu snowplow mini usre",
+        "name": "Iglu Server",
         "priority": 0,
         "vendorPrefixes": [
-          "com.snowplow-mini-user"
+          "com.snowplowanalytics"
         ],
         "connection": {
           "http": {
-            "uri": "https://s3.amazonaws.com/bucket-name-here"
+            "uri": "http://localhost:8081/api"
           }
         }
       }
