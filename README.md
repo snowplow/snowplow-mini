@@ -4,16 +4,46 @@ An easily-deployable, single instance version of Snowplow that serves three use 
 
 1. Gives a Snowplow consumer (e.g. an analyst / data team / marketing team) a way to quickly understand what Snowplow "does" i.e. what you put it at one end and take out of the other
 2. Gives developers new to Snowplow an easy way to start with Snowplow and understand how the different pieces fit together
-3. Gives people running Snowplow a quick way to debug tracker updates (because they can )
+3. Gives people running Snowplow a quick way to debug tracker updates (because they can)
 
-## v1
+## Features
 
-The initial version of Snowplow-mini has only a limited subset of functionality:
+* [x] Data is tracked and processed in real time
+* [x] Added Iglu Server to allow for custom schemas to be uploaded
+* [x] Data is validated during processing
+  - This is done using both our standard Iglu schemas and any custom ones that you have loaded into the Iglu Server
+* [x] Data is loaded into Elasticsearch
+  - Can be queried directly or through a Kibana dashboard
+  - Good and bad events are in distinct indexes
 
-1. Data can be tracked in real time and loaded into Elasticsearch, where it can be queried (either directly or via Kibana)
-2. Loading data into Redshift is not supported. (So this does not yet give analysts / data teams a good idea to understand what Snowplow "does")
-3. No UI is provided to indicate what is happening with each of the different subsystems (collector, enrich etc.), so this does not provide developers a very good way of understanding how the different Snowplow subsystems work with one another
-4. No validation is perfomed on the data, so this is not especially useful for Snowplow users who want to debug instrumentations of e.g. new trackers prior to pushing them live on Snowplow proper
+## Topology
+
+Snowplow-Mini runs several distinct applications on the same box which are all linked by named pipes.  In a production deployment each instance could be an Autoscaling Group and each named pipe would be a distinct Kinesis Stream.
+
+* Scala Stream Collector:
+  - Starts server listening on port `8080` which events can be sent to.
+  - Sends "good" events to the `raw-events-pipe`
+  - Sends "bad" events to the `bad-1-pipe`
+* Stream Enrich
+  - Reads events in from the `raw-events-pipe`
+  - Sends "good" events to the `enriched-events-pipe`
+  - Sends "bad" events to the `bad-1-pipe`
+* Elasticsearch Sink Good
+  - Reads events in from the `enriched-events-pipe`
+  - Sends the events to the "good" index of the cluster
+  - On failure to insert writes error to `bad-1-pipe`
+* Elasticsearch Sink Bad
+  - Reads events in from the `bad-1-pipe`
+  - Sends the events to the "bad" index of the cluster
+
+These events can then be viewed at port `5601` in Kibana.
+
+![](https://raw.githubusercontent.com/snowplow/snowplow-mini/release/0.2.0/topology/snowplow-mini-topology.jpg)
+
+## Roadmap
+
+* [ ] Support loading data into Redshift. To give analysts / data teams a good idea to understand what Snowplow "does".
+* [ ] Create UI to indicate what is happening with each of the different subsystems (collector, enrich etc.), so as to provide developers a very indepth way of understanding how the different Snowplow subsystems work with one another
 
 ## Documentation
 
