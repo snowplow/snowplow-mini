@@ -13,7 +13,7 @@ dir="/home/ubuntu/snowplow/bin/"
 cmd="./snowplow-stream-enrich-0.7.0 --config /home/ubuntu/snowplow/configs/snowplow-stream-enrich.hocon --resolver file:/home/ubuntu/snowplow/configs/iglu-resolver.json"
 user="ubuntu"
 
-name=`basename $0`
+name="snowplow_stream_enrich_0.7.0"
 pid_file="/var/run/$name.pid"
 stdout_pipe="/home/ubuntu/snowplow/pipes/enriched-events-pipe"
 stderr_pipe="/home/ubuntu/snowplow/pipes/bad-1-pipe"

@@ -13,7 +13,7 @@ dir="/home/ubuntu/snowplow/bin/"
 cmd="./snowplow-elasticsearch-sink-0.5.0 --config /home/ubuntu/snowplow/configs/snowplow-elasticsearch-sink-bad.hocon"
 user="ubuntu"
 
-name=`basename $0`
+name="snowplow_elasticsearch_sink_bad_0.5.0"
 pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
