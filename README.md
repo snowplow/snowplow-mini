@@ -1,5 +1,7 @@
 # Snowplow-Mini
 
+[ ![Build Status] [travis-image] ] [travis] [ ![Release] [release-image] ] [releases] [ ![License] [license-image] ] [license]
+
 An easily-deployable, single instance version of Snowplow that serves three use cases:
 
 1. Gives a Snowplow consumer (e.g. an analyst / data team / marketing team) a way to quickly understand what Snowplow "does" i.e. what you put it at one end and take out of the other
@@ -49,8 +51,6 @@ These events can then be viewed at port `5601` in Kibana.
 
 1. [Quick start guide] [get-started-guide]
 
-[get-started-guide]: https://github.com/snowplow/snowplow-mini/wiki/Quickstart-guide
-
 ## Copyright and license
 
 Snowplow-Mini is copyright 2016 Snowplow Analytics Ltd.
@@ -63,3 +63,14 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+[get-started-guide]: https://github.com/snowplow/snowplow-mini/wiki/Quickstart-guide
+
+[travis]: https://travis-ci.org/snowplow/snowplow-mini
+[travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
+
+[release-image]: http://img.shields.io/badge/release-0.2.0-blue.svg?style=flat
+[releases]: https://github.com/snowplow/snowplow-mini/releases
+
+[license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
+[license]: http://www.apache.org/licenses/LICENSE-2.0
