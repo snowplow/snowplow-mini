@@ -30,6 +30,11 @@
     },
     {
       "type": "shell",
+      "script": "scripts/setup_postgres.sh",
+      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
+    },
+    {
+      "type": "shell",
       "script": "scripts/provision.sh",
       "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
     },

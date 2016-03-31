@@ -1,0 +1,20 @@
+sudo: required
+language: bash
+
+services:
+  - postgresql
+
+## Mimics the Packerfile.json steps
+before_script:
+  - sudo adduser ubuntu --disabled-password --gecos ""
+  - sudo passwd -d ubuntu
+  - sudo ./scripts/setup_dirs.sh
+  - sudo cp -rf ./resources/elasticsearch /home/ubuntu/snowplow
+  - sudo ./scripts/provision.sh
+  - sudo cp -rf ./resources/configs /home/ubuntu/snowplow
+  - sudo cp -rf ./scripts /home/ubuntu/snowplow
+  - sudo cp -rf ./resources/init /home/ubuntu/snowplow
+  - sudo ./scripts/setup_init.sh
+
+script:
+  - ./integration/integration_test.sh
