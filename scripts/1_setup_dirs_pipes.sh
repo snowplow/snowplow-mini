@@ -14,6 +14,7 @@ unix_pipes_dir=$main_dir/pipes
 es_dir=$main_dir/elasticsearch
 scripts_dir=$main_dir/scripts
 init_dir=$main_dir/init
+ui_dir=$main_dir/ui/dist
 
 # Pipes
 raw_events_pipe=$unix_pipes_dir/raw-events-pipe
@@ -31,6 +32,7 @@ mkdir -p $unix_pipes_dir
 mkdir -p $es_dir
 mkdir -p $scripts_dir
 mkdir -p $init_dir
+mkdir -p $ui_dir
 
 mkfifo $raw_events_pipe
 mkfifo $enriched_pipe

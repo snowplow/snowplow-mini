@@ -6,6 +6,8 @@ sudo service snowplow_stream_collector_0.6.0 start
 sudo service snowplow_stream_enrich_0.7.0 start
 sudo service snowplow_elasticsearch_sink_good_0.5.0 start
 sudo service snowplow_elasticsearch_sink_bad_0.5.0 start
+sudo service kibana4_init start
+sudo service nginx start
 sleep 15
 
 # Send good and bad events

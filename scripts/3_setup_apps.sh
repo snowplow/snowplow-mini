@@ -41,8 +41,8 @@ unzip $staging_dir/${kinesis_package} -d $executables_dir
 
 wget http://bintray.com/artifact/download/snowplow/snowplow-generic/${iglu_server_package} -P $staging_dir
 unzip $staging_dir/${iglu_server_package} -d $executables_dir
-sudo -u postgres psql -c "create user snowplow createdb password 'snowplow';"
-sudo -u postgres psql -c "create database iglu owner snowplow;"
+sudo -u postgres psql -c "create user snowplow createdb password 'snowplow';" || true
+sudo -u postgres psql -c "create database iglu owner snowplow;" || true
 
 #########################
 # Install Elasticsearch #
@@ -61,14 +61,11 @@ wget "https://download.elasticsearch.org/kibana/kibana/kibana-${kibana_v}-linux-
 sudo unzip $staging_dir/kibana-${kibana_v}-linux-x64.zip -d /opt/
 sudo ln -s /opt/kibana-${kibana_v}-linux-x64 /opt/kibana
 
+#################
+# Install Nginx #
+#################
+
+sudo apt-get -y install nginx apache2-dev
+
+# Set ownership of directory
 sudo chown -R ubuntu:ubuntu $main_dir
-
-################
-# Add Mappings #
-################
-
-sudo service elasticsearch start
-sleep 15
-
-curl -XPUT 'http://localhost:9200/good' -d @${es_dir}/good-mapping.json
-curl -XPUT 'http://localhost:9200/bad' -d @${es_dir}/bad-mapping.json

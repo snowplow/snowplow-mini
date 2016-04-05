@@ -18,7 +18,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "scripts/setup_dirs.sh",
+      "script": "scripts/1_setup_dirs_pipes.sh",
       "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
     },
     {
@@ -28,12 +28,12 @@
     },
     {
       "type": "shell",
-      "script": "scripts/setup_postgres.sh",
+      "script": "scripts/2_setup_postgres.sh",
       "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
     },
     {
       "type": "shell",
-      "script": "scripts/provision.sh",
+      "script": "scripts/3_setup_apps.sh",
       "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
     },
     {
@@ -52,8 +52,38 @@
       "destination": "/home/ubuntu/snowplow"
     },
     {
+      "type": "file",
+      "source": "ui/index.html",
+      "destination": "/home/ubuntu/snowplow/ui/index.html"
+    },
+    {
+      "type": "file",
+      "source": "ui/dist/bundle.js",
+      "destination": "/home/ubuntu/snowplow/ui/dist/bundle.js"
+    },
+    {
+      "type": "file",
+      "source": "ui/assets",
+      "destination": "/home/ubuntu/snowplow/ui"
+    },
+    {
+      "type": "file",
+      "source": "ui/node_modules",
+      "destination": "/home/ubuntu/snowplow/ui"
+    },
+    {
       "type": "shell",
-      "script": "scripts/setup_init.sh",
+      "script": "scripts/4_setup_ui.sh",
+      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/5_setup_init.sh",
+      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/6_configure.sh",
       "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
     }
   ]

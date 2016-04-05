@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+# NOTE: Seperated from provision.sh as Travis comes with Postgres
+
 sudo apt-get update
 sudo apt-get install -y unzip
 
