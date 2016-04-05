@@ -58,8 +58,8 @@
     },
     {
       "type": "file",
-      "source": "ui/dist/bundle.js",
-      "destination": "/home/ubuntu/snowplow/ui/dist/bundle.js"
+      "source": "ui/dist/snowplow-mini.js",
+      "destination": "/home/ubuntu/snowplow/ui/dist/snowplow-mini.js"
     },
     {
       "type": "file",
