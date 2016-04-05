@@ -1,1 +1,3 @@
 oss-playbooks/packer.yml
+oss-playbooks/nodejs.yml
+oss-playbooks/typescript.yml
