@@ -40,7 +40,7 @@ Snowplow-Mini runs several distinct applications on the same box which are all l
 
 These events can then be viewed at port `5601` in Kibana.
 
-![](https://raw.githubusercontent.com/snowplow/snowplow-mini/release/0.2.0/resources/topology/snowplow-mini-topology.jpg)
+![](https://raw.githubusercontent.com/snowplow/snowplow-mini/master/resources/topology/snowplow-mini-topology.jpg)
 
 ## Roadmap
 
@@ -53,7 +53,7 @@ These events can then be viewed at port `5601` in Kibana.
 
 ## Copyright and license
 
-Snowplow-Mini is copyright 2016 Snowplow Analytics Ltd.
+Snowplow Mini is copyright 2016 Snowplow Analytics Ltd.
 
 Licensed under the **[Apache License, Version 2.0] [license]** (the "License");
 you may not use this software except in compliance with the License.
