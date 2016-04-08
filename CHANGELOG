@@ -1,3 +1,24 @@
+Version 0.2.0 (2016-04-08)
+--------------------------
+Using static name in init.d scripts to avoid corruption of pid file (#37)
+Updated applications to R78 (#33)
+Updated vagrant/push.bash to remove Docker commands (#32)
+Removed Dockerfile (#31)
+Added support for loading bad events into Elasticsearch (#30)
+Added integration testing (#29)
+Removed elasticsearch_upload.pl script (#28)
+Documentation: added Travis, release and license buttons to README (#27)
+Added copyright and license to README (#26)
+Added diagram of architecture to README (#25)
+Bringing up an Iglu server inside Snowplow Mini (#21)
+Added script to automatically populate Iglu Server from local directory (#20)
+Added management and overview UI for Snowplow Mini (#39)
+Refactored placement of helper and installation files (#40)
+Deleted example javascript page (#41)
+Updated Vagrantfile to forward all application ports (#42)
+Optimised final bundle.js file (#43)
+Update Packer to deploy to all regions (#46)
+
 Version 0.1.0 (2016-03-01)
 --------------------------
 Initial release

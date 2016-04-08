@@ -37,8 +37,10 @@ collector {
   # The collector returns a cookie to clients for user identification
   # with the following domain and expiration.
   cookie {
-    # Set to 0 to disable the cookie
-    expiration = 365 days
+    enabled = false
+    expiration = "365 days"
+    # Network cookie name
+    name = sp
     # The domain is optional and will make the cookie accessible to other
     # applications on the domain. Comment out this line to tie cookies to
     # the collector's full domain
