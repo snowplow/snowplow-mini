@@ -50,7 +50,7 @@ for schemapath in $(find $schemafolder -type f | grep 'jsonschema'); do
     echo $schemapath | awk -F '/' '{print $(NF-3)"/"$(NF-2)"/"$(NF-1)"/"$(NF)}';
   )";
   echo "Uploading schema in file '$schemapath' to endpoint '$destination'";
-  result="$(curl --silent "${destination}?isPublic=true" -XPOST -d @$schemapath -H "apikey: $write_api_key")";
+  result="$(curl --silent "${destination}?isPublic=true" -XPUT -d @$schemapath -H "apikey: $write_api_key")";
   echo " - Result: $(echo ${result} | xargs)"
 
   # Process result
