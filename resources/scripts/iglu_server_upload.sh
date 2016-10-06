@@ -34,8 +34,8 @@ schemafolder=$3;
 echo ""
 echo "Making all_vendor API Keys:"
 api_keys="$(curl --silent ${host}/api/auth/keygen -X POST -H "apikey: ${apikey}" -d "vendor_prefix=*")"
-write_api_key="$(echo ${api_keys} | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["write"]')"
-read_api_key="$(echo ${api_keys} | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["read"]')"
+write_api_key="$(echo ${api_keys} | python -c 'import json,sys;obj=json.load(sys.stdin);print(obj["write"])')"
+read_api_key="$(echo ${api_keys} | python -c 'import json,sys;obj=json.load(sys.stdin);print(obj["read"])')"
 echo "Keys: $(echo ${api_keys} | xargs)"
 
 echo ""
@@ -54,7 +54,7 @@ for schemapath in $(find $schemafolder -type f | grep 'jsonschema'); do
   echo " - Result: $(echo ${result} | xargs)"
 
   # Process result
-  status="$(echo ${result} | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["status"]')"
+  status="$(echo ${result} | python -c 'import json,sys;obj=json.load(sys.stdin);print(obj["status"])')"
   if [[ "${status}" -eq "200" ]] || [[ "${status}" -eq "201" ]]; then
     let good_counter=good_counter+1
   else
