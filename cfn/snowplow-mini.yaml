@@ -1,0 +1,151 @@
+# Simple CloudFormation template to create a Snowplow Mini instance, security group and EIP
+
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+    VpcId:
+        Type: AWS::EC2::VPC::Id
+        Description: The VPC to launch into
+    SubnetIds:
+        Type: List<AWS::EC2::Subnet::Id>
+        Description: Subnet ids to launch the cluster into
+    AccessCidrRange:
+        Description: Access will be restricted to this cidr range
+        Type: String
+    KeyName:
+        Type: AWS::EC2::KeyPair::KeyName
+        Description: Name of an existing key pair for the instance
+    ApiKeyUuid:
+        Type: String
+        Description: UUID to use as super api key for Iglu server
+    InstanceType:
+        Description: EC2 instance type
+        Type: String
+        Default: t2.micro
+        AllowedValues:
+        - t2.micro
+        - t2.small
+        - t2.medium
+        - t2.large
+        - m3.medium
+        - m3.large
+        - m3.xlarge
+        - m3.2xlarge
+        - m4.large
+        - m4.xlarge
+        - m4.2xlarge
+        - m4.4xlarge
+        - m4.10xlarge
+        - c4.large
+        - c4.xlarge
+        - c4.2xlarge
+        - c4.4xlarge
+        - c4.8xlarge
+        - c3.large
+        - c3.xlarge
+        - c3.2xlarge
+        - c3.4xlarge
+        - c3.8xlarge
+        - r3.large
+        - r3.xlarge
+        - r3.2xlarge
+        - r3.4xlarge
+        - r3.8xlarge
+        - i2.xlarge
+        - i2.2xlarge
+        - i2.4xlarge
+        - i2.8xlarge
+        ConstraintDescription: Please choose a valid instance type.
+
+Mappings:
+    RegionToAMIMap:
+        eu-west-1:
+            AmiId: ami-f2820181
+        eu-central-1:
+            AmiId: ami-975abbf8
+        us-east-1:
+            AmiId: ami-091c0d63
+        us-west-1:
+            AmiId: ami-04a0dc64
+        us-west-2:
+            AmiId: ami-7921d519
+        ap-southeast-1:
+            AmiId: ami-26ed3845
+        ap-northeast-1:
+            AmiId: ami-8c2330e2
+        ap-southeast-2:
+            AmiId: ami-72517311
+        sa-east-1:
+            AmiId: ami-fe25aa92
+
+Resources:
+    EIP:
+        Type: 'AWS::EC2::EIP'
+        Properties:
+            Domain: vpc
+            InstanceId: !Ref Server
+
+    AccessSG:
+        Type: 'AWS::EC2::SecurityGroup'
+        Properties:
+            VpcId: !Ref VpcId
+            GroupDescription: Allows access to snowplow mini
+            SecurityGroupIngress:
+                - 
+                    FromPort: 80
+                    ToPort: 80
+                    IpProtocol: tcp
+                    CidrIp: !Ref AccessCidrRange
+                - 
+                    FromPort: 8080
+                    ToPort: 8080
+                    IpProtocol: tcp
+                    CidrIp: !Ref AccessCidrRange
+                - 
+                    FromPort: 5601
+                    ToPort: 5601
+                    IpProtocol: tcp
+                    CidrIp: !Ref AccessCidrRange
+                - 
+                    FromPort: 8081
+                    ToPort: 8081
+                    IpProtocol: tcp
+                    CidrIp: !Ref AccessCidrRange
+                - 
+                    FromPort: 9200
+                    ToPort: 9200
+                    IpProtocol: tcp
+                    CidrIp: !Ref AccessCidrRange
+                - 
+                    FromPort: 22
+                    ToPort: 22
+                    IpProtocol: tcp
+                    CidrIp: !Ref AccessCidrRange
+    
+    Server:
+        Type: 'AWS::EC2::Instance'
+        Properties:
+            InstanceType: !Ref InstanceType
+            ImageId: !FindInMap [ RegionToAMIMap, !Ref "AWS::Region", AmiId ]
+            KeyName: !Ref KeyName
+            SecurityGroupIds:
+                - !GetAtt [ AccessSG, GroupId ]
+            Tags:
+                - 
+                    Key: Name
+                    Value: Snowplow Mini
+            UserData:
+                Fn::Base64: !Sub |
+                    #!/bin/bash
+
+                    # NOTE: Use `uuidgen` to create new `uid`
+                    iglu_server_super_uid="${ApiKeyUuid}"
+
+                    export PGPASSWORD=snowplow
+                    iglu_server_setup="INSERT INTO apikeys (uid, vendor_prefix, permission, createdat) VALUES ('${!iglu_server_super_uid}','*','super',current_timestamp);"
+                    psql --host=localhost --port=5432 --username=snowplow --dbname=iglu -c "${!iglu_server_setup}"
+
+Outputs:
+    ServerIp:
+        Value: !Ref EIP
