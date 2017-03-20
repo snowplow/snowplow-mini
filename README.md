@@ -1,6 +1,6 @@
 # Snowplow-Mini
 
-[ ![Build Status] [travis-image] ] [travis] [ ![Release] [release-image] ] [releases] [ ![License] [license-image] ] [license]
+[![Build Status][travis-image]][travis] [![Release][release-image]][releases] [![License][license-image]][license]
 
 An easily-deployable, single instance version of Snowplow that serves three use cases:
 
@@ -49,13 +49,13 @@ These events can then be viewed at port `5601` in Kibana.
 
 ## Documentation
 
-1. [Quick start guide] [get-started-guide]
+1. [Quick start guide][get-started-guide]
 
 ## Copyright and license
 
 Snowplow Mini is copyright 2016 Snowplow Analytics Ltd.
 
-Licensed under the **[Apache License, Version 2.0] [license]** (the "License");
+Licensed under the **[Apache License, Version 2.0][license]** (the "License");
 you may not use this software except in compliance with the License.
 
 Unless required by applicable law or agreed to in writing, software
