@@ -1,3 +1,8 @@
+Version 0.2.2 (2017-03-21)
+--------------------------
+Update Packerfile to deploy to all available regions (#75)
+Fix README formatting (#76)
+
 Version 0.2.1 (2016-05-17)
 --------------------------
 Iglu upload script should use -XPUT rather than -XPOST (#54)
