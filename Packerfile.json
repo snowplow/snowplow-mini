@@ -14,10 +14,29 @@
         "OS_Version": "Ubuntu-12.04",
         "Release": "0.2.2"
       }
+    },{
+      "type": "docker",
+      "image": "phusion/baseimage:0.9.9",
+      "commit": true,
+      "changes": [
+        "EXPOSE 80 8080 9200 5601 8081",
+        "ENTRYPOINT /home/ubuntu/snowplow/docker/entrypoint.sh"
+      ]
     }
   ],
 
   "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "useradd -r ubuntu",
+        "apt-get update",
+        "apt-get install -y wget software-properties-common python-software-properties",
+        "curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -",
+        "sudo apt-get install -y nodejs"
+      ],
+      "only": ["docker"]
+    },
     {
       "type": "shell",
       "script": "scripts/1_setup_dirs_pipes.sh",
@@ -29,9 +48,38 @@
       "destination": "/home/ubuntu/snowplow"
     },
     {
+      "type": "file",
+      "source": "resources/docker",
+      "destination": "/home/ubuntu/snowplow",
+      "only": ["docker"]
+    },
+    {
+      "type": "file",
+      "source": "ui",
+      "destination": "/home/ubuntu/snowplow",
+      "only": ["docker"]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "cd /home/ubuntu/snowplow/ui",
+        "ls",
+        "npm install",
+        "npm run compile"
+      ],
+      "only": ["docker"]
+    },
+    {
       "type": "shell",
       "script": "scripts/2_setup_postgres.sh",
       "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "/etc/init.d/postgresql start"
+      ],
+      "only": ["docker"]
     },
     {
       "type": "shell",
@@ -56,22 +104,26 @@
     {
       "type": "file",
       "source": "ui/index.html",
-      "destination": "/home/ubuntu/snowplow/ui/index.html"
+      "destination": "/home/ubuntu/snowplow/ui/index.html",
+      "only": ["amazon-ebs"]
     },
     {
       "type": "file",
       "source": "ui/dist/snowplow-mini.js",
-      "destination": "/home/ubuntu/snowplow/ui/dist/snowplow-mini.js"
+      "destination": "/home/ubuntu/snowplow/ui/dist/snowplow-mini.js",
+      "only": ["amazon-ebs"]
     },
     {
       "type": "file",
       "source": "ui/assets",
-      "destination": "/home/ubuntu/snowplow/ui"
+      "destination": "/home/ubuntu/snowplow/ui",
+      "only": ["amazon-ebs"]
     },
     {
       "type": "file",
       "source": "ui/node_modules",
-      "destination": "/home/ubuntu/snowplow/ui"
+      "destination": "/home/ubuntu/snowplow/ui",
+      "only": ["amazon-ebs"]
     },
     {
       "type": "shell",
@@ -86,6 +138,11 @@
     {
       "type": "shell",
       "script": "scripts/6_configure.sh",
+      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/7_cleanup.sh",
       "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
     }
   ]
