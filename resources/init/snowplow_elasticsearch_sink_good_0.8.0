@@ -10,12 +10,12 @@
 ### END INIT INFO
 
 dir="/home/ubuntu/snowplow/bin/"
-cmd="./snowplow-stream-collector-0.6.0 --config /home/ubuntu/snowplow/configs/snowplow-stream-collector.hocon"
+cmd="./snowplow-elasticsearch-sink-0.8.0-2x --config /home/ubuntu/snowplow/configs/snowplow-elasticsearch-sink-good.hocon"
 user="ubuntu"
 
-name="snowplow_stream_collector_0.6.0"
+name="snowplow_elasticsearch_sink_good_0.8.0-2x"
 pid_file="/var/run/$name.pid"
-stdout_pipe="/home/ubuntu/snowplow/pipes/raw-events-pipe"
+stdout_log="/var/log/$name.log"
 stderr_pipe="/home/ubuntu/snowplow/pipes/bad-1-pipe"
 
 get_pid() {
@@ -34,13 +34,13 @@ case "$1" in
         echo "Starting $name"
         cd "$dir"
         if [ -z "$user" ]; then
-            sudo $cmd > "$stdout_pipe" 2> "$stderr_pipe" &
+            cat /home/ubuntu/snowplow/pipes/enriched-events-pipe | sudo $cmd >> "$stdout_log" 2> "$stderr_pipe" &
         else
-            sudo -u "$user" $cmd > "$stdout_pipe" 2> "$stderr_pipe" &
+            cat /home/ubuntu/snowplow/pipes/enriched-events-pipe | sudo -u "$user" $cmd >> "$stdout_log" 2> "$stderr_pipe" &
         fi
         echo $! > "$pid_file"
         if ! is_running; then
-            echo "Unable to start, see $stdout_pipe and $stderr_pipe"
+            echo "Unable to start, see $stdout_log and $stderr_pipe"
             exit 1
         fi
     fi
