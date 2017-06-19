@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
     vb.name = Dir.pwd().split("/")[-1] + "-" + Time.now.to_f.to_i.to_s
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     vb.customize [ "guestproperty", "set", :id, "--timesync-threshold", 10000 ]
-    vb.memory = 4096
+    vb.memory = 4096 
     vb.cpus = 1
   end
 

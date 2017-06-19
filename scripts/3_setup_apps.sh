@@ -15,7 +15,7 @@ executables_dir=$main_dir/bin
 es_dir=$main_dir/elasticsearch
 
 # Packagaes
-kinesis_package=snowplow_kinesis_r78_great_hornbill.zip
+kinesis_package=snowplow_kinesis_r85_metamorphosis.zip
 iglu_server_package=iglu_server_0.2.0.zip
 kibana_v=4.0.1
 

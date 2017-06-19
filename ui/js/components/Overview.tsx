@@ -49,11 +49,11 @@ export class Overview extends React.Component<{}, {}> {
         </ul>
         <h3>The software stack installed: </h3>
         <ul>
-          <li>Snowplow Stream Collector 0.6.0</li>
-          <li>Snowplow Stream Enrich 0.7.0</li>
-          <li>Snowplow Elasticsearch Sink 0.5.0</li>
-          <li>Snowplow Iglu Server 0.2.0</li>
-          <li>Elasticsearch 1.4</li>
+          <li>Snowplow Stream Collector 0.9.0</li>
+          <li>Snowplow Stream Enrich 0.10.0</li>
+          <li>Snowplow Elasticsearch Sink 0.8.0</li>
+          <li>Snowplow Iglu Server 0.8.0</li>
+          <li>Elasticsearch 1.7.5</li>
           <li>Kibana 4.0.1</li>
         </ul>
         <h3>Stack topology: </h3>

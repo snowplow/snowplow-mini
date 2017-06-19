@@ -2,10 +2,10 @@
 
 sudo service elasticsearch start
 sudo service iglu_server_0.2.0 start
-sudo service snowplow_stream_collector_0.6.0 start
-sudo service snowplow_stream_enrich_0.7.0 start
-sudo service snowplow_elasticsearch_sink_good_0.5.0 start
-sudo service snowplow_elasticsearch_sink_bad_0.5.0 start
+sudo service snowplow_stream_collector_0.9.0 start
+sudo service snowplow_stream_enrich_0.10.0 start
+sudo service snowplow_elasticsearch_sink_good_0.8.0 start
+sudo service snowplow_elasticsearch_sink_bad_0.8.0 start
 sudo service kibana4_init start
 sudo service nginx start
 sleep 15

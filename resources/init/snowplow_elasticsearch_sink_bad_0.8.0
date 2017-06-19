@@ -10,13 +10,13 @@
 ### END INIT INFO
 
 dir="/home/ubuntu/snowplow/bin/"
-cmd="./snowplow-elasticsearch-sink-0.5.0 --config /home/ubuntu/snowplow/configs/snowplow-elasticsearch-sink-good.hocon"
+cmd="./snowplow-elasticsearch-sink-0.8.0-2x --config /home/ubuntu/snowplow/configs/snowplow-elasticsearch-sink-bad.hocon"
 user="ubuntu"
 
-name="snowplow_elasticsearch_sink_good_0.5.0"
+name="snowplow_elasticsearch_sink_bad_0.8.0-2x"
 pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
-stderr_pipe="/home/ubuntu/snowplow/pipes/bad-1-pipe"
+stderr_log="/var/log/$name.err"
 
 get_pid() {
     cat "$pid_file"
@@ -34,13 +34,13 @@ case "$1" in
         echo "Starting $name"
         cd "$dir"
         if [ -z "$user" ]; then
-            cat /home/ubuntu/snowplow/pipes/enriched-events-pipe | sudo $cmd >> "$stdout_log" 2> "$stderr_pipe" &
+            cat /home/ubuntu/snowplow/pipes/bad-1-pipe | sudo $cmd >> "$stdout_log" 2>> "$stderr_log" &
         else
-            cat /home/ubuntu/snowplow/pipes/enriched-events-pipe | sudo -u "$user" $cmd >> "$stdout_log" 2> "$stderr_pipe" &
+            cat /home/ubuntu/snowplow/pipes/bad-1-pipe | sudo -u "$user" $cmd >> "$stdout_log" 2>> "$stderr_log" &
         fi
         echo $! > "$pid_file"
         if ! is_running; then
-            echo "Unable to start, see $stdout_log and $stderr_pipe"
+            echo "Unable to start, see $stdout_log and $stderr_log"
             exit 1
         fi
     fi
