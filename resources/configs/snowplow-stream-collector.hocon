@@ -37,7 +37,7 @@ collector {
   # The collector returns a cookie to clients for user identification
   # with the following domain and expiration.
   cookie {
-    enabled = false
+    enabled = true 
     expiration = "365 days"
     # Network cookie name
     name = sp
