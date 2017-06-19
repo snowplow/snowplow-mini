@@ -66,12 +66,34 @@ sink {
   }
 
   elasticsearch {
-    cluster-name: "elasticsearch"
-    endpoint: "localhost"
-    max-timeout: "10000"
-    index: "bad" # Elasticsearch index name
-    type: "bad" # Elasticsearch type name
+
+    # Events are indexed using an Elasticsearch Client
+    # - type: http or transport (will default to transport)
+    # - endpoint: the cluster endpoint
+    # - port: the port the cluster can be accessed on
+    #   - for http this is usually 9200
+    #   - for transport this is usually 9300
+    # - max-timeout: the maximum attempt time before a client restart
+    client {
+      type: "http"
+      endpoint: "localhost"
+      port: 9200
+      max-timeout: "10000"
+
+      # Section for configuring the HTTP client
+      http {
+        conn-timeout: "10000"
+        read-timeout: "10000"
+      }
+    }
+
+    cluster {
+      name: "elasticsearch"
+      index: "bad"
+      type: "bad"
+    }
   }
+
 
   # Events are accumulated in a buffer before being sent to Elasticsearch.
   # The buffer is emptied whenever:

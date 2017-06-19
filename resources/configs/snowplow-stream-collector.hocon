@@ -89,17 +89,27 @@ collector {
         minBackoff: 3000 # 3 seconds
         maxBackoff: 600000 # 5 minutes
       }
+    }
+ 
+    kafka {
+      brokers: ""
 
-      # Incoming events are stored in a buffer before being sent to Kinesis.
-      # The buffer is emptied whenever:
-      # - the number of stored records reaches record-limit or
-      # - the combined size of the stored records reaches byte-limit or
-      # - the time in milliseconds since the buffer was last emptied reaches time-limit
-      buffer {
-        byte-limit: 4000000
-        record-limit: 500
-        time-limit: 5000
+      # Data will be stored in the following topics
+      topic {
+        good: ""
+        bad: ""
       }
+    }
+
+    # Incoming events are stored in a buffer before being sent to Kinesis.
+    # The buffer is emptied whenever:
+    # - the number of stored records reaches record-limit or
+    # - the combined size of the stored records reaches byte-limit or
+    # - the time in milliseconds since the buffer was last emptied reaches time-limit
+    buffer {
+      byte-limit: 4000000
+      record-limit: 500
+      time-limit: 5000
     }
   }
 }

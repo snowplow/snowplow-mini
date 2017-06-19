@@ -26,6 +26,10 @@ enrich {
     secret-key: ""
   }
 
+  kafka {
+    brokers: ""
+  }
+
   streams {
     in: {
       raw: ""
