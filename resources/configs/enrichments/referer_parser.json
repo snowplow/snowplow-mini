@@ -1,0 +1,16 @@
+{
+	"schema": "iglu:com.snowplowanalytics.snowplow/referer_parser/jsonschema/1-0-0",
+
+	"data": {
+
+		"name": "referer_parser",
+		"vendor": "com.snowplowanalytics.snowplow",
+		"enabled": true,
+		"parameters": {
+			"internalDomains": [
+				"subdomain1.mysite.com",
+				"subdomain2.mysite.com"
+			]
+		}
+	}
+}
