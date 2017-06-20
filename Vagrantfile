@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 9200, host: 9200
   config.vm.network "forwarded_port", guest: 5601, host: 5601
   config.vm.network "forwarded_port", guest: 8081, host: 8081
+  config.vm.network "forwarded_port", guest: 10000, host: 10000
 
   config.vm.provider :virtualbox do |vb|
     vb.name = Dir.pwd().split("/")[-1] + "-" + Time.now.to_f.to_i.to_s
