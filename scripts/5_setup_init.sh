@@ -17,6 +17,10 @@ sudo cp $init_dir/kibana4_init /etc/init.d
 sudo chmod 0755 /etc/init.d/kibana4_init
 sudo update-rc.d kibana4_init defaults
 
+sudo cp $init_dir/snowplow_mini_control_plane_api /etc/init.d
+sudo chmod 0755 /etc/init.d/snowplow_mini_control_plane_api
+sudo update-rc.d snowplow_mini_control_plane_api defaults
+
 sudo cp $init_dir/snowplow_stream_collector_0.9.0 /etc/init.d
 sudo chmod 0755 /etc/init.d/snowplow_stream_collector_0.9.0
 sudo update-rc.d snowplow_stream_collector_0.9.0 defaults
