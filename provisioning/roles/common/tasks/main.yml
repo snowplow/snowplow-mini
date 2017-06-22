@@ -1,0 +1,9 @@
+---
+
+- include: 1_create_dirs_and_pipes.yml
+- include: 2_install_postgres.yml 
+- include: 3_setup_apps.yml 
+- include: 4_setup_ui.yml 
+- include: 5_setup_init.yml 
+- include: 6_configure.yml 
+

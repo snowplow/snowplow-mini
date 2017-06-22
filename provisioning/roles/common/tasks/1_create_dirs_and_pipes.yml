@@ -1,0 +1,41 @@
+---
+
+- name: Create user ubuntu and disable password
+  become: yes
+  shell: 'adduser ubuntu --disabled-password --gecos "" ;
+          passwd -d ubuntu'
+
+- name: creating directories
+  file: path={{item}} state=directory
+  with_items: 
+    - "{{configs_dir}}"
+    - "{{staging_dir}}"
+    - "{{executables_dir}}"
+    - "{{unix_pipes_dir}}"
+    - "{{es_dir}}"
+    - "{{scripts_dir}}"
+    - "{{init_dir}}"
+    - "{{ui_dir}}"
+
+
+- name: Copy folders under resources  to /home/ubuntu/snowplow
+  become: yes
+  shell: "cd /vagrant;
+          cp -r ./resources/elasticsearch {{main_dir}};
+          cp -r ./resources/configs {{main_dir}};
+          cp -r ./scripts {{main_dir}};
+          cp -r ./resources/init {{main_dir}}"
+
+
+- name: set pipe directories
+  set_fact:
+      raw_events_pipe={{unix_pipes_dir}}/raw-events-pipe
+      enriched_pipe={{unix_pipes_dir}}/enriched-events-pipe
+      bad_1_pipe={{unix_pipes_dir}}/bad-1-pipe
+
+- name: create pipes
+  shell: mkfifo {{item}}
+  with_items:
+      - "{{raw_events_pipe}}"
+      - "{{enriched_pipe}}"
+      - "{{bad_1_pipe}}"

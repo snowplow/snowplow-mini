@@ -1,0 +1,45 @@
+---
+
+- name: Adding APT repository key
+  become: yes
+  apt_key:
+    id: ACCC4CF8
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+  tags:
+    - postgresql
+    - db
+    - repo
+
+- name: Add PostgreSQL official APT repository
+  become: yes
+  apt_repository:
+    repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ansible_distribution_release}}-pgdg main"
+  tags:
+    - postgresql
+    - db
+    - repo
+
+- name: Install PostgreSQL
+  become: yes
+  apt:
+    name: "postgresql"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+    - postgresql
+    - db
+    - deps
+
+- name: Install dependencies for the Ansible module
+  become: yes
+  apt:
+    name: "{{item}}"
+    state: latest
+  with_items:
+    - python-psycopg2
+  tags:
+    - postgresql
+    - db
+    - deps
+

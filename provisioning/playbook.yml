@@ -1,0 +1,13 @@
+---
+
+- name: apply all scripts
+  hosts: snowplowmini 
+
+  vars_files: 
+    - common_vars.yml
+
+  roles:
+    - nodejs
+    - packer
+    - typescript
+    - common

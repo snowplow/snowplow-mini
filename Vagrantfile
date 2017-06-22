@@ -3,6 +3,9 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.hostname = "snowplow-mini"
   config.ssh.forward_agent = true
+  # Set the name of the VM. See: http://stackoverflow.com/a/17864388/100134
+  config.vm.define :snowplowmini do |snowplowmini|
+  end
 
   # Use NFS for shared folders for better performance
   config.vm.network :private_network, ip: '192.168.50.50' # Uncomment to use NFS
@@ -23,8 +26,15 @@ Vagrant.configure("2") do |config|
     vb.cpus = 1
   end
 
-  config.vm.provision :shell do |sh|
-    sh.path = "vagrant/up.bash"
+  #config.vm.provision :shell do |sh|
+  #  sh.path = "vagrant/up.bash"
+  #end
+
+  # Ansible provisioner.
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "provisioning/playbook.yml"
+    ansible.inventory_path = "provisioning/inventory"
+    ansible.sudo = true
   end
 
   # Requires Vagrant 1.7.0+

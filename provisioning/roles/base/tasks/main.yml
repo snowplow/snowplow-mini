@@ -1,0 +1,41 @@
+---
+- name: Update apt cache
+  apt: update-cache=yes cache_valid_time=86400
+  become: yes
+
+- name: Update all packages
+  apt: upgrade=dist
+  become: yes
+
+- name: install basic packages
+  become: yes
+  apt: pkg={{ item }} state=latest
+  tags: [packages]
+  with_items:
+    - curl
+    - vim
+    - libxslt1-dev 
+    - libxml2-dev
+    - zip
+    - libssl-dev
+    - unzip
+    - python-pip
+    - python-psycopg2
+    - apg
+    - mercurial
+    - git
+    - python-dev
+
+- name: Ensure that ansible_cache_dir directory exists
+  file: path={{ ansible_cache_dir }} state=directory
+  become: yes
+
+- name: Add Google DNS nameserver
+  lineinfile:
+    dest="/etc/resolvconf/resolv.conf.d/base"
+    line="nameserver 8.8.8.8"
+  become: yes
+
+- name: Update nameserver list
+  command: "resolvconf -u"
+  become: yes
