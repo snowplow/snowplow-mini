@@ -1,21 +1,27 @@
+---
 sudo: required
 language: bash
 
 services:
   - postgresql
 
-## Mimics the Packerfile.json steps
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - sudo pip install ansible
+  #acl is installed for creating postgresql user
+  #see https://stackoverflow.com/a/36681626 for more information
+  - sudo apt-get install -y acl
+  - sudo pip install setuptools
+
 before_script:
   - sudo adduser ubuntu --disabled-password --gecos ""
   - sudo passwd -d ubuntu
-  - sudo ./scripts/1_setup_dirs_pipes.sh
-  - sudo cp -rf ./resources/elasticsearch /home/ubuntu/snowplow
-  - sudo ./scripts/3_setup_apps.sh
-  - sudo cp -rf ./resources/configs /home/ubuntu/snowplow
-  - sudo cp -rf ./scripts /home/ubuntu/snowplow
-  - sudo cp -rf ./resources/init /home/ubuntu/snowplow
-  - sudo ./scripts/5_setup_init.sh
-  - sudo ./scripts/6_configure.sh
+  - sudo mkdir /vagrant
+  - sudo cp -r * /vagrant 
+  - ansible-playbook -e provision=travis -i provisioning/inventory provisioning/travis-playbook.yml --connection=local --sudo
 
 script:
   - ./integration/integration_test.sh

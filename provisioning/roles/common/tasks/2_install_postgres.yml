@@ -22,7 +22,7 @@
 - name: Install PostgreSQL
   become: yes
   apt:
-    name: "postgresql"
+    name: "postgresql-9.5"
     state: present
     update_cache: yes
     cache_valid_time: 3600

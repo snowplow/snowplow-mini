@@ -3,10 +3,6 @@
   apt: update-cache=yes cache_valid_time=86400
   become: yes
 
-- name: Update all packages
-  apt: upgrade=dist
-  become: yes
-
 - name: install basic packages
   become: yes
   apt: pkg={{ item }} state=latest
