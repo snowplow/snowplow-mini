@@ -64,6 +64,12 @@
     name: nginx
     state: restarted
 
+- name: Starting Caddy
+  become: yes
+  service: 
+    name: caddy_init
+    state: started
+
 - name: Sleep 30 second
   pause:
     seconds: 30

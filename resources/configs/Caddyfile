@@ -1,0 +1,24 @@
+localhost:80 {
+#example.com {
+        #tls example@example.com
+        tls off
+        proxy / localhost:3000
+        proxy /collector localhost:8080 {
+            without /collector
+        }
+        proxy /kibana localhost:5601 {
+            without /kibana
+        }
+        proxy /igluserver localhost:8081 {
+            without /igluserver
+        }
+        proxy /api-docs localhost:8081 {
+            without /api-docs
+        }
+        proxy /elasticsearch localhost:9200 {
+            without /elasticsearch
+        }
+        proxy /controlplane localhost:10000 {
+            without /controlplane
+        }
+}

@@ -110,25 +110,13 @@
     name: iglu
     owner: snowplow
 
-- name: Adding APT repository key
+- name: Download Elasticsearch
   become: yes
-  apt_key:
-    url: https://packages.elastic.co/GPG-KEY-elasticsearch 
-
-
-- name: Add Elasticsearch official APT repository
-  become: yes
-  apt_repository:
-      repo: deb http://packages.elastic.co/elasticsearch/1.4/debian stable main 
+  shell: "wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.5.deb -P {{staging_dir}}"
 
 - name: Install Elasticsearch
   become: yes
-  apt:
-    name: "elasticsearch"
-    state: present
-    update_cache: yes
-    cache_valid_time: 3600
-
+  shell: "dpkg -i {{staging_dir}}/elasticsearch-1.7.5.deb"
 
 - name: Check Kibana
   stat:
@@ -172,6 +160,10 @@
     state: present
     update_cache: yes
     cache_valid_time: 3600
+
+- name: Install Caddy
+  become: yes
+  shell: "curl https://getcaddy.com | bash"
 
 - name: Set owner of the main directory
   become: yes

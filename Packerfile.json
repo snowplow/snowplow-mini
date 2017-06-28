@@ -20,8 +20,7 @@
   "provisioners": [
     {
       "type": "ansible",
-      "playbook_file": "provisioning/playbook.yml",
-      "inventory_directory": "provisioning/inventory"
+      "playbook_file": "provisioning/playbook.yml"
     }
   ]
 }
