@@ -11,7 +11,7 @@
       "ami_regions": "us-east-2,us-west-1,us-west-2,ca-central-1,eu-west-1,eu-central-1,eu-west-2,ap-southeast-1,ap-southeast-2,ap-northeast-2,ap-northeast-1,ap-south-1,sa-east-1",
       "ami_description": "Snowplow Mini - The Snowplow Pipeline in a box",
       "tags": {
-        "OS_Version": "Ubuntu-12.04",
+        "OS_Version": "Ubuntu-14.04",
         "Release": "0.2.2"
       }
     }
@@ -19,8 +19,49 @@
 
   "provisioners": [
     {
-      "type": "ansible",
-      "playbook_file": "provisioning/playbook.yml"
+      "type": "shell",
+      "inline": [
+        "sleep 30",
+            "sudo apt-get update",
+        "sudo apt-get install -y language-pack-en git unzip libyaml-dev libssl-dev python-pip python3-dev python-dev python-yaml python-paramiko python-jinja2 acl",
+        "export LC_ALL=C",
+        "sudo sh -c \"echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers\"",
+            "sudo pip install setuptools",
+            "sudo pip install ansible",
+        "sudo mkdir /vagrant",
+        "sudo chown -R ubuntu:ubuntu /vagrant"
+      ]
+    },
+	{
+      "type": "file",
+      "source": "resources",
+      "destination": "/vagrant"
+    },
+	{
+      "type": "file",
+      "source": "control-plane",
+      "destination": "/vagrant"
+    },
+	{
+      "type": "file",
+      "source": "scripts",
+      "destination": "/vagrant"
+    },
+	{
+      "type": "file",
+      "source": "ui",
+      "destination": "/vagrant"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "provisioning/packer-playbook.yml",
+      "playbook_dir": "provisioning",
+      "role_paths": [
+        "provisioning/roles/snowplow-mini"
+      ],
+      "extra_arguments": [
+        "-e provision=packer"
+      ]
     }
   ]
 }

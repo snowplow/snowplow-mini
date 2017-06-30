@@ -35,10 +35,8 @@ case "$1" in
     else
         echo "Starting $name"
         if [ -z "$user" ]; then
-			sudo setcap cap_net_bind_service=+ep $dir/caddy
             sudo $cmd &
         else
-			sudo -u "$user" setcap cap_net_bind_service=+ep $dir/caddy
             sudo -u "$user" $cmd &
         fi
         echo $! > "$pid_file"

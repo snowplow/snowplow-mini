@@ -29,6 +29,7 @@
 
 
 - name: Install Java 8
+  become: yes
   apt:
     name: oracle-java8-installer
     state: present
@@ -133,6 +134,7 @@
 
 
 - name: Unzip downloaded Kibana package
+  become: yes
   shell: "unzip {{staging_dir}}/kibana-{{kibana_v}}-linux-x64.zip -d /opt/"
   when: kibana_downloaded|changed
 

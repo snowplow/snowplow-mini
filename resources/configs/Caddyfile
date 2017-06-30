@@ -1,4 +1,4 @@
-localhost:80 {
+localhost:2000 {
 #example.com {
         #tls example@example.com
         tls off
@@ -12,9 +12,7 @@ localhost:80 {
         proxy /igluserver localhost:8081 {
             without /igluserver
         }
-        proxy /api-docs localhost:8081 {
-            without /api-docs
-        }
+        proxy /api localhost:8081 
         proxy /elasticsearch localhost:9200 {
             without /elasticsearch
         }

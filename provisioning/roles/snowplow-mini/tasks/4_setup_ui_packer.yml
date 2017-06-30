@@ -1,0 +1,20 @@
+---
+
+- name: Copy UI folder under /home/ubuntu/snowplow
+  become: yes
+  shell: "cp -r /vagrant/ui {{main_dir}}"
+
+- name: Delete default nginx config
+  become: yes
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+
+- name: Copy snowplow-mini.conf under nginx config dir
+  become: yes
+  copy:
+    remote_src: true
+    src: "{{configs_dir}}/snowplow-mini.conf"
+    dest: "/etc/nginx/conf.d"
+
+

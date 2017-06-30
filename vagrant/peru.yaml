@@ -1,0 +1,8 @@
+imports:
+    ansible_playbooks: oss-playbooks
+
+
+git module ansible_playbooks:
+    url: https://github.com/snowplow/ansible-playbooks.git
+    #this commit will be changed
+    rev: a0414800d22515a6b1fbe993b67ec5436f32f4ee 
