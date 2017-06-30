@@ -167,6 +167,20 @@
   become: yes
   shell: "curl https://getcaddy.com | bash"
 
+- name: Set caddy-root directory
+  set_fact:
+    caddy_root_dir={{main_dir}}/caddy-root
+
+- name: Create caddy-root directory
+  become: yes
+  file: path={{caddy_root_dir}} state=directory
+
+- name: Download GeoLiteCity database for ip-lookup enrichment and place on the caddy-root dir
+  become: yes
+  shell: "cd {{caddy_root_dir}};
+          wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz;
+          gunzip GeoLiteCity.dat.gz"
+
 - name: Set owner of the main directory
   become: yes
   shell: "chown -R ubuntu:ubuntu {{main_dir}}"

@@ -20,3 +20,8 @@ localhost:2000 {
             without /controlplane
         }
 }
+
+
+localhost:5000 {
+        root /home/ubuntu/snowplow/caddy-root
+}

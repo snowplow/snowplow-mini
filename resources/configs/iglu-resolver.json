@@ -24,7 +24,7 @@
         "connection": {
           "http": {
             "uri": "http://localhost:8081/api",
-            "apikey": ""
+            "apikey": "PLACEHOLDER"
           }
         }
       }
