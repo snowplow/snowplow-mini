@@ -47,7 +47,7 @@ sink_good_pid_new="$(cat "${sink_good_pid_file}")"
 
 # Bad Count is 11 due to bad logging
 if [[ "${good_count}" -eq "10" ]] && [[ "${bad_count}" -eq "11" ]] && 
-   [[ "${req_result}" -eq "OK" ]] &&
+   [[ "${req_result}" == "OK" ]] &&
    [[ "${stream_enrich_pid_old}" -ne "${stream_enrich_pid_new}" ]] &&
    [[ "${stream_collector_pid_old}" -ne "${stream_collector_pid_new}" ]] &&
    [[ "${sink_bad_pid_old}" -ne "${sink_bad_pid_new}" ]] &&

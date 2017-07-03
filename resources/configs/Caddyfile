@@ -1,7 +1,4 @@
 localhost:2000 {
-#example.com {
-        #tls example@example.com
-        tls off
         proxy / localhost:3000
         proxy /collector localhost:8080 {
             without /collector
