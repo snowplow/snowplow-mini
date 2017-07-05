@@ -1,0 +1,183 @@
+---
+
+- name: Set version variables
+  set_fact:
+      kinesis_package: 'snowplow_kinesis_r85_metamorphosis.zip'
+      iglu_server_package: 'iglu_server_0.2.0.zip'
+      kibana_v: '4.0.1'
+
+
+- name: Install unzip
+  become: yes
+  apt:
+    name: "unzip"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600 
+
+- name: Add Java 8 repository
+  become: yes
+  apt_repository: 
+    repo: 'ppa:webupd8team/java'
+    state: present
+
+
+- name: Signed Oracle License
+  become: yes
+  shell: "echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections"
+  register: oracle_license_signed
+
+
+- name: Install Java 8
+  become: yes
+  apt:
+    name: oracle-java8-installer
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: oracle_license_signed|changed
+
+- name: Install Git for go get
+  become: yes
+  apt:
+    name: git
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install GO 1.7
+  become: yes 
+  block:
+    - shell: "wget https://storage.googleapis.com/golang/go1.7.3.linux-amd64.tar.gz -P {{staging_dir}}"
+    - shell: "tar -C /usr/local -xzf {{staging_dir}}/go1.7.3.linux-amd64.tar.gz"
+    - file:
+        path: "~/go"
+        state: directory
+
+
+- name: Install dependencies of the Control API
+  become: yes 
+  environment:
+    PATH: "/usr/local/go/bin:/usr/bin/"
+    GOPATH: "/home/ubuntu/go"
+  shell: "go get github.com/emicklei/go-restful"
+
+- name: Copy Control API to executables dir
+  become: yes
+  synchronize: 
+    src: "{{playbook_dir}}/resources/control-plane/snowplow-mini-control-plane-api"
+    dest: "{{executables_dir}}"
+
+- name: Copy Control API scripts to the scripts' directory
+  become: yes
+  synchronize:
+    src: "{{playbook_dir}}/resources/control-plane/scripts/"
+    dest: "{{scripts_dir}}/snowplow-mini-control-plane-api-scripts"
+
+- name: Check Kinesis Packages 
+  stat:
+    path: "{{staging_dir}}/{{kinesis_package}}"
+  register: check_kinesis_packages_result
+
+
+- name: Download Kinesis Packages
+  get_url: 
+    url: "http://dl.bintray.com/snowplow/snowplow-generic/{{kinesis_package}}"
+    dest: "{{staging_dir}}"
+  when: check_kinesis_packages_result.stat.exists == False
+  register: kinesis_packages_downloaded
+
+
+- name: Unzip downloaded Kinesis Packages
+  shell: "unzip {{staging_dir}}/{{kinesis_package}} -d {{executables_dir}}"
+  when: kinesis_packages_downloaded|changed
+
+
+- name: Check Iglu Server
+  stat:
+    path: "{{staging_dir}}/{{iglu_server_package}}"
+  register: check_iglu_server_result
+
+
+- name: Download Iglu Server
+  get_url: 
+    url: "http://bintray.com/artifact/download/snowplow/snowplow-generic/{{iglu_server_package}}"
+    dest: "{{staging_dir}}"
+  when: check_iglu_server_result.stat.exists == False
+  register: iglu_server_downloaded
+
+
+- name: Unzip downloaded Iglu Server
+  shell: "unzip {{staging_dir}}/{{iglu_server_package}} -d {{executables_dir}}"
+  when: iglu_server_downloaded|changed
+  register: iglu_server_extracted
+
+- name: Create snowplow user on Postgresql
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: snowplow
+    password: snowplow
+
+- name: Create iglu db on Postgresql
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: iglu
+    owner: snowplow
+
+- name: Download Elasticsearch
+  become: yes
+  shell: "wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.5.deb -P {{staging_dir}}"
+
+- name: Install Elasticsearch
+  become: yes
+  shell: "dpkg -i {{staging_dir}}/elasticsearch-1.7.5.deb"
+
+- name: Check Kibana
+  stat:
+    path: "{{staging_dir}}/{{kinesis_package}}"
+  register: check_kibana_result
+
+
+- name: Download Kibana
+  get_url: 
+    url: "https://download.elasticsearch.org/kibana/kibana/kibana-{{kibana_v}}-linux-x64.zip"
+    dest: "{{staging_dir}}"
+  when: check_kinesis_packages_result.stat.exists == False
+  register: kibana_downloaded
+
+
+- name: Unzip downloaded Kibana package
+  become: yes
+  shell: "unzip {{staging_dir}}/kibana-{{kibana_v}}-linux-x64.zip -d /opt/"
+  when: kibana_downloaded|changed
+
+
+- name: Symlink for kibana
+  become: yes
+  file: 
+    src: "/opt/kibana-{{kibana_v}}-linux-x64"
+    dest: "/opt/kibana"
+    state: link
+
+
+- name: Install nginx
+  become: yes
+  apt:
+    name: "nginx"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install apache2-dev
+  become: yes
+  apt:
+    name: "apache2-dev"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Set owner of the main directory
+  become: yes
+  shell: "chown -R ubuntu:ubuntu {{main_dir}}"
