@@ -16,6 +16,7 @@
     - snowplow_elasticsearch_sink_bad_0.8.0
     - iglu_server_0.2.0
     - nginx_passenger 
+    - caddy_init 
 
 - name: Configure for inits for calling at boot time
   become: yes
@@ -31,5 +32,6 @@
     - nginx_passenger
     - nginx
     - elasticsearch
+    - caddy_init 
 
 
