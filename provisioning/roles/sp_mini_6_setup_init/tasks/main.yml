@@ -1,0 +1,36 @@
+---
+- include_vars: ../../common_vars.yml
+
+- name: Copy init scripts to /etc/init.d
+  become: yes
+  copy:
+    remote_src: true
+    src: "{{init_dir}}/{{item}}"
+    dest: "/etc/init.d"
+    mode: 0755
+  with_items:
+    - kibana4_init
+    - snowplow_mini_control_plane_api
+    - snowplow_stream_collector_0.9.0
+    - snowplow_stream_enrich_0.10.0
+    - snowplow_elasticsearch_sink_good_0.8.0
+    - snowplow_elasticsearch_sink_bad_0.8.0
+    - iglu_server_0.2.0
+    - nginx_passenger 
+    - caddy_init 
+
+- name: Configure for inits for calling at boot time
+  become: yes
+  shell: "update-rc.d {{item}} defaults"
+  with_items:
+    - kibana4_init
+    - snowplow_mini_control_plane_api
+    - snowplow_stream_collector_0.9.0
+    - snowplow_stream_enrich_0.10.0
+    - snowplow_elasticsearch_sink_good_0.8.0
+    - snowplow_elasticsearch_sink_bad_0.8.0
+    - iglu_server_0.2.0
+    - nginx_passenger
+    - nginx
+    - elasticsearch
+    - caddy_init 

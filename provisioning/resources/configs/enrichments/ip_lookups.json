@@ -1,0 +1,14 @@
+{
+  "schema": "iglu:com.snowplowanalytics.snowplow/ip_lookups/jsonschema/1-0-0",
+  "data": {
+    "name": "ip_lookups",
+    "vendor": "com.snowplowanalytics.snowplow",
+    "enabled": true,
+    "parameters": {
+      "geo": {
+        "database": "GeoLiteCity.dat",
+        "uri": "http://s3-eu-west-1.amazonaws.com/snowplow-hosted-assets/third-party/maxmind"
+      }
+    }
+  }
+}
