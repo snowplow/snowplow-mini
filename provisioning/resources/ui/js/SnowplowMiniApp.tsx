@@ -23,6 +23,7 @@ import { Elasticsearch } from "./components/Elasticsearch";
 import { IgluServer } from "./components/IgluServer";
 import { JSTracker } from "./components/JSTracker";
 import { Overview } from "./components/Overview";
+import { ControlPlane } from "./components/ControlPlane";
 var Tabs = require('react-simpletabs');
 
 /**
@@ -48,7 +49,8 @@ export class SnowplowMiniApp extends React.Component<{}, IAppState> {
       "/overview": this.setState.bind(this, { index: 1 }),
       "/example-events": this.setState.bind(this, { index: 2 }),
       "/elasticsearch": this.setState.bind(this, { index: 3 }),
-      "/iglu-server": this.setState.bind(this, { index: 4 })
+      "/iglu-server": this.setState.bind(this, { index: 4 }),
+      "/control-plane": this.setState.bind(this, { index: 5 })  
     };
     var router = Router(routes).configure({
       notfound: function() {
@@ -80,6 +82,9 @@ export class SnowplowMiniApp extends React.Component<{}, IAppState> {
             <Tabs.Panel key={4} title="Iglu Server">
               <IgluServer />
             </Tabs.Panel>
+            <Tabs.Panel key={5} title="Control Plane">
+              <ControlPlane />
+            </Tabs.Panel>
           </Tabs>
         </div>
       </div>
@@ -98,6 +103,8 @@ export class SnowplowMiniApp extends React.Component<{}, IAppState> {
       document.location.href = "#/elasticsearch";
     } else if (selectedIndex == 4) {
       document.location.href = "#/iglu-server";
+    } else if (selectedIndex == 5) {
+      document.location.href = "#/control-plane";
     }
   }
 }

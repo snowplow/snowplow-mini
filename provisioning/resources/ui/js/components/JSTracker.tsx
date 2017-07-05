@@ -43,7 +43,6 @@ export class JSTracker extends React.Component<{}, {}> {
   private trackPageView(): void {
     alert("Tracking this page view")
     window['snowplow']('trackPageView', 'Example events');
-    console.log("hey")
   }
 
   private playMix(): void {

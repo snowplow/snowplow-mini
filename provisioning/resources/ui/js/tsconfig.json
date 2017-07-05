@@ -25,7 +25,8 @@
     "components/Elasticsearch.tsx",
     "components/IgluServer.tsx",
     "components/JSTracker.tsx",
-    "components/Overview.tsx"
+    "components/Overview.tsx",
+    "components/ControlPlane.tsx"
   ],
   "exclude": []
 }
