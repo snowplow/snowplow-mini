@@ -1,4 +1,12 @@
 localhost:2000 {
+        basicauth "USERNAME_PLACEHOLDER" PASSWORD_PLACEHOLDER {
+             /
+             /kibana
+             /iglu-server
+             /api
+             /elasticsearch
+             /controlplane
+        }
         proxy / localhost:3000
         proxy /collector localhost:8080 {
             without /collector
