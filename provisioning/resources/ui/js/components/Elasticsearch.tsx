@@ -42,8 +42,8 @@ export class Elasticsearch extends React.Component<{}, {}> {
         </p>
         <h3>Quicklinks:</h3>
         <ul>
-          <li>Link to <a href={'http://' + window.location.hostname + ':5601'}>Kibana</a></li>
-          <li>Link to the <a href={'http://' + window.location.hostname + ':9200/_plugin/head'}>Elasticsearch Head Plugin</a></li>
+          <li>Link to <a href={'http://' + window.location.host + '/kibana/'}>Kibana</a></li>
+          <li>Link to the <a href={'http://' + window.location.host + '/elasticsearch/_plugin/head/'}>Elasticsearch Head Plugin</a></li>
         </ul>
       </div>
     );
