@@ -1,0 +1,11 @@
+---
+
+- name: Install npm packages based on package.json.
+  become: yes
+  npm:
+    path: "{{playbook_dir}}/resources/ui"
+
+- name: Create dist files
+  become: yes
+  shell: "cd {{playbook_dir}}/resources/ui; tsc -p js --outDir dist/ && browserify dist/SnowplowMiniApp.js -o dist/bundle.js && uglifyjs dist/bundle.js > dist/snowplow-mini.js"
+

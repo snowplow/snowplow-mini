@@ -1,4 +1,8 @@
 {
+   "variables": {
+     "version": "0.3.0-rc1"
+   },
+
   "builders": [
     {
       "type": "amazon-ebs",
@@ -6,87 +10,24 @@
       "source_ami": "ami-05dddc6f",
       "instance_type": "t2.small",
       "ssh_username": "ubuntu",
-      "ami_name": "snowplow-mini-0.2.2-{{ timestamp }}-hvm-ebs-amd64",
+      "ami_name": "snowplow-mini-{{user `version`}}-{{ timestamp }}-hvm-ebs-amd64",
       "ami_groups": [ "all" ],
-      "ami_regions": "us-east-2,us-west-1,us-west-2,ca-central-1,eu-west-1,eu-central-1,eu-west-2,ap-southeast-1,ap-southeast-2,ap-northeast-2,ap-northeast-1,ap-south-1,sa-east-1",
+      "ami_regions": "eu-west-2",
       "ami_description": "Snowplow Mini - The Snowplow Pipeline in a box",
       "tags": {
-        "OS_Version": "Ubuntu-12.04",
-        "Release": "0.2.2"
+        "OS_Version": "Ubuntu-14.04",
+        "Release": "{{user `version`}}"
       }
     }
   ],
 
   "provisioners": [
     {
-      "type": "shell",
-      "script": "scripts/1_setup_dirs_pipes.sh",
-      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
-    },
-    {
-      "type": "file",
-      "source": "resources/elasticsearch",
-      "destination": "/home/ubuntu/snowplow"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/2_setup_postgres.sh",
-      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/3_setup_apps.sh",
-      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
-    },
-    {
-      "type": "file",
-      "source": "resources/configs",
-      "destination": "/home/ubuntu/snowplow"
-    },
-    {
-      "type": "file",
-      "source": "scripts",
-      "destination": "/home/ubuntu/snowplow"
-    },
-    {
-      "type": "file",
-      "source": "resources/init",
-      "destination": "/home/ubuntu/snowplow"
-    },
-    {
-      "type": "file",
-      "source": "ui/index.html",
-      "destination": "/home/ubuntu/snowplow/ui/index.html"
-    },
-    {
-      "type": "file",
-      "source": "ui/dist/snowplow-mini.js",
-      "destination": "/home/ubuntu/snowplow/ui/dist/snowplow-mini.js"
-    },
-    {
-      "type": "file",
-      "source": "ui/assets",
-      "destination": "/home/ubuntu/snowplow/ui"
-    },
-    {
-      "type": "file",
-      "source": "ui/node_modules",
-      "destination": "/home/ubuntu/snowplow/ui"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/4_setup_ui.sh",
-      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/5_setup_init.sh",
-      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/6_configure.sh",
-      "execute_command": "chmod +x {{ .Path }}; sh '{{ .Path }}'"
+      "type": "ansible",
+      "playbook_file": "provisioning/without_building_ui.yml",
+      "extra_arguments": [
+        "-e provision=packer"
+      ]
     }
   ]
 }
