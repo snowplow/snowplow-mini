@@ -1,0 +1,86 @@
+---
+
+- name: Starting Elasticsearch
+  become: yes
+  service: 
+    name: elasticsearch 
+    state: started
+
+- name: Sleep 15 second
+  pause:
+    seconds: 15
+
+- name: Starting Iglu Server
+  become: yes
+  service: 
+    name: iglu_server_0.2.0 
+    state: started
+
+
+- name: Sleep 30 second
+  pause:
+    seconds: 30
+
+
+- name: Starting Kibana 
+  become: yes
+  service: 
+    name: kibana4_init
+    state: started
+
+- name: Starting Snowplow-Mini Control API 
+  become: yes
+  service: 
+    name: snowplow_mini_control_plane_api
+    state: started
+
+- name: Starting Snowplow Stream Collector
+  become: yes
+  service: 
+    name: snowplow_stream_collector_0.9.0
+    state: started
+
+- name: Starting Snowplow Stream Enrich
+  become: yes
+  service: 
+    name: snowplow_stream_enrich_0.10.0
+    state: started
+
+- name: Starting Snowplow Elastic Search Sink Good
+  become: yes
+  service: 
+    name: snowplow_elasticsearch_sink_good_0.8.0
+    state: started
+
+- name: Starting Snowplow Elastic Search Sink Bad
+  become: yes
+  service: 
+    name: snowplow_elasticsearch_sink_bad_0.8.0
+    state: started
+
+- name: Starting Nginx
+  become: yes
+  service: 
+    name: nginx
+    state: restarted
+
+- name: Starting Caddy
+  become: yes
+  service: 
+    name: caddy_init
+    state: started
+
+- name: Sleep 30 second
+  pause:
+    seconds: 30
+
+
+
+- name: curl put good-mapping.json
+  shell: "curl -XPUT 'http://localhost:9200/good' -d @{{es_dir}}/good-mapping.json"
+
+
+- name: curl put bad-mapping.json
+  shell: "curl -XPUT 'http://localhost:9200/bad' -d @{{es_dir}}/bad-mapping.json"
+
+

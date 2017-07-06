@@ -1,0 +1,49 @@
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "default": {
+                    "type": "keyword"
+                }
+            }
+        },
+        "index" : {
+            "number_of_replicas" : "0",
+            "number_of_shards" : "2"
+        }
+    },
+    "mappings": {
+        "bad": {
+            "_timestamp" : {
+                "enabled" : "yes",
+                "path" : "failure_tstamp"
+            },
+            "_ttl": {
+              "enabled": true,
+              "default": "604800000"
+            },
+            "properties": {
+                "errors": {
+                    "properties": {
+                        "message" : {
+                            "type": "string",
+                            "analyzer": "standard"
+                        },
+                        "level" : {
+                            "type": "string",
+                            "analyzer": "standard"
+                        }
+                    }
+                },
+                "failure_tstamp": {
+                    "type": "date",
+                    "format": "dateOptionalTime"
+                },
+                "line": {
+                    "type": "string",
+                    "analyzer": "standard"
+                }
+            }
+        }
+    }
+}
