@@ -23,7 +23,7 @@ An easily-deployable, single instance version of Snowplow that serves three use 
 Snowplow-Mini runs several distinct applications on the same box which are all linked by named pipes.  In a production deployment each instance could be an Autoscaling Group and each named pipe would be a distinct Kinesis Stream.
 
 * Scala Stream Collector:
-  - Starts server listening on port `8080` which events can be sent to.
+  - Starts server listening on `http://< sp mini public ip>/` which events can be sent to.
   - Sends "good" events to the `raw-events-pipe`
   - Sends "bad" events to the `bad-1-pipe`
 * Stream Enrich
@@ -38,7 +38,7 @@ Snowplow-Mini runs several distinct applications on the same box which are all l
   - Reads events in from the `bad-1-pipe`
   - Sends the events to the "bad" index of the cluster
 
-These events can then be viewed at port `5601` in Kibana.
+These events can then be viewed from `http://< sp mini public ip>/kibana`.
 
 ![](https://raw.githubusercontent.com/snowplow/snowplow-mini/master/resources/topology/snowplow-mini-topology.jpg)
 
@@ -53,7 +53,7 @@ These events can then be viewed at port `5601` in Kibana.
 
 ## Copyright and license
 
-Snowplow Mini is copyright 2016 Snowplow Analytics Ltd.
+Snowplow Mini is copyright 2016-2017 Snowplow Analytics Ltd.
 
 Licensed under the **[Apache License, Version 2.0][license]** (the "License");
 you may not use this software except in compliance with the License.
@@ -69,7 +69,7 @@ limitations under the License.
 [travis]: https://travis-ci.org/snowplow/snowplow-mini
 [travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
 
-[release-image]: http://img.shields.io/badge/release-0.2.2-blue.svg?style=flat
+[release-image]: http://img.shields.io/badge/release-0.3.0-blue.svg?style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
 [license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat

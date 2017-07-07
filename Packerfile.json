@@ -1,6 +1,6 @@
 {
    "variables": {
-     "version": "0.3.0-RC"
+     "version": "0.3.0"
    },
 
   "builders": [
