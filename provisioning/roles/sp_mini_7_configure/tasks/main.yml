@@ -78,3 +78,16 @@
 - name: Sleep 30 second
   pause:
     seconds: 30
+
+- name: add "good" index pattern to Kibana
+  shell: >
+      curl -XPUT http://localhost:9200/.kibana/index-pattern/good -d '{"title" : "good",  "timeFieldName" : "collector_tstamp"}'
+
+- name: add "bad" index pattern to Kibana
+  shell: >
+      curl -XPUT http://localhost:9200/.kibana/index-pattern/bad -d '{"title" : "bad",  "timeFieldName" : "failure_tstamp"}'
+
+- name: make "good" index pattern default
+  shell: >
+      curl -XPUT http://localhost:9200/.kibana/config/4.0.1 -d '{"defaultIndex" : "good"}'
+      
