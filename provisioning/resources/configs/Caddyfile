@@ -1,4 +1,5 @@
-localhost:2000 {
+*:80 {
+  tls off
   basicauth "USERNAME_PLACEHOLDER" PASSWORD_PLACEHOLDER {
     /home
     /kibana

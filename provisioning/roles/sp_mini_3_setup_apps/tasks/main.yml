@@ -13,11 +13,11 @@
     name: "unzip"
     state: present
     update_cache: yes
-    cache_valid_time: 3600 
+    cache_valid_time: 3600
 
 - name: Add Java 8 repository
   become: yes
-  apt_repository: 
+  apt_repository:
     repo: 'ppa:webupd8team/java'
     state: present
 
@@ -35,49 +35,19 @@
     cache_valid_time: 3600
   when: oracle_license_signed|changed
 
-- name: Install Git for go get
-  become: yes
-  apt:
-    name: git
-    state: present
-    update_cache: yes
-    cache_valid_time: 3600
-
-- name: Install GO 1.7
-  become: yes 
-  block:
-    - shell: "wget https://storage.googleapis.com/golang/go1.7.3.linux-amd64.tar.gz -P {{staging_dir}}"
-    - shell: "tar -C /usr/local -xzf {{staging_dir}}/go1.7.3.linux-amd64.tar.gz"
-    - file:
-        path: "~/go"
-        state: directory
-
-- name: Install dependencies of the Control API
-  become: yes 
-  environment:
-    PATH: "/usr/local/go/bin:/usr/bin/"
-    GOPATH: "/home/ubuntu/go"
-  shell: "go get github.com/emicklei/go-restful"
-
 - name: Copy Control API to executables dir
   become: yes
-  synchronize: 
+  synchronize:
     src: "{{playbook_dir}}/resources/control-plane/snowplow-mini-control-plane-api"
     dest: "{{executables_dir}}"
 
-- name: Copy Control API scripts to the scripts' directory
-  become: yes
-  synchronize:
-    src: "{{playbook_dir}}/resources/control-plane/scripts/"
-    dest: "{{scripts_dir}}/snowplow-mini-control-plane-api-scripts"
-
-- name: Check Kinesis Packages 
+- name: Check Kinesis Packages
   stat:
     path: "{{staging_dir}}/{{kinesis_package}}"
   register: check_kinesis_packages_result
 
 - name: Download Kinesis Packages
-  get_url: 
+  get_url:
     url: "http://dl.bintray.com/snowplow/snowplow-generic/{{kinesis_package}}"
     dest: "{{staging_dir}}"
   when: check_kinesis_packages_result.stat.exists == False
@@ -93,7 +63,7 @@
   register: check_iglu_server_result
 
 - name: Download Iglu Server
-  get_url: 
+  get_url:
     url: "http://bintray.com/artifact/download/snowplow/snowplow-generic/{{iglu_server_package}}"
     dest: "{{staging_dir}}"
   when: check_iglu_server_result.stat.exists == False
@@ -136,7 +106,7 @@
   register: check_kibana_result
 
 - name: Download Kibana
-  get_url: 
+  get_url:
     url: "https://download.elasticsearch.org/kibana/kibana/kibana-{{kibana_v}}-linux-x64.zip"
     dest: "{{staging_dir}}"
   when: check_kinesis_packages_result.stat.exists == False
@@ -149,7 +119,7 @@
 
 - name: Symlink for kibana
   become: yes
-  file: 
+  file:
     src: "/opt/kibana-{{kibana_v}}-linux-x64"
     dest: "/opt/kibana"
     state: link
