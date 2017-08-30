@@ -1,0 +1,15 @@
+---
+- name: apply all scripts
+  hosts: all 
+
+  roles:
+    - nodejs
+    - typescript
+    - packer
+    - sp_mini_1_create_dirs_and_pipes      
+    - sp_mini_2_install_postgresl
+    - sp_mini_3_setup_apps
+    - sp_mini_4_build_ui
+    - sp_mini_5_copy_ui_folders
+    - sp_mini_6_setup_init
+    - sp_mini_7_configure

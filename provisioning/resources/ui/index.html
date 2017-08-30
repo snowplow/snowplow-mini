@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" data-framework="typescript">
+  <head>
+    <meta charset="utf-8">
+    <title>Snowplow Mini</title>
+    <link rel="shortcut icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+  </head>
+  
+  <body>
+    <header class="header">
+      <a href="#/overview"><img id="logo" src="assets/img/logo-white.png" /></a>
+      <h1 id="text">SNOWPLOW MINI</h1>
+    </header>
+    <div class="snowplowminiapp"></div>
+    <footer class="footer">
+      <p>COPYRIGHT &#169; 2016-2017 SNOWPLOW ANALYTICS LTD. ALL RIGHTS RESERVED. PRIVACY POLICY.</p>
+    </footer>
+
+    <!-- Snowplow starts plowing -->
+    <script type="text/javascript">
+      ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
+      p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
+      };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
+      n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","https://d1fc8wv8zag5ca.cloudfront.net/2.6.0/sp.js","snowplow"));
+      var collector = window.location.host;
+      window.snowplow('newTracker','rt',collector, {
+        encodeBase64: false,
+        appId: 'SnowplowMini',
+        platform: 'web',
+        contexts: {
+          webPage: true,
+          performanceTiming: true
+        }
+      });
+      window.snowplow('setUserId', 'SnowplowMini-User');
+      window.snowplow('enableActivityTracking', 10, 10);
+    </script>
+    <!-- Snowplow stops plowing -->
+
+    <script type="text/javascript" src="node_modules/director/build/director.js"></script>
+    <script type="text/javascript" src="dist/snowplow-mini.js"></script>
+  </body>
+</html>

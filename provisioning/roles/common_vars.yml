@@ -1,0 +1,13 @@
+---
+main_dir:             "/home/ubuntu/snowplow"
+configs_dir:          "{{main_dir}}/configs"
+staging_dir:          "{{main_dir}}/staging"
+executables_dir:      "{{main_dir}}/bin"
+unix_pipes_dir:       "{{main_dir}}/pipes"
+es_dir:               "{{main_dir}}/elasticsearch"
+scripts_dir:          "{{main_dir}}/scripts"
+init_dir:             "{{main_dir}}/init"
+ui_dir:               "{{main_dir}}/ui/dist"
+ansible_cache_dir:    "/var/cache/ansible" 
+software_install_dir: "/usr/local/share"
+user_binaries:        "/usr/local/bin"

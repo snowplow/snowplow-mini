@@ -1,3 +1,17 @@
+Version 0.3.0 (2017-08-30)
+--------------------------
+Get username and password for basic authentication via user_data.sh (#107)
+Add domain name to Caddyfile for TLS via user_data.sh (#105)
+Add button in UI to restart all services (#59)
+Deploy Caddy so that each app is on an authenticated sub-path (#12)
+Authenticate Iglu schema registry access from Stream Enrich (#92)
+Update to Packer 0.10.0+ and convert shell scripts to ansible playbooks (#52)
+Add API call to Control Plane to clear schema cache without resetting the box (#82)
+Have Snowplow Mini run the basic enrichments as standard (#64)
+Enable third-party cookie set by collector (#93)
+Remove legacy iglu_server_upload.sh script (#58)
+Upgrade Snowplow services to R85 (#81)
+
 Version 0.2.2 (2017-03-21)
 --------------------------
 Update Packerfile to deploy to all available regions (#75)

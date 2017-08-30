@@ -1,0 +1,36 @@
+localhost:2000 {
+  basicauth "USERNAME_PLACEHOLDER" PASSWORD_PLACEHOLDER {
+    /home
+    /kibana
+    /elasticsearch
+    /control-plane
+    /_plugin
+  }
+  redir /home /home/
+  redir /kibana /kibana/
+  redir /iglu-server /iglu-server/
+
+  proxy / localhost:8080
+
+  proxy /home localhost:3000 {
+    without /home
+  }
+
+  proxy /kibana localhost:5601 {
+    without /kibana
+  }
+
+  proxy /iglu-server localhost:8081 {
+    without /iglu-server
+  }
+  proxy /api localhost:8081
+
+  proxy /elasticsearch localhost:9200 {
+    without /elasticsearch
+  }
+  proxy /_plugin localhost:9200
+
+  proxy /control-plane localhost:10000 {
+    without /control-plane
+  }
+}
