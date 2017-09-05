@@ -6,10 +6,12 @@
   service: 
     name: elasticsearch 
     state: started
+  register: ElasticsearchStarted
 
-- name: Sleep 15 second
-  pause:
-    seconds: 15
+- name: Wait 300 seconds for Elasticsearch port 9200 to become open on the host, don't start checking for 10 seconds
+  wait_for:
+    port: 9200
+    delay: 10
 
 - name: curl put good-mapping.json
   shell: "curl -XPUT 'http://localhost:9200/good' -d @{{es_dir}}/good-mapping.json"
@@ -17,79 +19,26 @@
 - name: curl put bad-mapping.json
   shell: "curl -XPUT 'http://localhost:9200/bad' -d @{{es_dir}}/bad-mapping.json"
 
-- name: Starting Iglu Server
-  become: yes
-  service: 
-    name: iglu_server_0.2.0 
-    state: started
-
-- name: Sleep 30 second
-  pause:
-    seconds: 30
-
-- name: Starting Kibana 
-  become: yes
-  service: 
-    name: kibana4_init
-    state: started
-
-- name: Starting Snowplow-Mini Control API 
-  become: yes
-  service: 
-    name: snowplow_mini_control_plane_api
-    state: started
-
-- name: Starting Snowplow Stream Collector
-  become: yes
-  service: 
-    name: snowplow_stream_collector
-    state: started
-
-- name: Starting Snowplow Stream Enrich
-  become: yes
-  service: 
-    name: snowplow_stream_enrich
-    state: started
-
-- name: Starting Snowplow Elastic Search Sink Good
-  become: yes
-  service: 
-    name: snowplow_elasticsearch_loader_good
-    state: started
-
-- name: Starting Snowplow Elastic Search Sink Bad
-  become: yes
-  service: 
-    name: snowplow_elasticsearch_loader_bad
-    state: started
-
-- name: Starting Nginx
-  become: yes
-  service: 
-    name: nginx
-    state: restarted
-
-- name: Starting Caddy
-  become: yes
-  service: 
-    name: caddy_init
-    state: started
-
 - name: Starting nsqd 
   become: yes
   service: 
     name: nsqd_init
     state: started
- 
+  register: NsqdStarted
+
 - name: Starting nsqlookupd
   become: yes
   service: 
     name: nsqlookupd_init 
     state: started
-
-- name: Sleep 30 second
-  pause:
-    seconds: 30
+  register: NsqlookupdStarted
+- name: Wait the other services to start
+  wait_for:
+    port: "{{item}}"
+    delay: 1
+  with_items:
+    - 4150
+    - 4161
 
 - name: add "good" index pattern to Kibana
   shell: >
