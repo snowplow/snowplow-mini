@@ -1,5 +1,5 @@
 /* Common */
-a,p,h1,h2,h3,h4,li {
+a,p,h1,h2,h3,h4,li,label,input {
   -webkit-font-smoothing: antialiased;
   font-family: "myriad-pro", "Helvetica Neue", Helvetica, sans-serif;
   font-weight: 300;
@@ -17,8 +17,18 @@ body {
   margin: 0px;
 }
 
+label {
+  display: inline-block;
+  width: 250px;
+  text-align: left;
+}
+
+input {
+  width: 200px;
+}
+
 /* Header */
-.header { 
+.header {
   background-color: #3F435F;
   height: 80px;
   width: 100%;
