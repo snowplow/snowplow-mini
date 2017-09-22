@@ -24,7 +24,7 @@
   "provisioners": [
     {
       "type": "ansible",
-      "playbook_file": "provisioning/without_building_ui.yml"
+      "playbook_file": "provisioning/without_building_ui_and_go_projects.yml"
     }
   ]
 }

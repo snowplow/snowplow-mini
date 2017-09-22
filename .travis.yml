@@ -1,10 +1,12 @@
 ---
 sudo: required
-language: bash
+language: go
+
+go:
+  - 1.8
 
 services:
   - postgresql
-
 
 before_install:
   - sudo apt-get update -qq
@@ -14,7 +16,7 @@ install:
   - sudo pip install ansible
 
 before_script:
-  - ansible-playbook -i provisioning/inventory provisioning/with_building_ui.yml --connection=local --sudo
+  - ansible-playbook -i provisioning/inventory provisioning/with_building_ui_and_go_projects.yml --connection=local --sudo
 
 script:
   - ./integration/integration_test.sh

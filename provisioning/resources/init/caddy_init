@@ -9,9 +9,9 @@
 # Description:       Enable service provided by daemon.
 ### END INIT INFO
 
-dir="/usr/local/bin"
+dir="/home/ubuntu/snowplow/bin"
 
-cmd="caddy -conf /home/ubuntu/snowplow/configs/Caddyfile"
+cmd="$dir/caddy -conf /home/ubuntu/snowplow/configs/Caddyfile"
 user=""
 
 name="caddy_server"

@@ -3,12 +3,12 @@
 
 - name: Starting Elasticsearch
   become: yes
-  service: 
-    name: elasticsearch 
+  service:
+    name: elasticsearch
     state: started
   register: ElasticsearchStarted
 
-- name: Wait 300 seconds for Elasticsearch port 9200 to become open on the host, don't start checking for 10 seconds
+- name: Wait for Elasticsearch port 9200 to become open on the host, don't start checking for 10 seconds
   wait_for:
     port: 9200
     delay: 10
@@ -19,26 +19,33 @@
 - name: curl put bad-mapping.json
   shell: "curl -XPUT 'http://localhost:9200/bad' -d @{{es_dir}}/bad-mapping.json"
 
-- name: Starting nsqd 
+- name: Starting nsqd
   become: yes
-  service: 
+  service:
     name: nsqd_init
     state: started
   register: NsqdStarted
 
 - name: Starting nsqlookupd
   become: yes
-  service: 
-    name: nsqlookupd_init 
+  service:
+    name: nsqlookupd_init
     state: started
   register: NsqlookupdStarted
-- name: Wait the other services to start
+
+- name: Wait for the NSQ services to start
   wait_for:
     port: "{{item}}"
     delay: 1
   with_items:
     - 4150
     - 4161
+
+- name: Starting Kibana
+  become: yes
+  service:
+    name: kibana4_init
+    state: started
 
 - name: add "good" index pattern to Kibana
   shell: >
@@ -63,4 +70,3 @@
 
 - name: Create new topic for BadEnrichedEvents
   shell: "curl -X POST http://127.0.0.1:4151/topic/create?topic=BadEnrichedEvents"
-      

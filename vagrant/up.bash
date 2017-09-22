@@ -19,5 +19,5 @@ sudo pip install ansible
 
 vagrant_dir=/vagrant/vagrant
 cd $vagrant_dir/..
-ansible-playbook -i provisioning/inventory provisioning/with_building_ui.yml --connection=local --sudo
+ansible-playbook -i provisioning/inventory provisioning/with_building_ui_and_go_projects.yml --connection=local --sudo
 

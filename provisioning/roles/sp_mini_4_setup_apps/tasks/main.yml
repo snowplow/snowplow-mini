@@ -1,14 +1,16 @@
 ---
 - include_vars: ../../common_vars.yml
 
-- name: Set version variables
+- name: Set variables
   set_fact:
-    kinesis_package: 'snowplow_kinesis_r85_metamorphosis.zip'
-    es_loader_package: 'snowplow_elasticsearch_loader_http_0.10.0_rc1.zip'
+    stream_collector_package: 'snowplow_scala_stream_collector_0.11.0.zip'
+    stream_enrich_package: 'snowplow_stream_enrich_0.12.0.zip'
+    es_loader_package: 'snowplow_elasticsearch_loader_http_0.10.1.zip'
     iglu_server_package: 'iglu_server_0.2.0.zip'
     kibana_v: '4.0.1'
     nsq_package: 'nsq-1.0.0-compat.linux-amd64.go1.8.tar.gz'
     nsq_bin_dir: 'nsq-1.0.0-compat.linux-amd64.go1.8/bin'
+    control_plane_dir: '{{playbook_dir}}/resources/control-plane'
 
 - name: Install unzip
   become: yes
@@ -41,7 +43,7 @@
 - name: Copy Control API to executables dir
   become: yes
   synchronize:
-    src: "{{playbook_dir}}/resources/control-plane/snowplow-mini-control-plane-api"
+    src: "{{executables_dir}}/snowplow-mini-control-plane-api"
     dest: "{{executables_dir}}"
 
 - name: Copy VERSION file to /home/ubuntu/snowplow for Control API
@@ -50,30 +52,37 @@
      src: "{{playbook_dir}}/../VERSION"
      dest: "{{main_dir}}"
 
-#- name: Check Kinesis Packages
-#  stat:
-#    path: "{{staging_dir}}/{{kinesis_package}}"
-#  register: check_kinesis_packages_result
+- name: Check Stream Collector
+  stat:
+    path: "{{staging_dir}}/{{stream_collector_package}}"
+  register: check_stream_collector_result
 
-#- name: Download Kinesis Packages
-#  get_url:
-#    url: "http://dl.bintray.com/snowplow/snowplow-generic/{{kinesis_package}}"
-#    dest: "{{staging_dir}}"
-#  when: check_kinesis_packages_result.stat.exists == False
-#  register: kinesis_packages_downloaded
+- name: Download Stream Collector
+  get_url:
+    url: "http://dl.bintray.com/snowplow/snowplow-generic/{{stream_collector_package}}"
+    dest: "{{staging_dir}}"
+  when: check_stream_collector_result.stat.exists == False
+  register: stream_collector_downloaded
 
-#- name: Unzip downloaded Kinesis Packages
-#  shell: "unzip {{staging_dir}}/{{kinesis_package}} -d {{executables_dir}}"
-#  when: kinesis_packages_downloaded|changed
+- name: Unzip downloaded Stream Collector
+  shell: "unzip {{staging_dir}}/{{stream_collector_package}} -d {{executables_dir}}"
+  when: stream_collector_downloaded|changed
 
-# this section will be removed after new version of the snowplow-apps
-# is placed on the bintray
-- name: Copy snowplow-apps to the executables dir
-  become: yes
-  block:
-    - synchronize:
-        src: "{{playbook_dir}}/resources/snowplow-apps/"
-        dest: "{{executables_dir}}"
+- name: Check Stream Enrich
+  stat:
+    path: "{{staging_dir}}/{{stream_enrich_package}}"
+  register: check_stream_enrich_result
+
+- name: Download Stream Enrich
+  get_url:
+    url: "http://dl.bintray.com/snowplow/snowplow-generic/{{stream_enrich_package}}"
+    dest: "{{staging_dir}}"
+  when: check_stream_enrich_result.stat.exists == False
+  register: stream_enrich_downloaded
+
+- name: Unzip downloaded Stream Enrich
+  shell: "unzip {{staging_dir}}/{{stream_enrich_package}} -d {{executables_dir}}"
+  when: stream_enrich_downloaded|changed
 
 - name: Check Elasticsearch Loader
   stat:
@@ -147,7 +156,7 @@
 
 - name: Check Kibana
   stat:
-    path: "{{staging_dir}}/{{kinesis_package}}"
+    path: "{{staging_dir}}/kibana-{{kibana_v}}-linux-x64.zip"
   register: check_kibana_result
 
 - name: Download Kibana
@@ -161,6 +170,7 @@
   become: yes
   shell: "unzip {{staging_dir}}/kibana-{{kibana_v}}-linux-x64.zip -d /opt/"
   when: kibana_downloaded|changed
+  register: kibana_unzipped
 
 - name: Symlink for kibana
   become: yes
@@ -168,10 +178,16 @@
     src: "/opt/kibana-{{kibana_v}}-linux-x64"
     dest: "/opt/kibana"
     state: link
+  when: kibana_unzipped|changed
 
-- name: Install Caddy
+- name: Copy Caddy executable to executables dir
   become: yes
-  shell: "curl https://getcaddy.com | bash"
+  environment:
+    PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
+    GOPATH: "{{ go_path }}"
+  synchronize:
+    src: "{{executables_dir}}/caddy"
+    dest: "{{executables_dir}}"
 
 - name: Set owner of the main directory
   become: yes
