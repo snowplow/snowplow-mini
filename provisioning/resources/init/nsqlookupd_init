@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ### BEGIN INIT INFO
 # Provides:
 # Required-Start:    $remote_fs $syslog
@@ -9,11 +9,12 @@
 # Description:       Enable service provided by daemon.
 ### END INIT INFO
 
-dir="/home/ubuntu/snowplow/bin/"
-cmd="./snowplow-elasticsearch-sink-0.8.0-2x --config /home/ubuntu/snowplow/configs/snowplow-elasticsearch-sink-bad.hocon"
-user="ubuntu"
+dir="/home/ubuntu/snowplow/bin"
+cmd="$dir/nsqlookupd"
+user=""
 
-name="snowplow_elasticsearch_sink_bad_0.8.0-2x"
+name="nsqlookupd"
+
 pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
@@ -32,11 +33,10 @@ case "$1" in
         echo "Already started"
     else
         echo "Starting $name"
-        cd "$dir"
         if [ -z "$user" ]; then
-            cat /home/ubuntu/snowplow/pipes/bad-1-pipe | sudo $cmd >> "$stdout_log" 2>> "$stderr_log" &
+            sudo $cmd >> "$stdout_log" 2>> "$stderr_log" &
         else
-            cat /home/ubuntu/snowplow/pipes/bad-1-pipe | sudo -u "$user" $cmd >> "$stdout_log" 2>> "$stderr_log" &
+            sudo -u "$user" $cmd >> "$stdout_log" 2>> "$stderr_log" &
         fi
         echo $! > "$pid_file"
         if ! is_running; then

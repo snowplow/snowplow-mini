@@ -10,10 +10,10 @@
 ### END INIT INFO
 
 dir="/home/ubuntu/snowplow/bin/"
-cmd="java -Dconfig.file=/home/ubuntu/snowplow/configs/iglu-server.conf -jar $dir/iglu-server-0.2.0.jar com.snowplowanalytics.iglu.server.Boot"
+cmd="java -jar snowplow-stream-enrich-0.12.0.jar --config /home/ubuntu/snowplow/configs/snowplow-stream-enrich.hocon --resolver file:/home/ubuntu/snowplow/configs/iglu-resolver.json --enrichments file:/home/ubuntu/snowplow/configs/enrichments"
 user="ubuntu"
 
-name="iglu_server_0.2.0"
+name="snowplow_stream_enrich"
 pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
@@ -32,6 +32,7 @@ case "$1" in
         echo "Already started"
     else
         echo "Starting $name"
+        cd $dir
         if [ -z "$user" ]; then
             sudo $cmd >> "$stdout_log" 2>> "$stderr_log" &
         else

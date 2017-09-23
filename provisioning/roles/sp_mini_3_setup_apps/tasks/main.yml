@@ -3,9 +3,12 @@
 
 - name: Set version variables
   set_fact:
-      kinesis_package: 'snowplow_kinesis_r85_metamorphosis.zip'
-      iglu_server_package: 'iglu_server_0.2.0.zip'
-      kibana_v: '4.0.1'
+    kinesis_package: 'snowplow_kinesis_r85_metamorphosis.zip'
+    es_loader_package: 'snowplow_elasticsearch_loader_http_0.10.0_rc1.zip'
+    iglu_server_package: 'iglu_server_0.2.0.zip'
+    kibana_v: '4.0.1'
+    nsq_package: 'nsq-1.0.0-compat.linux-amd64.go1.8.tar.gz'
+    nsq_bin_dir: 'nsq-1.0.0-compat.linux-amd64.go1.8/bin'
 
 - name: Install unzip
   become: yes
@@ -42,26 +45,51 @@
     dest: "{{executables_dir}}"
 
 - name: Copy VERSION file to /home/ubuntu/snowplow for Control API
-   become: yes
-   synchronize:
+  become: yes
+  synchronize:
      src: "{{playbook_dir}}/../VERSION"
      dest: "{{main_dir}}"
 
-- name: Check Kinesis Packages
+#- name: Check Kinesis Packages
+#  stat:
+#    path: "{{staging_dir}}/{{kinesis_package}}"
+#  register: check_kinesis_packages_result
+
+#- name: Download Kinesis Packages
+#  get_url:
+#    url: "http://dl.bintray.com/snowplow/snowplow-generic/{{kinesis_package}}"
+#    dest: "{{staging_dir}}"
+#  when: check_kinesis_packages_result.stat.exists == False
+#  register: kinesis_packages_downloaded
+
+#- name: Unzip downloaded Kinesis Packages
+#  shell: "unzip {{staging_dir}}/{{kinesis_package}} -d {{executables_dir}}"
+#  when: kinesis_packages_downloaded|changed
+
+# this section will be removed after new version of the snowplow-apps
+# is placed on the bintray
+- name: Copy snowplow-apps to the executables dir
+  become: yes
+  block:
+    - synchronize:
+        src: "{{playbook_dir}}/resources/snowplow-apps/"
+        dest: "{{executables_dir}}"
+
+- name: Check Elasticsearch Loader
   stat:
-    path: "{{staging_dir}}/{{kinesis_package}}"
-  register: check_kinesis_packages_result
+    path: "{{staging_dir}}/{{es_loader_package}}"
+  register: check_es_loader_result
 
-- name: Download Kinesis Packages
+- name: Download Elasticsearch Loader
   get_url:
-    url: "http://dl.bintray.com/snowplow/snowplow-generic/{{kinesis_package}}"
+    url: "http://bintray.com/artifact/download/snowplow/snowplow-generic/{{es_loader_package}}"
     dest: "{{staging_dir}}"
-  when: check_kinesis_packages_result.stat.exists == False
-  register: kinesis_packages_downloaded
+  when: check_es_loader_result.stat.exists == False
+  register: es_loader_downloaded
 
-- name: Unzip downloaded Kinesis Packages
-  shell: "unzip {{staging_dir}}/{{kinesis_package}} -d {{executables_dir}}"
-  when: kinesis_packages_downloaded|changed
+- name: Unzip downloaded Elasticsearch Loader
+  shell: "unzip {{staging_dir}}/{{es_loader_package}} -d {{executables_dir}}"
+  when: es_loader_downloaded|changed
 
 - name: Check Iglu Server
   stat:
@@ -79,6 +107,17 @@
   shell: "unzip {{staging_dir}}/{{iglu_server_package}} -d {{executables_dir}}"
   when: iglu_server_downloaded|changed
   register: iglu_server_extracted
+
+- name: Download NSQ
+  get_url:
+    url: "https://s3.amazonaws.com/bitly-downloads/nsq/{{nsq_package}}"
+    dest: "{{staging_dir}}"
+
+- name: Unzip downloaded NSQ
+  shell: "tar xvfz {{staging_dir}}/{{nsq_package}} --directory {{staging_dir}}"
+
+- name: Copy NSQ binaries to executables_dir
+  shell: "cp {{staging_dir}}/{{nsq_bin_dir}}/nsqd {{staging_dir}}/{{nsq_bin_dir}}/nsqlookupd {{executables_dir}}"
 
 - name: Create snowplow user on Postgresql
   become: true
@@ -115,7 +154,7 @@
   get_url:
     url: "https://download.elasticsearch.org/kibana/kibana/kibana-{{kibana_v}}-linux-x64.zip"
     dest: "{{staging_dir}}"
-  when: check_kinesis_packages_result.stat.exists == False
+  when: check_kibana_result.stat.exists == False
   register: kibana_downloaded
 
 - name: Unzip downloaded Kibana package

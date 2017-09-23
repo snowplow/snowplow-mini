@@ -42,25 +42,25 @@
 - name: Starting Snowplow Stream Collector
   become: yes
   service: 
-    name: snowplow_stream_collector_0.9.0
+    name: snowplow_stream_collector
     state: started
 
 - name: Starting Snowplow Stream Enrich
   become: yes
   service: 
-    name: snowplow_stream_enrich_0.10.0
+    name: snowplow_stream_enrich
     state: started
 
 - name: Starting Snowplow Elastic Search Sink Good
   become: yes
   service: 
-    name: snowplow_elasticsearch_sink_good_0.8.0
+    name: snowplow_elasticsearch_loader_good
     state: started
 
 - name: Starting Snowplow Elastic Search Sink Bad
   become: yes
   service: 
-    name: snowplow_elasticsearch_sink_bad_0.8.0
+    name: snowplow_elasticsearch_loader_bad
     state: started
 
 - name: Starting Nginx
@@ -73,6 +73,18 @@
   become: yes
   service: 
     name: caddy_init
+    state: started
+
+- name: Starting nsqd 
+  become: yes
+  service: 
+    name: nsqd_init
+    state: started
+ 
+- name: Starting nsqlookupd
+  become: yes
+  service: 
+    name: nsqlookupd_init 
     state: started
 
 - name: Sleep 30 second
@@ -90,4 +102,16 @@
 - name: make "good" index pattern default
   shell: >
       curl -XPUT http://localhost:9200/.kibana/config/4.0.1 -d '{"defaultIndex" : "good"}'
+
+- name: Create new topic for RawEvents
+  shell: "curl -X POST http://127.0.0.1:4151/topic/create?topic=RawEvents"
+
+- name: Create new topic for BadEvents
+  shell: "curl -X POST http://127.0.0.1:4151/topic/create?topic=BadEvents"
+
+- name: Create new topic for EnrichedEvents
+  shell: "curl -X POST http://127.0.0.1:4151/topic/create?topic=EnrichedEvents"
+
+- name: Create new topic for BadEnrichedEvents
+  shell: "curl -X POST http://127.0.0.1:4151/topic/create?topic=BadEnrichedEvents"
       
