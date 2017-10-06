@@ -44,6 +44,7 @@ func main() {
 
 	http.HandleFunc("/restart-services", restartServices)
 	http.HandleFunc("/enrichments", uploadEnrichments)
+	http.HandleFunc("/external-iglu", addExternalIgluServer)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
@@ -104,6 +105,68 @@ func uploadEnrichments(resp http.ResponseWriter, req *http.Request) {
 
 		resp.WriteHeader(http.StatusOK)
 		io.WriteString(resp, "uploaded successfully")
+	} else {
+		http.Error(resp, "", 404)
+	}
+}
+
+func addExternalIgluServer(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "POST" {
+		req.ParseForm()
+
+		vendorPrefixArr, checkVendor := req.Form["vendor_prefix"]
+		uriArr, checkUri := req.Form["uri"]
+		apikeyArr, checkApikey := req.Form["apikey"]
+		nameArr, checkName := req.Form["name"]
+		priorityArr, checkPriority := req.Form["priority"]
+		if !(checkVendor && checkUri && checkApikey && checkName && checkPriority) {
+			http.Error(resp, "missing parameter", 400)
+			return
+		}
+		uri := uriArr[0]
+		apikey := apikeyArr[0]
+		vendorPrefix := vendorPrefixArr[0]
+		name := nameArr[0]
+		priority, err := strconv.Atoi(priorityArr[0])
+		if err != nil {
+			http.Error(resp, "priority must be integer", 400)
+			return
+		}
+
+		if !isUrlReachable(uri) {
+			http.Error(resp, "Given URL is not reachable", 400)
+			return
+		}
+		if !isValidUuid(apikey) {
+			http.Error(resp, "Given apikey is not valid UUID.", 400)
+			return
+		}
+
+		externalIgluServer := ExternalIgluServer{
+			ConfigPath: config.Dirs.Config + "/" +
+				config.ConfigNames.IgluResolver,
+			IgluInfo: IgluInfo{
+				VendorPrefix: vendorPrefix,
+				Uri:          uri,
+				Apikey:       apikey,
+				Name:         name,
+				Priority:     priority,
+			},
+		}
+
+		err = externalIgluServer.addExternalIgluServer()
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+
+		err = restartService("streamEnrich")
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+		resp.WriteHeader(http.StatusOK)
+		io.WriteString(resp, "added successfully")
 	} else {
 		http.Error(resp, "", 404)
 	}

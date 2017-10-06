@@ -21,6 +21,7 @@ import ReactDOM = require("react-dom");
 import axios from 'axios';
 import RestartServicesSection from "./ControlPlaneComponents/RestartServices";
 import UploadEnrichmentsForm from "./ControlPlaneComponents/UploadEnrichments";
+import AddExternalIgluServerForm from "./ControlPlaneComponents/AddExternalIgluServer";
 
 export class ControlPlane extends React.Component<{}, {}> {
 
@@ -29,7 +30,8 @@ export class ControlPlane extends React.Component<{}, {}> {
       <div className="tab-content">
         <p>The buttons below can be used to interact with the internal systems of Snowplow Mini:</p>
         <RestartServicesSection />
-        <UploadEnrichmentsForm /> 
+        <UploadEnrichmentsForm />
+        <AddExternalIgluServerForm />
       </div>
     );
   }
