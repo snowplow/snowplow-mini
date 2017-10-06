@@ -45,6 +45,7 @@ func main() {
 	http.HandleFunc("/restart-services", restartServices)
 	http.HandleFunc("/enrichments", uploadEnrichments)
 	http.HandleFunc("/external-iglu", addExternalIgluServer)
+	http.HandleFunc("/local-iglu-apikey", addLocalIgluApikey)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
@@ -155,6 +156,53 @@ func addExternalIgluServer(resp http.ResponseWriter, req *http.Request) {
 		}
 
 		err = externalIgluServer.addExternalIgluServer()
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+
+		err = restartService("streamEnrich")
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+		resp.WriteHeader(http.StatusOK)
+		io.WriteString(resp, "added successfully")
+	} else {
+		http.Error(resp, "", 404)
+	}
+}
+
+func addLocalIgluApikey(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "POST" {
+		req.ParseForm()
+
+		igluApikeyArr, checkApikey := req.Form["local_iglu_apikey"]
+		if !checkApikey {
+			http.Error(resp, "missing parameter", 400)
+			return
+		}
+		igluApikey := igluApikeyArr[0]
+
+		if !isValidUuid(igluApikey) {
+			http.Error(resp, "Given apikey is not valid UUID", 400)
+			return
+		}
+
+		psqlInfos := PsqlInfos{
+			User:     config.Psql.User,
+			Password: config.Psql.Password,
+			Database: config.Psql.Database,
+			Addr:     config.Psql.Addr,
+		}
+
+		localIglu := LocalIglu{
+			ConfigPath: config.Dirs.Config + "/" +
+				config.ConfigNames.IgluResolver,
+			IgluApikey: igluApikey,
+			Psql:       psqlInfos,
+		}
+		err := localIglu.addApiKey()
 		if err != nil {
 			http.Error(resp, err.Error(), 500)
 			return

@@ -22,6 +22,7 @@ import axios from 'axios';
 import RestartServicesSection from "./ControlPlaneComponents/RestartServices";
 import UploadEnrichmentsForm from "./ControlPlaneComponents/UploadEnrichments";
 import AddExternalIgluServerForm from "./ControlPlaneComponents/AddExternalIgluServer";
+import AddLocalIgluApikeyForm from "./ControlPlaneComponents/AddLocalIgluApikey";
 
 export class ControlPlane extends React.Component<{}, {}> {
 
@@ -32,6 +33,7 @@ export class ControlPlane extends React.Component<{}, {}> {
         <RestartServicesSection />
         <UploadEnrichmentsForm />
         <AddExternalIgluServerForm />
+        <AddLocalIgluApikeyForm />
       </div>
     );
   }
