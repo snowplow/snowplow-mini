@@ -46,6 +46,7 @@ func main() {
 	http.HandleFunc("/enrichments", uploadEnrichments)
 	http.HandleFunc("/external-iglu", addExternalIgluServer)
 	http.HandleFunc("/local-iglu-apikey", addLocalIgluApikey)
+	http.HandleFunc("/credentials", changeUsernameAndPassword)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
@@ -215,6 +216,42 @@ func addLocalIgluApikey(resp http.ResponseWriter, req *http.Request) {
 		}
 		resp.WriteHeader(http.StatusOK)
 		io.WriteString(resp, "added successfully")
+	} else {
+		http.Error(resp, "", 404)
+	}
+}
+
+func changeUsernameAndPassword(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "POST" {
+		req.ParseForm()
+
+		newUsernameArr, checkUsername := req.Form["new_username"]
+		newPasswordArr, checkPassword := req.Form["new_password"]
+		if !(checkUsername && checkPassword) {
+			http.Error(resp, "missing parameter", 400)
+			return
+		}
+		newUsername := newUsernameArr[0]
+		newPassword := newPasswordArr[0]
+
+		err := changeCredentials(
+			config.Dirs.Config+"/"+config.ConfigNames.Caddy,
+			newUsername,
+			newPassword,
+		)
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+
+		err = restartService("caddy")
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+
+		resp.WriteHeader(http.StatusOK)
+		io.WriteString(resp, "changed successfully")
 	} else {
 		http.Error(resp, "", 404)
 	}
