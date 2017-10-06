@@ -47,6 +47,7 @@ func main() {
 	http.HandleFunc("/external-iglu", addExternalIgluServer)
 	http.HandleFunc("/local-iglu-apikey", addLocalIgluApikey)
 	http.HandleFunc("/credentials", changeUsernameAndPassword)
+	http.HandleFunc("/domain-name", addDomainName)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
@@ -252,6 +253,45 @@ func changeUsernameAndPassword(resp http.ResponseWriter, req *http.Request) {
 
 		resp.WriteHeader(http.StatusOK)
 		io.WriteString(resp, "changed successfully")
+	} else {
+		http.Error(resp, "", 404)
+	}
+}
+
+func addDomainName(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "POST" {
+		req.ParseForm()
+
+		domainNameArr, checkDomainName := req.Form["domain_name"]
+		if !checkDomainName {
+			http.Error(resp, "missing parameter", 400)
+			return
+		}
+		domainName := domainNameArr[0]
+
+		err := checkHostDomainName(domainName)
+		if err != nil {
+			http.Error(resp, err.Error(), 405)
+			return
+		}
+
+		err = changeDomainName(
+			config.Dirs.Config+"/"+config.ConfigNames.Caddy,
+			domainName,
+		)
+		if err != nil {
+			http.Error(resp, err.Error(), 405)
+			return
+		}
+
+		err = restartService("caddy")
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+
+		resp.WriteHeader(http.StatusOK)
+		io.WriteString(resp, "added successfully")
 	} else {
 		http.Error(resp, "", 404)
 	}

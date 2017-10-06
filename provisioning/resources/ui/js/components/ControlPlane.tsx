@@ -24,6 +24,7 @@ import UploadEnrichmentsForm from "./ControlPlaneComponents/UploadEnrichments";
 import AddExternalIgluServerForm from "./ControlPlaneComponents/AddExternalIgluServer";
 import AddLocalIgluApikeyForm from "./ControlPlaneComponents/AddLocalIgluApikey";
 import ChangeUsernamePasswordForm from "./ControlPlaneComponents/ChangeUsernamePassword";
+import AddDomainNameForm from "./ControlPlaneComponents/AddDomainName";
 
 export class ControlPlane extends React.Component<{}, {}> {
 
@@ -36,6 +37,7 @@ export class ControlPlane extends React.Component<{}, {}> {
         <AddExternalIgluServerForm />
         <AddLocalIgluApikeyForm />
         <ChangeUsernamePasswordForm />
+        <AddDomainNameForm />
       </div>
     );
   }
