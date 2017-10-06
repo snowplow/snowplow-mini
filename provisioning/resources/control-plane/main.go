@@ -21,13 +21,14 @@ package main
 
 import (
 	"flag"
-	"github.com/BurntSushi/toml"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
+
+	"github.com/BurntSushi/toml"
 )
 
 var configPath string
@@ -48,6 +49,7 @@ func main() {
 	http.HandleFunc("/local-iglu-apikey", addLocalIgluApikey)
 	http.HandleFunc("/credentials", changeUsernameAndPassword)
 	http.HandleFunc("/domain-name", addDomainName)
+	http.HandleFunc("/version", getSpminiVersion)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
@@ -122,26 +124,29 @@ func addExternalIgluServer(resp http.ResponseWriter, req *http.Request) {
 		apikeyArr, checkApikey := req.Form["apikey"]
 		nameArr, checkName := req.Form["name"]
 		priorityArr, checkPriority := req.Form["priority"]
-		if !(checkVendor && checkUri && checkApikey && checkName && checkPriority) {
+		if !(checkVendor && checkUri && checkName && checkPriority) {
 			http.Error(resp, "missing parameter", 400)
 			return
 		}
 		uri := uriArr[0]
-		apikey := apikeyArr[0]
+		apikey := ""
+		if checkApikey {
+			apikey = apikeyArr[0]
+		}
 		vendorPrefix := vendorPrefixArr[0]
 		name := nameArr[0]
 		priority, err := strconv.Atoi(priorityArr[0])
 		if err != nil {
-			http.Error(resp, "priority must be integer", 400)
+			http.Error(resp, "Priority must be an integer", 400)
 			return
 		}
 
-		if !isUrlReachable(uri) {
+		if !isURLReachable(uri) {
 			http.Error(resp, "Given URL is not reachable", 400)
 			return
 		}
-		if !isValidUuid(apikey) {
-			http.Error(resp, "Given apikey is not valid UUID.", 400)
+		if apikey != "" && !isValidUUID(apikey) {
+			http.Error(resp, "Given apikey is not a valid UUID.", 400)
 			return
 		}
 
@@ -186,7 +191,7 @@ func addLocalIgluApikey(resp http.ResponseWriter, req *http.Request) {
 		}
 		igluApikey := igluApikeyArr[0]
 
-		if !isValidUuid(igluApikey) {
+		if !isValidUUID(igluApikey) {
 			http.Error(resp, "Given apikey is not valid UUID", 400)
 			return
 		}
@@ -292,6 +297,21 @@ func addDomainName(resp http.ResponseWriter, req *http.Request) {
 
 		resp.WriteHeader(http.StatusOK)
 		io.WriteString(resp, "added successfully")
+	} else {
+		http.Error(resp, "", 404)
+	}
+}
+
+func getSpminiVersion(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "GET" {
+		versionBytes, err := ioutil.ReadFile(config.VersionFilePath)
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+		versionStr := string(versionBytes)
+		resp.WriteHeader(http.StatusOK)
+		io.WriteString(resp, versionStr)
 	} else {
 		http.Error(resp, "", 404)
 	}
