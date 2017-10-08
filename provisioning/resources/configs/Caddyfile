@@ -35,3 +35,7 @@
     without /control-plane
   }
 }
+
+*:3000 {
+  root /home/ubuntu/snowplow/ui
+}

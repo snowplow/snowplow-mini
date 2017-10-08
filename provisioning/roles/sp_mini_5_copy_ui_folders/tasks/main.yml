@@ -7,16 +7,3 @@
     src: "{{playbook_dir}}/resources/ui"
     dest: "{{main_dir}}"
     recursive: yes
-
-- name: Delete default nginx config
-  become: yes
-  file:
-    path: "/etc/nginx/sites-enabled/default"
-    state: absent
-
-- name: Copy snowplow-mini.conf under nginx config dir
-  become: yes
-  copy:
-    remote_src: true
-    src: "{{configs_dir}}/snowplow-mini.conf"
-    dest: "/etc/nginx/conf.d"

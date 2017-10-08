@@ -169,22 +169,6 @@
     dest: "/opt/kibana"
     state: link
 
-- name: Install nginx
-  become: yes
-  apt:
-    name: "nginx"
-    state: present
-    update_cache: yes
-    cache_valid_time: 3600
-
-- name: Install apache2-dev
-  become: yes
-  apt:
-    name: "apache2-dev"
-    state: present
-    update_cache: yes
-    cache_valid_time: 3600
-
 - name: Install Caddy
   become: yes
   shell: "curl https://getcaddy.com | bash"
