@@ -19,6 +19,12 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
 import axios from 'axios';
+import RestartServicesSection from "./ControlPlaneComponents/RestartServices";
+import UploadEnrichmentsForm from "./ControlPlaneComponents/UploadEnrichments";
+import AddExternalIgluServerForm from "./ControlPlaneComponents/AddExternalIgluServer";
+import AddLocalIgluApikeyForm from "./ControlPlaneComponents/AddLocalIgluApikey";
+import ChangeUsernamePasswordForm from "./ControlPlaneComponents/ChangeUsernamePassword";
+import AddDomainNameForm from "./ControlPlaneComponents/AddDomainName";
 
 export class ControlPlane extends React.Component<{}, {}> {
 
@@ -26,24 +32,13 @@ export class ControlPlane extends React.Component<{}, {}> {
     return (
       <div className="tab-content">
         <p>The buttons below can be used to interact with the internal systems of Snowplow Mini:</p>
-        <div className="tab-content">        
-          <h3>Restart all services:</h3>
-          <h4> Clear the cache for iglu schemas </h4>
-          <button type="button" onClick={this.restartAllServices.bind(this) }>Restart all services</button>
-        </div>
+        <RestartServicesSection />
+        <UploadEnrichmentsForm />
+        <AddExternalIgluServerForm />
+        <AddLocalIgluApikeyForm />
+        <ChangeUsernamePasswordForm />
+        <AddDomainNameForm />
       </div>
     );
-  }
-
-  private restartAllServices(): void {
-    alert("Restarting all services...")
-
-    axios.put('/control-plane/restart-services', {}, {})
-      .then(function (response) {
-        alert("All services are restarted successfully")
-      })
-      .catch(function (error) {
-        alert("Error while restarting services, you need to hard reset your server")
-      });
   }
 }

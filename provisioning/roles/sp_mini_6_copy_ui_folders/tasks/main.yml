@@ -1,0 +1,9 @@
+---
+- include_vars: ../../common_vars.yml
+
+- name: Copy UI folder under /home/ubuntu/snowplow
+  become: yes
+  synchronize:
+    src: "{{playbook_dir}}/resources/ui"
+    dest: "{{main_dir}}"
+    recursive: yes

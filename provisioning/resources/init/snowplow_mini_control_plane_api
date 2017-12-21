@@ -10,8 +10,8 @@
 ### END INIT INFO
 
 dir="/home/ubuntu/snowplow/bin/"
-cmd="./snowplow-mini-control-plane-api -scriptsPath=/home/ubuntu/snowplow/scripts/snowplow-mini-control-plane-api-scripts"
-user="ubuntu"
+cmd="$dir/snowplow-mini-control-plane-api -config=/home/ubuntu/snowplow/configs/control-plane-api.toml"
+user=""
 
 name="snowplow_mini_control_plane_api"
 pid_file="/var/run/$name.pid"
@@ -30,9 +30,8 @@ case "$1" in
         echo "Already started"
     else
         echo "Starting $name"
-        cd "$dir"
         if [ -z "$user" ]; then
-            sudo $cmd & 
+            sudo $cmd &
         else
             sudo -u "$user" $cmd &
         fi

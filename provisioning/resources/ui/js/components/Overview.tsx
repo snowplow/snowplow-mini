@@ -23,16 +23,16 @@ export class Overview extends React.Component<{}, {}> {
 
   public render() {
 
-    var collector: string = 'http://' + window.location.host;
-    var kibana: string = 'http://' + window.location.host + '/kibana/';
-    var head_plugin: string = 'http://' + window.location.host + '/elasticsearch/_plugin/head/';
-    var elasticsearch: string = 'http://' + window.location.host + '/elasticsearch';
+    var collector: string = location.protocol + '//' + window.location.host;
+    var kibana: string = location.protocol + '//' + window.location.host + '/kibana/';
+    var head_plugin: string = location.protocol + '//' + window.location.host + '/elasticsearch/_plugin/head/';
+    var elasticsearch: string = location.protocol + '//' + window.location.host + '/elasticsearch';
 
     return (
       <div className="tab-content">
         <p>
-          Snowplow Mini is, in essence, the Snowplow real time pipeline contained within a single box.  
-          In place of Kinesis Streams we are using named unix pipes and instead of distributing all of the applications across Autoscaling Groups they are deployed onto a single instance.
+          Snowplow Mini is, in essence, the Snowplow real time pipeline contained within a single box.
+          In place of Kinesis Streams we are using NSQ and instead of distributing all of the applications across Autoscaling Groups they are deployed onto a single instance.
         </p>
         <h3>1. Sending events</h3>
         <p>You can send events into Snowplow Mini automatically from the <a href="#/example-events">Example events</a> page.  Simply go to that page and click the sample event buttons.</p>
@@ -49,10 +49,11 @@ export class Overview extends React.Component<{}, {}> {
         </ul>
         <h3>The software stack installed: </h3>
         <ul>
-          <li>Snowplow Stream Collector 0.9.0</li>
-          <li>Snowplow Stream Enrich 0.10.0</li>
-          <li>Snowplow Elasticsearch Sink 0.8.0</li>
-          <li>Snowplow Iglu Server 0.8.0</li>
+          <li>Snowplow Stream Collector 0.11.0</li>
+          <li>Snowplow Stream Enrich 0.12.0</li>
+          <li>Snowplow Elasticsearch Sink 0.10.1</li>
+          <li>Snowplow Iglu Server 0.2.0</li>
+          <li>NSQ 1.0.0</li>
           <li>Elasticsearch 1.7.5</li>
           <li>Kibana 4.0.1</li>
         </ul>

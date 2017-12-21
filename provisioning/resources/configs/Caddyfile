@@ -1,4 +1,5 @@
-localhost:2000 {
+*:80 {
+  tls off
   basicauth "USERNAME_PLACEHOLDER" PASSWORD_PLACEHOLDER {
     /home
     /kibana
@@ -33,4 +34,8 @@ localhost:2000 {
   proxy /control-plane localhost:10000 {
     without /control-plane
   }
+}
+
+*:3000 {
+  root /home/ubuntu/snowplow/ui
 }

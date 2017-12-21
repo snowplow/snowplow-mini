@@ -1,0 +1,42 @@
+---
+- include_vars: ../../common_vars.yml
+
+- name: Set nsq data directory
+  set_fact:
+    nsq_data_dir: "{{main_dir}}/nsq-data"
+
+- name: Create user ubuntu and disable password
+  become: yes
+  shell: 'adduser ubuntu --disabled-password --gecos "" ;
+          passwd -d ubuntu'
+
+- name: creating directories
+  file: path={{item}} state=directory
+  with_items:
+    - "{{configs_dir}}"
+    - "{{staging_dir}}"
+    - "{{executables_dir}}"
+    - "{{es_dir}}"
+    - "{{scripts_dir}}"
+    - "{{init_dir}}"
+    - "{{ui_dir}}"
+    - "{{nsq_data_dir}}"
+
+#playbook_dir is ansible defined variable which stores top level ansible-playbook directory
+- name: Copy folders to the /home/ubuntu/snowplow
+  become: yes
+  block:
+    - synchronize:
+        src: "{{playbook_dir}}/resources/elasticsearch"
+        dest: "{{main_dir}}"
+        recursive: yes
+
+    - synchronize:
+        src: "{{playbook_dir}}/resources/configs"
+        dest: "{{main_dir}}"
+        recursive: yes
+
+    - synchronize:
+        src: "{{playbook_dir}}/resources/init"
+        dest: "{{main_dir}}"
+        recursive: yes

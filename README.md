@@ -17,35 +17,36 @@ An easily-deployable, single instance version of Snowplow that serves three use 
 * [x] Data is loaded into Elasticsearch
   - Can be queried directly or through a Kibana dashboard
   - Good and bad events are in distinct indexes
+* [x] Create UI to indicate what is happening with each of the different subsystems (collector, enrich etc.), so as to provide developers a very indepth way of understanding how the different Snowplow subsystems work with one another
 
 ## Topology
 
-Snowplow-Mini runs several distinct applications on the same box which are all linked by named pipes.  In a production deployment each instance could be an Autoscaling Group and each named pipe would be a distinct Kinesis Stream.
+Snowplow-Mini runs several distinct applications on the same box which are all linked by NSQ topics.  In a production deployment each instance could be an Autoscaling Group and each NSQ topic would be a distinct Kinesis Stream.
 
 * Scala Stream Collector:
   - Starts server listening on `http://< sp mini public ip>/` which events can be sent to.
-  - Sends "good" events to the `raw-events-pipe`
-  - Sends "bad" events to the `bad-1-pipe`
-* Stream Enrich
-  - Reads events in from the `raw-events-pipe`
-  - Sends "good" events to the `enriched-events-pipe`
-  - Sends "bad" events to the `bad-1-pipe`
-* Elasticsearch Sink Good
-  - Reads events in from the `enriched-events-pipe`
-  - Sends the events to the "good" index of the cluster
-  - On failure to insert writes error to `bad-1-pipe`
-* Elasticsearch Sink Bad
-  - Reads events in from the `bad-1-pipe`
-  - Sends the events to the "bad" index of the cluster
+  - Sends "good" events to the `RawEvents` NSQ topic
+  - Sends "bad" events to the `BadEvents` NSQ topic
+* Stream Enrich:
+  - Reads events in from the `RawEvents` NSQ topic
+  - Sends events which passed the enrichment process to the `EnrichedEvents` NSQ topic
+  - Sends events which failed the enrichment process to the `BadEvents` NSQ topic
+* Elasticsearch Sink Good:
+  - Reads events from the `EnrichedEvents` NSQ topic
+  - Sends those events to the `good` Elasticsearch index
+  - On failure to insert, writes errors to `BadElasticsearchEvents` NSQ topic
+* Elasticsearch Sink Bad:
+  - Reads events from the `BadEvents` NSQ topic
+  - Sends those events to the `bad` Elasticsearch index
+  - On failure to insert, writes errors to `BadElasticsearchEvents` NSQ topic
 
-These events can then be viewed from `http://< sp mini public ip>/kibana`.
+These events can then be viewed in Kibana at `http://< sp mini public ip>/kibana`.
 
 ![](https://raw.githubusercontent.com/snowplow/snowplow-mini/master/utils/topology/snowplow-mini-topology.jpg)
 
 ## Roadmap
 
 * [ ] Support loading data into Redshift. To give analysts / data teams a good idea to understand what Snowplow "does".
-* [ ] Create UI to indicate what is happening with each of the different subsystems (collector, enrich etc.), so as to provide developers a very indepth way of understanding how the different Snowplow subsystems work with one another
 
 ## Documentation
 
@@ -69,7 +70,7 @@ limitations under the License.
 [travis]: https://travis-ci.org/snowplow/snowplow-mini
 [travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
 
-[release-image]: http://img.shields.io/badge/release-0.3.0-blue.svg?style=flat
+[release-image]: http://img.shields.io/badge/release-0.4.0-blue.svg?style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
 [license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat

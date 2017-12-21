@@ -1,3 +1,23 @@
+Version 0.4.0 (2017-12-21)
+--------------------------
+Add Control Plane API call to write domain name to Caddyfile for automatic TLS (#118)
+Add Control Plane API call to change username and password for basic HTTP authentication (#117)
+Add Control Plane API call to add apikey for Iglu authentication (#116)
+Add Control Plane API call to put your own custom enrichments in Snowplow Mini (#66)
+Add Control Plane API call to add external Iglu schema registry to Snowplow Mini (#62)
+Add Control Plane API call to return the Snowplow Mini version (#128)
+Switch to using NSQ rather than named pipes (#24)
+Bump JavaScript Tracker to 2.8.2 (#71)
+Ensure UI links adhere to the current protocol being used (#127)
+Show Control Plane notifications in-page using react-alert (#119)
+Create index mappings on bootstrap (#104)
+Use Caddy instead of Nginx for serving the Snowplow Mini dashboard (#130)
+Add libffi-dev, libssl-dev, python-dev and markupsafe as dependencies (#133)
+Update build process to build Caddy from source (#132)
+Use "wait_for" module instead of "pause" in ansible roles (#125)
+Refactor user_data.sh script to use Control Plane API (#113)
+Upgrade pip version when launching vagrant box (#139)
+
 Version 0.3.0 (2017-08-30)
 --------------------------
 Get username and password for basic authentication via user_data.sh (#107)
