@@ -18,7 +18,11 @@
 
 import React = require('react');
 import ReactDOM = require("react-dom");
+import AlertContainer from 'react-alert';
+import alertOptions from './AlertOptions'
 import axios from 'axios';
+
+var alertContainer = new AlertContainer();
 
 export default React.createClass({
   getInitialState () {
@@ -43,6 +47,7 @@ export default React.createClass({
   },
 
   sendFormData()  {
+    var alertShow = alertContainer.show
     var _this = this
 
     // there is no need to make 'disabled' false after
@@ -64,10 +69,21 @@ export default React.createClass({
       // 400 in everytime and this will be handled by catch section
     })
     .catch(function (error) {
+      alertShow("You will lose connection after change the username and \
+                password because of server restarting. Reload the page  \
+                after submission and login with your new username and password.", {
+        time: 10000,
+        type: 'info'
+      });
     });
   },
 
   handleSubmit(event) {
+    var alertShow = alertContainer.show
+    alertShow('Please wait...', {
+      time: 2000,
+      type: 'info'
+    });
     event.preventDefault();
     this.sendFormData();
   },
@@ -89,6 +105,7 @@ export default React.createClass({
             <button className="btn btn-primary" type="submit" disabled={this.state.disabled}>Submit</button>
           </div>
         </form>
+        <AlertContainer ref={a => alertContainer = a} {...alertOptions} />
       </div>
     );
   }
