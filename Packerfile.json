@@ -7,7 +7,7 @@
     {
       "type": "amazon-ebs",
       "region": "us-east-1",
-      "source_ami": "ami-05dddc6f",
+      "source_ami": "ami-b2132ed7",
       "instance_type": "t2.medium",
       "ssh_username": "ubuntu",
       "ami_name": "snowplow-mini-{{user `version`}}-{{ timestamp }}-hvm-ebs-amd64",
