@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo service elasticsearch start
-sudo service iglu_server_0.2.0 start
+sudo service iglu_server_0.3.0 start
 sudo service snowplow_stream_collector start
 sudo service snowplow_stream_enrich start
 sudo service snowplow_elasticsearch_loader_good start

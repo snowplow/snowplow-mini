@@ -10,10 +10,10 @@
 ### END INIT INFO
 
 dir="/home/ubuntu/snowplow/bin/"
-cmd="java -Dconfig.file=/home/ubuntu/snowplow/configs/iglu-server.conf -jar $dir/iglu-server-0.2.0.jar com.snowplowanalytics.iglu.server.Boot"
+cmd="java -jar $dir/iglu-server-0.3.0.jar --config /home/ubuntu/snowplow/configs/iglu-server.conf"
 user="ubuntu"
 
-name="iglu_server_0.2.0"
+name="iglu_server_0.3.0"
 pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"

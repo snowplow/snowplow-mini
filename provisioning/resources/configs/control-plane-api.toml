@@ -18,7 +18,7 @@ stream_collector = "snowplow_stream_collector"
 stream_enrich = "snowplow_stream_enrich"
 es_loader_good = "snowplow_elasticsearch_loader_good"
 es_loader_bad = "snowplow_elasticsearch_loader_bad"
-iglu = "iglu_server_0.2.0"
+iglu = "iglu_server_0.3.0"
 caddy = "caddy_init"
 
 [PSQL]
