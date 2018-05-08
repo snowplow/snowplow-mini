@@ -10,6 +10,24 @@
   shell: 'adduser ubuntu --disabled-password --gecos "" ;
           passwd -d ubuntu'
 
+- name: Insert logrotate configuration for Snowplow Services
+  become: yes
+  copy:
+    dest: "/etc/logrotate.d/snowplow-apps"
+    content: |
+      /var/log/snowplow*.log /var/log/snowplow*.err /var/log/nsq*.log  /var/log/nsq*.err /var/log/iglu_server_0.3.0.log /var/log/iglu_server_0.3.0.err {
+          hourly
+          rotate 3
+          missingok
+          notifempty
+          create 644 root root
+      }
+    mode: 0644
+
+- name: Change logrotate cron to hourly
+  become: yes
+  shell: 'mv /etc/cron.daily/logrotate /etc/cron.hourly && service cron restart'
+
 - name: creating directories
   file: path={{item}} state=directory
   with_items:
