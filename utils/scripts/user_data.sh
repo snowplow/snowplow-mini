@@ -1,22 +1,23 @@
 #!/bin/bash
 
-# NOTE: Use `uuidgen` to create new `uid`
-iglu_server_super_uid="980ae3ab-3aba-4ffe-a3c2-3b2e24e2ffce"
+set -e -x
 
 domain_name=example.com
-
-username=USERNAME_PLACEHOLDER
-password=PASSWORD_PLACEHOLDER
+username='username'
+password='password'
+iglu_server_super_uid='deadbeef-dead-beef-dead-beefdeadbeef'
 
 # DO NOT ALTER BELOW #
-sudo service snowplow_mini_control_plane_api start
-sleep 2
+sudo service iglu_server_0.3.0 restart
+sudo service snowplow_mini_control_plane_api restart
 
-#add apiKey to iglu-resolver.json for auth in the iglu server
-curl -XPOST -d "iglu_server_super_uuid=$iglu_server_super_uid" localhost:10000/local-iglu
+sleep 10
 
-#add domain name to Caddyfile
+# Add domain name to Caddyfile
 curl -XPOST -d "domain_name=$domain_name" localhost:10000/domain-name
 
-#add username and password to Caddyfile for basic auth
+# Add username and password to Caddyfile for basic auth
 curl -XPOST -d "new_username=$username&new_password=$password" localhost:10000/credentials
+
+# Add apiKey to iglu-resolver.json for auth in the iglu server
+curl -XPOST -d "local_iglu_apikey=$iglu_server_super_uid" localhost:10000/local-iglu-apikey
