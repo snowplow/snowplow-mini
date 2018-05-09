@@ -19,6 +19,7 @@
     - caddy_init
     - nsqd_init
     - nsqlookupd_init
+    - nsqadmin_init
 
 - name: Configure for inits for calling at boot time
   become: yes
@@ -35,3 +36,4 @@
     - caddy_init
     - nsqd_init
     - nsqlookupd_init
+    - nsqadmin_init

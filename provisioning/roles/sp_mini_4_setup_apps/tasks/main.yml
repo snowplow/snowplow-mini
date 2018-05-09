@@ -126,7 +126,7 @@
   shell: "tar xvfz {{staging_dir}}/{{nsq_package}} --directory {{staging_dir}}"
 
 - name: Copy NSQ binaries to executables_dir
-  shell: "cp {{staging_dir}}/{{nsq_bin_dir}}/nsqd {{staging_dir}}/{{nsq_bin_dir}}/nsqlookupd {{executables_dir}}"
+  shell: "cp {{staging_dir}}/{{nsq_bin_dir}}/nsqd {{staging_dir}}/{{nsq_bin_dir}}/nsqlookupd {{staging_dir}}/{{nsq_bin_dir}}/nsqadmin {{executables_dir}}"
 
 - name: Create snowplow user on Postgresql
   become: true
