@@ -33,13 +33,21 @@
     state: started
   register: NsqlookupdStarted
 
+- name: Starting nsqadmin
+  become: yes
+  service:
+    name: nsqadmin_init
+    state: started
+  register: NsqadminStarted
+
 - name: Wait for the NSQ services to start
   wait_for:
     port: "{{item}}"
     delay: 1
   with_items:
-    - 4150
+    - 4151
     - 4161
+    - 4171
 
 - name: Starting Kibana
   become: yes
