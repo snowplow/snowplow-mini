@@ -4,7 +4,7 @@
 - name: Set variables
   set_fact:
     stream_collector_package: 'snowplow_scala_stream_collector_0.11.0.zip'
-    stream_enrich_package: 'snowplow_stream_enrich_0.12.0.zip'
+    stream_enrich_package: 'snowplow_stream_enrich_nsq_0.16.1.zip'
     es_loader_package: 'snowplow_elasticsearch_loader_http_0.10.1.zip'
     iglu_server_package: 'iglu_server_0.2.0.zip'
     kibana_v: '4.0.1'
