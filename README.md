@@ -4,7 +4,7 @@
 
 An easily-deployable, single instance version of Snowplow that serves three use cases:
 
-1. Gives a Snowplow consumer (e.g. an analyst / data team / marketing team) a way to quickly understand what Snowplow "does" i.e. what you put it at one end and take out of the other
+1. Gives a Snowplow consumer (e.g. an analyst / data team / marketing team) a way to quickly understand what Snowplow "does" i.e. what you put in at one end and take out of the other
 2. Gives developers new to Snowplow an easy way to start with Snowplow and understand how the different pieces fit together
 3. Gives people running Snowplow a quick way to debug tracker updates (because they can)
 
