@@ -10,7 +10,7 @@
 ### END INIT INFO
 
 dir="/home/ubuntu/snowplow/bin/"
-cmd="java -jar snowplow-stream-enrich-0.12.0.jar --config /home/ubuntu/snowplow/configs/snowplow-stream-enrich.hocon --resolver file:/home/ubuntu/snowplow/configs/iglu-resolver.json --enrichments file:/home/ubuntu/snowplow/configs/enrichments"
+cmd="java -jar snowplow-stream-enrich-nsq-0.16.1.jar --config /home/ubuntu/snowplow/configs/snowplow-stream-enrich.hocon --resolver file:/home/ubuntu/snowplow/configs/iglu-resolver.json --enrichments file:/home/ubuntu/snowplow/configs/enrichments"
 user="ubuntu"
 
 name="snowplow_stream_enrich"
