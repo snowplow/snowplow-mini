@@ -1,3 +1,11 @@
+Version 0.5.0 (2018-05-29)
+--------------------------
+Bump Packer to 1.2.3 (#163)
+Bump Stream Enrich to 0.16.1 (#161)
+Add log rotation for internal services to prevent out of disk issues (#151)
+Update base Ubuntu AMI being used (#147)
+Make build process of Caddy deterministic (#158)
+
 Version 0.4.0 (2017-12-21)
 --------------------------
 Add Control Plane API call to write domain name to Caddyfile for automatic TLS (#118)
