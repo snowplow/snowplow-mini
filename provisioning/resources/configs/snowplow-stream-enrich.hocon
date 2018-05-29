@@ -1,4 +1,4 @@
-# Copyright (c) 2013-2017 Snowplow Analytics Ltd. All rights reserved.
+# Copyright (c) 2013-2018 Snowplow Analytics Ltd. All rights reserved.
 #
 # This program is licensed to you under the Apache License Version 2.0, and
 # you may not use this file except in compliance with the Apache License
@@ -15,33 +15,13 @@
 # configuration options for Stream Enrich.
 
 enrich {
-  # Sources currently supported are:
-  # 'kinesis' for reading Thrift-serialized records from a Kinesis stream
-  # 'kafka' for reading Thrift-serialized records from a Kafka topic
-  # 'stdin' for reading Base64-encoded Thrift-serialized records from stdin
-  # 'nsq' for reading Base64-encoded Thrift-serialized records from NSQ
-  source = nsq
-
-  # Sinks currently supported are:
-  # 'kinesis' for writing enriched events to one Kinesis stream and invalid events to another.
-  # 'kafka' for writing enriched events to one Kafka topic and invalid events to another.
-  # 'stdouterr' for writing enriched events to stdout and invalid events to stderr.
-  #    Using "sbt assembly" and "java -jar" is recommended to disable sbt logging.
-  # 'nsq' for writing enriched events to one NSQ topic and invalid events to another.
-  sink = nsq
-
-  # AWS credentials
-  # If both are set to 'default', use the default AWS credentials provider chain.
-  # If both are set to 'iam', use AWS IAM Roles to provision credentials.
-  # If both are set to 'env', use environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
-  aws {
-    accessKey = ""
-    secretKey = ""
-  }
 
   streams {
-    # Stream/topic where the raw events to be enriched are located
-    in.raw = RawEvents
+
+    in {
+      # Stream/topic where the raw events to be enriched are located
+      raw = RawEvents
+    }
 
     out {
       # Stream/topic where the events that were successfully enriched will end up
@@ -53,73 +33,33 @@ enrich {
       # Possible partition keys are: event_id, event_fingerprint, domain_userid, network_userid,
       # user_ipaddress, domain_sessionid, user_fingerprint.
       # Refer to https://github.com/snowplow/snowplow/wiki/canonical-event-model to know what the
-      # possible parittion keys correspond to.
+      # possible partition keys correspond to.
       # Otherwise, the partition key will be a random UUID.
+      # Note: Nsq does not make use of partition key.
       partitionKey = ""
     }
 
-    kinesis {
-      # Region where the streams are located
-      region = ""
+    sourceSink {
+      enabled = nsq
 
-      # Maximum number of records to get from Kinesis per call to GetRecords
-      maxRecords = 10000
-
-      # LATEST: most recent data.
-      # TRIM_HORIZON: oldest available data.
-      # Note: This only effects the first run of this application
-      # on a stream.
-      initialPosition = TRIM_HORIZON
-
-      # Minimum and maximum backoff periods, in milliseconds
-      backoffPolicy {
-        minBackoff = 50
-        maxBackoff = 500
-      }
-    }
-
-    # Kafka configuration
-    kafka {
-      brokers = ""
-
-      # Number of retries to perform before giving up on sending a record
-      retries = 0
-    }
-
-    # config for nsq
-    nsq {
-      # Channel name for raw event source
+      # Channel name for nsq source
       rawChannel = StreamEnrichChannel
-
       # Host name for nsqd
       host = "127.0.0.1"
-
-      # TCP port for nsqd
+      # TCP port for nsqd, 4150 by default
       port = 4150
-
       # Host name for lookupd
       lookupHost = "127.0.0.1"
-
-      # Port for nsqlookupd
+      # HTTP port for nsqlookupd, 4161 by default
       lookupPort = 4161
     }
 
-    # After enrichment, events are accumulated in a buffer before being sent to Kinesis/Kafka.
-    # NOTE: Buffering is not supported by NSQ.
-    # The buffer is emptied whenever:
-    # - the number of stored records reaches recordLimit or
-    # - the combined size of the stored records reaches byteLimit or
-    # - the time in milliseconds since it was last emptied exceeds timeLimit when
-    #   a new event enters the buffer
     buffer {
       byteLimit = 4500000
-      recordLimit = 500 # Not supported by Kafka; will be ignored
+      recordLimit = 500
       timeLimit = 5000
     }
 
-    # Used for a DynamoDB table to maintain stream state.
-    # Used as the Kafka consumer group ID.
-    # You can set it automatically using: "SnowplowEnrich-$\\{enrich.streams.in.raw\\}"
     appName = ""
   }
 }

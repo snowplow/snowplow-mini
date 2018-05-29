@@ -1,30 +1,31 @@
 {
-   "variables": {
-     "version": "0.4.0"
-   },
-
   "builders": [
     {
-      "type": "amazon-ebs",
-      "region": "us-east-1",
-      "source_ami": "ami-05dddc6f",
-      "instance_type": "t2.medium",
-      "ssh_username": "ubuntu",
-      "ami_name": "snowplow-mini-{{user `version`}}-{{ timestamp }}-hvm-ebs-amd64",
-      "ami_groups": [ "all" ],
-      "ami_regions": "us-east-2,us-west-1,us-west-2,ca-central-1,eu-west-1,eu-central-1,eu-west-2,ap-southeast-1,ap-southeast-2,ap-northeast-2,ap-northeast-1,ap-south-1,sa-east-1",
       "ami_description": "Snowplow Mini - The Snowplow Pipeline in a box",
+      "ami_groups": [
+        "all"
+      ],
+      "ami_name": "snowplow-mini-{{user `version`}}-{{ timestamp }}-hvm-ebs-amd64",
+      "ami_regions": "us-east-2,us-west-1,us-west-2,ca-central-1,eu-west-1,eu-central-1,eu-west-2,ap-southeast-1,ap-southeast-2,ap-northeast-2,ap-northeast-1,ap-south-1,sa-east-1",
+      "instance_type": "t2.medium",
+      "region": "us-east-1",
+      "source_ami": "ami-58167327",
+      "ssh_username": "ubuntu",
       "tags": {
         "OS_Version": "Ubuntu-14.04",
         "Release": "{{user `version`}}"
-      }
+      },
+      "type": "amazon-ebs"
     }
   ],
-
+  "post-processors": [],
   "provisioners": [
     {
-      "type": "ansible",
-      "playbook_file": "provisioning/without_building_ui_and_go_projects.yml"
+      "playbook_file": "provisioning/without_building_ui_and_go_projects.yml",
+      "type": "ansible"
     }
-  ]
+  ],
+  "variables": {
+    "version": "0.5.0"
+  }
 }

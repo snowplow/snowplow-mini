@@ -40,11 +40,24 @@
     src: "{{control_plane_dir}}/snowplow-mini-control-plane-api"
     dest: "{{executables_dir}}"
 
-- name: Get Caddy source code
+- name: Create caddy source dir
+  become: yes
   environment:
-    PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
     GOPATH: "{{ go_path }}"
-  shell: "go get -u github.com/mholt/caddy"
+  file:
+    path: $GOPATH/src/github.com/mholt
+    state: directory
+
+- git:
+    repo: 'https://github.com/mholt/caddy.git'
+    dest: /usr/local/src/caddy
+    version: v0.10.10
+
+- name: Locate caddy
+  become: yes
+  environment:
+    GOPATH: "{{ go_path }}"
+  command: mv /usr/local/src/caddy $GOPATH/src/github.com/mholt/
 
 - name: Get Caddyserver builds
   environment:
