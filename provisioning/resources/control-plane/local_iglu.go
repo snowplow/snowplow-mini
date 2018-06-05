@@ -51,9 +51,7 @@ func (li LocalIglu) addApiKeyToConfig() error {
 
 	for i, repo := range igluConf.Data.Repos {
 		igluUri := repo.Conn.Http["uri"]
-		if strings.Contains(igluUri, "localhost") ||
-			strings.Contains(igluUri, "127.0.0.1") {
-
+		if strings.Contains(igluUri, "iglu-server") {
 			igluConf.Data.Repos[i].Conn.Http["apikey"] = li.IgluApikey
 		}
 	}
@@ -67,6 +65,7 @@ func (li LocalIglu) addApiKeyToConfig() error {
 }
 
 func (li LocalIglu) insertApiKeyToDb() error {
+
 	db := pg.Connect(&pg.Options{
 		User:     li.Psql.User,
 		Password: li.Psql.Password,

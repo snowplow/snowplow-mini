@@ -1,0 +1,43 @@
+---
+- include_vars: ../../common_vars.yml
+
+- name: Setup the docker repository and install docker
+  sudo: yes
+  shell: |
+    apt-get update
+    apt-get install apt-transport-https ca-certificates curl software-properties-common --yes
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    apt-get update && apt-get install docker-ce --yes
+
+- name: Download docker-compose
+  sudo: yes
+  shell: curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+
+- name: Apply executable permissions to the docker-compose binary
+  sudo: yes
+  shell: chmod +x /usr/local/bin/docker-compose
+
+- name: Copy docker-compose.yml
+  copy: src={{ item.src }} dest={{ item.dest }} owner=ubuntu group=ubuntu mode=0644
+  with_items:
+    - { src: '../files/docker-compose.yml', dest: '/home/ubuntu/snowplow/' }
+
+- name: Create & set permissions of elasticsearch data directory
+  become: yes
+  shell: mkdir {{main_dir}}/elasticsearch/data && chown -R 1000:1000 {{main_dir}}/elasticsearch/data
+
+- name: Deploy snowplow mini
+  become: yes
+  shell: cd {{main_dir}} && docker-compose up -d && sleep 20
+
+- name: Wait for Elasticsearch port 9200 to become open on the host, don't start checking for 10 seconds
+  wait_for:
+    port: 9200
+    delay: 10
+    sleep: 5
+    connect_timeout: 60
+
+- name: Create ES indexes & Kibana index patterns & NSQ topics
+  become: yes
+  shell: sh {{init_dir}}/create.sh

@@ -35,7 +35,8 @@ var configPath string
 var config ControlPlaneConfig
 
 func main() {
-	configFlag := flag.String("config", "", "Control Plane API config file")
+	configFlag := flag.String("config", "/home/ubuntu/snowplow/configs/control-plane-api.toml",
+							"Control Plane API config file")
 	flag.Parse()
 	configPath = *configFlag
 
@@ -209,6 +210,7 @@ func addLocalIgluApikey(resp http.ResponseWriter, req *http.Request) {
 			IgluApikey: igluApikey,
 			Psql:       psqlInfos,
 		}
+
 		err := localIglu.addApiKey()
 		if err != nil {
 			http.Error(resp, err.Error(), 500)

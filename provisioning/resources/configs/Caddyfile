@@ -4,12 +4,14 @@
     /home
     /kibana
     /elasticsearch
+    /nsqadmin
     /control-plane
-    /_plugin
   }
   redir /home /home/
-  redir /kibana /kibana/
   redir /iglu-server /iglu-server/
+  redir /kibana /kibana/
+  redir /nsqadmin /nsqadmin/
+  redir /elasticsearch /elasticsearch/
 
   proxy / localhost:8080
 
@@ -20,16 +22,29 @@
   proxy /kibana localhost:5601 {
     without /kibana
   }
+  proxy /app/kibana localhost:5601
+  proxy /app/timelion localhost:5601
+  proxy /bundles localhost:5601
+  proxy /plugins localhost:5601
+  proxy /ui localhost:5601
+  proxy /api localhost:5601
 
   proxy /iglu-server localhost:8081 {
     without /iglu-server
   }
-  proxy /api localhost:8081
+  proxy /api-docs localhost:8081
+
+  proxy /nsqadmin localhost:4171 {
+    without /nsqadmin
+  }
+  proxy /static localhost:4171
+  proxy /api/counter localhost:4171
+  proxy /api/nodes localhost:4171
+  proxy /api/topics localhost:4171
 
   proxy /elasticsearch localhost:9200 {
     without /elasticsearch
   }
-  proxy /_plugin localhost:9200
 
   proxy /control-plane localhost:10000 {
     without /control-plane

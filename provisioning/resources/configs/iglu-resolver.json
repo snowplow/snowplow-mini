@@ -24,7 +24,7 @@
         ],
         "connection": {
           "http": {
-            "uri": "http://localhost:8081/api",
+            "uri": "http://iglu-server:8081/api",
             "apikey": "PLACEHOLDER"
           }
         }

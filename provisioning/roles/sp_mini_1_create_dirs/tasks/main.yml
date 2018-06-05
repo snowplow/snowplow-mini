@@ -10,26 +10,8 @@
   shell: 'adduser ubuntu --disabled-password --gecos "" ;
           passwd -d ubuntu'
 
-- name: Insert logrotate configuration for Snowplow Services
-  become: yes
-  copy:
-    dest: "/etc/logrotate.d/snowplow-apps"
-    content: |
-      /var/log/snowplow*.log /var/log/snowplow*.err /var/log/nsq*.log  /var/log/nsq*.err /var/log/iglu_server*.log /var/log/iglu_server*.err {
-          hourly
-          rotate 3
-          missingok
-          notifempty
-          copytruncate
-      }
-    mode: 0644
-
-- name: Change logrotate cron to hourly
-  become: yes
-  shell: 'mv /etc/cron.daily/logrotate /etc/cron.hourly && service cron restart'
-
 - name: creating directories
-  file: path={{item}} state=directory
+  file: path={{item}} state=directory mode=0755
   with_items:
     - "{{configs_dir}}"
     - "{{staging_dir}}"
@@ -48,16 +30,19 @@
         src: "{{playbook_dir}}/resources/elasticsearch"
         dest: "{{main_dir}}"
         recursive: yes
+        archive: no
 
     - synchronize:
         src: "{{playbook_dir}}/resources/configs"
         dest: "{{main_dir}}"
         recursive: yes
+        archive: no
 
     - synchronize:
         src: "{{playbook_dir}}/resources/init"
         dest: "{{main_dir}}"
         recursive: yes
+        archive: no
 
 - name: Install NTP to prevent clock drifts
   become: yes

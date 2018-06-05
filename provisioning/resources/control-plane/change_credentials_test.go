@@ -38,7 +38,6 @@ func TestChangeCredentials(t *testing.T) {
     /kibana
     /elasticsearch
     /control-plane
-    /_plugin
   }
 `
 	expectedCaddyConfigHeadAfter :=
@@ -49,7 +48,6 @@ func TestChangeCredentials(t *testing.T) {
     /kibana
     /elasticsearch
     /control-plane
-    /_plugin
   }
 `
 	dir, err := ioutil.TempDir("", "testDir")

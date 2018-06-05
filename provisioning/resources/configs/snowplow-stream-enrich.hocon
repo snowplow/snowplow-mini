@@ -19,38 +19,21 @@ enrich {
   streams {
 
     in {
-      # Stream/topic where the raw events to be enriched are located
       raw = RawEvents
     }
 
     out {
-      # Stream/topic where the events that were successfully enriched will end up
       enriched = EnrichedEvents
-      # Stream/topic where the event that failed enrichment will be stored
       bad = BadEnrichedEvents
-
-      # How the output stream/topic will be partitioned.
-      # Possible partition keys are: event_id, event_fingerprint, domain_userid, network_userid,
-      # user_ipaddress, domain_sessionid, user_fingerprint.
-      # Refer to https://github.com/snowplow/snowplow/wiki/canonical-event-model to know what the
-      # possible partition keys correspond to.
-      # Otherwise, the partition key will be a random UUID.
-      # Note: Nsq does not make use of partition key.
       partitionKey = ""
     }
 
     sourceSink {
       enabled = nsq
-
-      # Channel name for nsq source
       rawChannel = StreamEnrichChannel
-      # Host name for nsqd
-      host = "127.0.0.1"
-      # TCP port for nsqd, 4150 by default
+      host = nsqd
       port = 4150
-      # Host name for lookupd
-      lookupHost = "127.0.0.1"
-      # HTTP port for nsqlookupd, 4161 by default
+      lookupHost = nsqlookupd
       lookupPort = 4161
     }
 
@@ -60,6 +43,6 @@ enrich {
       timeLimit = 5000
     }
 
-    appName = ""
+    appName = "snowplow-stream-enrich"
   }
 }
