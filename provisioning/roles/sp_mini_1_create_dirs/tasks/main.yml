@@ -58,3 +58,7 @@
         src: "{{playbook_dir}}/resources/init"
         dest: "{{main_dir}}"
         recursive: yes
+
+- name: Install NTP to prevent clock drifts
+  become: yes
+  shell: apt-get update && apt-get install ntp -y
