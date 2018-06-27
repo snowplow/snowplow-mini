@@ -16,6 +16,17 @@
         "Release": "{{user `version`}}"
       },
       "type": "amazon-ebs"
+    },
+    {
+      "type": "googlecompute",
+      "image_description": "Snowplow Mini - The Snowplow Pipeline in a box",
+      "image_name": "snowplow-mini-{{user `version`}}-{{timestamp}}",
+      "machine_type": "n1-standard-2",
+      "account_file": "account.json",
+      "project_id": "snowplow-images",
+      "source_image_family": "ubuntu-1404-lts",
+      "ssh_username": "ubuntu",
+      "zone": "us-central1-a"
     }
   ],
   "post-processors": [],

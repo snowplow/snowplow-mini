@@ -31,7 +31,12 @@ Vagrant.configure("2") do |config|
 
   # Requires Vagrant 1.7.0+
   config.push.define "publish", strategy: "local-exec" do |push|
-    push.script = "vagrant/push.bash"
+    push.inline = <<-SCRIPT
+      # comment/uncomment below to enable/disable pushing to AWS
+      # vagrant/push.bash aws
+      # comment/uncomment below to enable/disable pushing to GCP
+      vagrant/push.bash gcp
+    SCRIPT
   end
 
 end

@@ -2,7 +2,7 @@
 - include_vars: ../../common_vars.yml
 
 - name: Setup the docker repository and install docker
-  sudo: yes
+  become: yes
   shell: |
     apt-get update
     apt-get install apt-transport-https ca-certificates curl software-properties-common --yes
@@ -11,11 +11,11 @@
     apt-get update && apt-get install docker-ce --yes
 
 - name: Download docker-compose
-  sudo: yes
+  become: yes
   shell: curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 
 - name: Apply executable permissions to the docker-compose binary
-  sudo: yes
+  become: yes
   shell: chmod +x /usr/local/bin/docker-compose
 
 - name: Copy docker-compose.yml

@@ -1,7 +1,7 @@
 ---
 - name: Install Typescript, Browserify and Uglify
   command: "{{ item }}" 
-  sudo: yes
+  become: yes
   with_items:
     - "npm install -g typescript@2.3.2"
     - "npm install -g tsd@0.6.5"
