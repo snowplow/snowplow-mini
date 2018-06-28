@@ -46,6 +46,7 @@ func main() {
 
 	http.HandleFunc("/restart-services", restartServices)
 	http.HandleFunc("/enrichments", uploadEnrichments)
+	http.HandleFunc("/iglu-config", uploadIgluConfig)
 	http.HandleFunc("/external-iglu", addExternalIgluServer)
 	http.HandleFunc("/local-iglu-apikey", addLocalIgluApikey)
 	http.HandleFunc("/credentials", changeUsernameAndPassword)
@@ -104,6 +105,56 @@ func uploadEnrichments(resp http.ResponseWriter, req *http.Request) {
 		io.WriteString(f, fileContent)
 
 		err = restartService("streamEnrich")
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+
+		resp.WriteHeader(http.StatusOK)
+		io.WriteString(resp, "uploaded successfully")
+	} else {
+		http.Error(resp, "", 404)
+	}
+}
+
+func uploadIgluConfig(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "POST" {
+		// maxMemory bytes of body's file parts are stored in memory,
+		// with the remainder stored on disk in temporary files
+		var maxMemory int64 = 32 << 20
+		err := req.ParseMultipartForm(maxMemory)
+
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+
+		file, _, err := req.FormFile("igluserverhocon")
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+		defer file.Close()
+
+		fileContentBytes, err := ioutil.ReadAll(file)
+		fileContent := string(fileContentBytes)
+		f, err := os.OpenFile(config.Dirs.Config+"/"+config.ConfigNames.IgluServer, os.O_WRONLY|os.O_CREATE, 0666)
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+		defer f.Close()
+
+		// Uploaded Iglu Server configuration can be shorter than existing one
+		// Which would make iglu server configuration invalid
+		// Truncating to 0 bytes and seeking I/O offset to the beginning
+		// Prevents that possibility
+		f.Truncate(0)
+		f.Seek(0, 0)
+		// Now we can write to config file in peace
+		io.WriteString(f, fileContent)
+
+		err = restartService("iglu")
 		if err != nil {
 			http.Error(resp, err.Error(), 500)
 			return

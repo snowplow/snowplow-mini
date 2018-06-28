@@ -25,6 +25,7 @@ import AddExternalIgluServerForm from "./ControlPlaneComponents/AddExternalIgluS
 import AddLocalIgluApikeyForm from "./ControlPlaneComponents/AddLocalIgluApikey";
 import ChangeUsernamePasswordForm from "./ControlPlaneComponents/ChangeUsernamePassword";
 import AddDomainNameForm from "./ControlPlaneComponents/AddDomainName";
+import IgluServerConfigForm from "./ControlPlaneComponents/IgluServerConfig";
 
 export class ControlPlane extends React.Component<{}, {}> {
 
@@ -34,6 +35,7 @@ export class ControlPlane extends React.Component<{}, {}> {
         <p>The buttons below can be used to interact with the internal systems of Snowplow Mini:</p>
         <RestartServicesSection />
         <UploadEnrichmentsForm />
+        <IgluServerConfigForm />
         <AddExternalIgluServerForm />
         <AddLocalIgluApikeyForm />
         <ChangeUsernamePasswordForm />
