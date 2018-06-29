@@ -1,3 +1,19 @@
+Version 0.6.0 (2018-07-02)
+--------------------------
+Bump Stream Enrich to 0.18.0 (#174)
+Publish mini to bigger instance types (#173)
+Add publication of image for Google Compute Engine (#36)
+Add support for external Postgres for Iglu Server (#154)
+Assemble the apps using Docker Compose (#23)
+Extend copyright to 2018 (#164)
+Add gitter badge (#157)
+Install NTP (#167)
+Add ami-factory credentials to .travis.yml (#143)
+Fix typo in README (#160)
+Expose nsqadmin UI (#144)
+Update example user_data.sh (#148)
+Ensure Stream Enrich resolver uses cacheTtl of one (#137)
+
 Version 0.5.0 (2018-05-29)
 --------------------------
 Bump Packer to 1.2.3 (#163)
