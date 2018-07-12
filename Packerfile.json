@@ -5,9 +5,9 @@
       "ami_groups": [
         "all"
       ],
-      "ami_name": "snowplow-mini-{{user `version`}}-{{ timestamp }}-hvm-ebs-amd64",
+      "ami_name": "snowplow-mini-{{user `aws_version`}}-{{user `sp_mini_size`}}-{{ timestamp }}-hvm-ebs-amd64",
       "ami_regions": "us-east-2,us-west-1,us-west-2,ca-central-1,eu-west-1,eu-central-1,eu-west-2,ap-southeast-1,ap-southeast-2,ap-northeast-2,ap-northeast-1,ap-south-1,sa-east-1",
-      "instance_type": "t2.medium",
+      "instance_type": "{{user `aws_instance_type`}}",
       "region": "us-east-1",
       "source_ami": "ami-58167327",
       "ssh_username": "ubuntu",
@@ -20,8 +20,8 @@
     {
       "type": "googlecompute",
       "image_description": "Snowplow Mini - The Snowplow Pipeline in a box",
-      "image_name": "snowplow-mini-{{user `version`}}-{{timestamp}}",
-      "machine_type": "n1-standard-2",
+      "image_name": "snowplow-mini-{{user `gcp_version`}}-{{user `sp_mini_size`}}-{{timestamp}}",
+      "machine_type": "{{user `gcp_machine_type`}}",
       "account_file": "account.json",
       "project_id": "snowplow-images",
       "source_image_family": "ubuntu-1404-lts",
@@ -37,6 +37,10 @@
     }
   ],
   "variables": {
-    "version": "0.5.0"
+    "aws_version": "0.5.0",
+    "gcp_version": "0-5-0",
+    "gcp_machine_type": "{{env `GCP_MACHINE_TYPE`}}",
+    "aws_instance_type": "{{env `AWS_INSTANCE_TYPE`}}",
+    "sp_mini_size": "{{env `SP_MINI_SIZE`}}"
   }
 }

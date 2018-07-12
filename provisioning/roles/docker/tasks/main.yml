@@ -18,10 +18,11 @@
   become: yes
   shell: chmod +x /usr/local/bin/docker-compose
 
-- name: Copy docker-compose.yml
+- name: Copy docker-compose.yml and its environment file
   copy: src={{ item.src }} dest={{ item.dest }} owner=ubuntu group=ubuntu mode=0644
   with_items:
     - { src: '../files/docker-compose.yml', dest: '/home/ubuntu/snowplow/' }
+    - { src: '../files/.env', dest: '/home/ubuntu/snowplow/' }
 
 - name: Create & set permissions of elasticsearch data directory
   become: yes

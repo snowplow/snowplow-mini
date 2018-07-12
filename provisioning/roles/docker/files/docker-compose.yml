@@ -8,7 +8,7 @@ services:
     environment:
       # Swapping needs to be disabled for performance and node stability
       - "bootstrap.memory_lock=true"
-      - ES_JAVA_OPTS=-Xms4g -Xmx4g
+      - ES_JAVA_OPTS=-Xms${ES_JVM_SIZE} -Xmx${ES_JVM_SIZE}
     volumes:
       - /home/ubuntu/snowplow/elasticsearch/data:/usr/share/elasticsearch/data
       - /home/ubuntu/snowplow/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
@@ -53,7 +53,7 @@ services:
         max-size: "1M"
         max-file: "10"
     environment:
-      - "SP_JAVA_OPTS=-Xmx512m"
+      - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
   
   elasticsearch-loader-bad:
     image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:0.10.2
@@ -69,7 +69,7 @@ services:
         max-size: "1M"
         max-file: "10"
     environment:
-      - "SP_JAVA_OPTS=-Xmx512m"
+      - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
   nsqlookupd:
     image: nsqio/nsq:v1.0.0-compat
@@ -123,7 +123,7 @@ services:
         max-size: "1M"
         max-file: "10"
     environment:
-      - "SP_JAVA_OPTS=-Xmx512m"
+      - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
   stream-enrich:
     image: snowplow-docker-registry.bintray.io/snowplow/stream-enrich-nsq:0.16.1
@@ -144,7 +144,7 @@ services:
         max-size: "1M"
         max-file: "10"
     environment:
-      - "SP_JAVA_OPTS=-Xmx512m"
+      - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
   postgres:
     image: postgres:9.5
