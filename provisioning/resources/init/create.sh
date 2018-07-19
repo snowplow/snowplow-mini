@@ -40,4 +40,5 @@ curl -X POST \
 curl -X POST localhost:4151/topic/create?topic=RawEvents && \
 curl -X POST localhost:4151/topic/create?topic=BadEvents && \
 curl -X POST localhost:4151/topic/create?topic=EnrichedEvents && \
-curl -X POST localhost:4151/topic/create?topic=BadEnrichedEvents
+curl -X POST localhost:4151/topic/create?topic=BadEnrichedEvents && \
+curl -X POST localhost:4151/topic/create?topic=PiiEvents

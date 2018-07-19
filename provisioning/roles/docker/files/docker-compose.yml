@@ -126,13 +126,13 @@ services:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
   stream-enrich:
-    image: snowplow-docker-registry.bintray.io/snowplow/stream-enrich-nsq:0.16.1
+    image: snowplow-docker-registry.bintray.io/snowplow/stream-enrich-nsq:0.18.0
     container_name: stream-enrich-nsq
     command: [
       "--config", "/snowplow/config/snowplow-stream-enrich.hocon",
       "--resolver", "file:/snowplow/config/iglu-resolver.json",
       "--enrichments", "file:/snowplow/config/enrichments",
-      "--force-ip-lookups-download"
+      "--force-cached-files-download"
     ]
     restart: always
     depends_on:

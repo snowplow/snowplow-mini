@@ -25,6 +25,7 @@ enrich {
     out {
       enriched = EnrichedEvents
       bad = BadEnrichedEvents
+      pii = PiiEvents
       partitionKey = ""
     }
 
