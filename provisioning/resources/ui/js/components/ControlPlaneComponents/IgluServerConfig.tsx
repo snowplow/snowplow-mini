@@ -27,55 +27,47 @@ var alertContainer = new AlertContainer();
 export default React.createClass({
   getInitialState () {
     return {
-      new_username: '',
-      new_password: '',
+      data: new FormData(),
       disabled: false
     };
   },
 
-  handleChange(evt) {
-    if (evt.target.name == 'new_username'){
-      this.setState({
-        new_username: evt.target.value
-      });
-    }
-    else if (evt.target.name == 'new_password'){
-      this.setState({
-        new_password: evt.target.value
-      });
-    }
+  uploadNewFile(evt) {
+    this.state.data.append('igluserverhocon', evt.target.files[0])
   },
 
   sendFormData()  {
     var alertShow = alertContainer.show
     var _this = this
 
-    // there is no need to make 'disabled' false after
-    // because connection will be lost after request is sent
-    // and page must be loaded again
     _this.setState({
       disabled: true
     });
 
-    var params = new URLSearchParams();
-    params.append('new_username', this.state.new_username)
-    params.append('new_password', this.state.new_password)
-
-    var _this = this
-    axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-    axios.post('/control-plane/credentials', params, {})
+    axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+    axios.post('/control-plane/iglu-config', this.state.data, {})
     .then(function (response) {
-      // there is no need to this part because status will be
-      // 400 in everytime and this will be handled by catch section
+      setInitState()
+      alertShow('Uploaded successfully', {
+        time: 2000,
+        type: 'success'
+      });
     })
     .catch(function (error) {
-      alertShow("You will lose connection after change the username and \
-                password because of server restarting. Reload the page  \
-                after submission and login with your new username and password.", {
-        time: 10000,
-        type: 'info'
+      setInitState()
+      alertShow('Error: ' + error.response.data, {
+        time: 2000,
+        type: 'error'
       });
     });
+
+    function setInitState() {
+      _this.setState({
+        iglu_server_uri: "",
+        iglu_server_apikey: "",
+        disabled: false
+      });
+    }
   },
 
   handleSubmit(event) {
@@ -89,20 +81,15 @@ export default React.createClass({
   },
 
   render() {
-    return  (
+    return (
       <div className="tab-content">
-        <h4>Change username and password for basic http authentication: </h4>
+        <h4>Upload Iglu Server config file:</h4>
         <form action="" onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label htmlFor="new_username">Username: </label>
-            <input className="form-control" name="new_username" ref="new_username" required type="text" onChange={this.handleChange} value={this.state.new_username} />
+            <input className="form-control" name="igluserverhocon" ref="igluserverhocon" required type="file" onChange={this.uploadNewFile}/>
           </div>
           <div className="form-group">
-            <label htmlFor="new_password">Password: </label>
-            <input className="form-control" name="new_password" ref="new_password" required type="password" onChange={this.handleChange} value={this.state.new_password} />
-          </div>
-          <div className="form-group">
-            <button className="btn btn-primary" type="submit" disabled={this.state.disabled}>Submit</button>
+            <button className="btn btn-primary" type="submit" disabled={this.state.disabled}>Upload Iglu Server config file</button>
           </div>
         </form>
         <AlertContainer ref={a => alertContainer = a} {...alertOptions} />

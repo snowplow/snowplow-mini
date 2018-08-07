@@ -1,32 +1,24 @@
 {
-  "schema": "iglu:com.snowplowanalytics.snowplow.enrichments/pii_enrichment_config/jsonschema/1-0-0",
+  "schema": "iglu:com.snowplowanalytics.snowplow.enrichments/pii_enrichment_config/jsonschema/2-0-0",
   "data": {
     "vendor": "com.snowplowanalytics.snowplow.enrichments",
     "name": "pii_enrichment_config",
-    "enabled": false,
+    "emitEvent": true,
+    "enabled": true,
     "parameters": {
       "pii": [
         {
-          "pojo": {
-            "field": "user_id"
-          }
-        },
-        {
-          "pojo": {
-            "field": "user_fingerprint"
-          }
-        },
-        {
           "json": {
             "field": "unstruct_event",
-            "schemaCriterion": "iglu:com.mailchimp/subscribe/jsonschema/1-0-*",
-            "jsonPath": "$.data.['email', 'ip_opt']"
+            "schemaCriterion": "iglu:com.snowplowanalytics.snowplow.enrichments/pii_enrichment_config/jsonschema/2-*-*",
+            "jsonPath": "$.data.['vendor']"
           }
         }
       ],
       "strategy": {
         "pseudonymize": {
-          "hashFunction": "SHA-256"
+          "hashFunction": "SHA-1",
+          "salt": "pepper123"
         }
       }
     }

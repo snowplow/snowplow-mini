@@ -9,29 +9,32 @@
     dest: "/etc/init.d"
     mode: 0755
   with_items:
-    - kibana4_init
+    - snowplow_mini
     - snowplow_mini_control_plane_api
-    - snowplow_stream_collector
-    - snowplow_stream_enrich
-    - snowplow_elasticsearch_loader_good
-    - snowplow_elasticsearch_loader_bad
-    - iglu_server_0.2.0
     - caddy_init
-    - nsqd_init
-    - nsqlookupd_init
 
 - name: Configure for inits for calling at boot time
   become: yes
   shell: "update-rc.d {{item}} defaults"
   with_items:
-    - kibana4_init
+    - snowplow_mini
     - snowplow_mini_control_plane_api
-    - snowplow_stream_collector
-    - snowplow_stream_enrich
-    - snowplow_elasticsearch_loader_good
-    - snowplow_elasticsearch_loader_bad
-    - iglu_server_0.2.0
-    - elasticsearch
     - caddy_init
-    - nsqd_init
-    - nsqlookupd_init
+
+- name: Start UI and Control Plane
+  become: yes
+  shell: service snowplow_mini_control_plane_api start && service caddy_init start
+
+- name: Increase mmap count to recommended 262144 for Elasticsearch
+  become: yes
+  shell: echo "vm.max_map_count=262144" >> /etc/sysctl.conf && service procps start
+
+- cron:
+    name: "Add cronjob to crop ES good index's docs older than a week"
+    special_time: weekly
+    job: /usr/bin/curl -s -X POST http://localhost:9200/good/_delete_by_query -H 'Content-Type:application/json' -d '{ "query" :{ "range" :{ "collector_tstamp" :{ "lt" :"now-1w/d" } } } }' > /dev/null 2>&1
+
+- cron:
+    name: "Add cronjob to crop ES bad index's docs older than a week"
+    special_time: weekly
+    job: /usr/bin/curl -s -X POST http://localhost:9200/bad/_delete_by_query -H 'Content-Type:application/json' -d '{ "query" :{ "range" :{ "failure_tstamp" :{ "lt" :"now-1w/d" } } } }' > /dev/null 2>&1

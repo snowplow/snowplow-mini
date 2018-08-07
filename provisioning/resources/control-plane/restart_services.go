@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2017 Snowplow Analytics Ltd.
+ * Copyright (c) 2016-2018 Snowplow Analytics Ltd.
  * All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
@@ -35,38 +35,34 @@ func restartService(service string) error {
 	}
 
 	if val, ok := initMap[service]; ok {
-		restartCommand := []string{"service", val, "restart"}
-
-		cmd := exec.Command("/bin/bash", restartCommand...)
-		err := cmd.Run()
-		if err != nil {
-			return err
+		if service == "caddy" {
+			restartCommand := []string{"service", val, "restart"}
+			cmd := exec.Command("/bin/bash", restartCommand...)
+			err := cmd.Run()
+			if err != nil {
+				return err
+			}
+			return nil
+		} else {
+			restartCommandArgs := []string{"-f", "/home/ubuntu/snowplow/docker-compose.yml", 
+											"restart", val}
+			cmd := exec.Command("/usr/local/bin/docker-compose", restartCommandArgs...)
+			err := cmd.Run()
+			if err != nil {
+				return err
+			}
+			return nil
 		}
-		return nil
 	}
-	return errors.New("unrecognized service")
+	return errors.New("unrecognized service: " + service)
 }
 
 func restartSPServices() error {
-	err := restartService("streamCollector")
+	restartCommandArgs := []string{"-f", "/home/ubuntu/snowplow/docker-compose.yml", "restart"}
+	cmd := exec.Command("/usr/local/bin/docker-compose", restartCommandArgs...)
+	err := cmd.Run()
 	if err != nil {
 		return err
 	}
-
-	err = restartService("streamEnrich")
-	if err != nil {
-		return err
-	}
-
-	err = restartService("esLoaderGood")
-	if err != nil {
-		return err
-	}
-
-	err = restartService("esLoaderBad")
-	if err != nil {
-		return err
-	}
-
 	return nil
 }

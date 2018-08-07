@@ -25,7 +25,6 @@ export class Overview extends React.Component<{}, {}> {
 
     var collector: string = location.protocol + '//' + window.location.host;
     var kibana: string = location.protocol + '//' + window.location.host + '/kibana/';
-    var head_plugin: string = location.protocol + '//' + window.location.host + '/elasticsearch/_plugin/head/';
     var elasticsearch: string = location.protocol + '//' + window.location.host + '/elasticsearch';
 
     return (
@@ -38,7 +37,7 @@ export class Overview extends React.Component<{}, {}> {
         <p>You can send events into Snowplow Mini automatically from the <a href="#/example-events">Example events</a> page.  Simply go to that page and click the sample event buttons.</p>
         <p>Alternatively, you can setup any of the Snowplow trackers to send data to this endpoint: {collector}</p>
         <h3>2. Viewing the events</h3>
-        <p>You can view the events that have been sent to Elasticsearch in the <a href={kibana}>Kibana Dashboard</a> or the <a href={head_plugin}>Head Plugin</a>.</p>
+        <p>You can view the events that have been sent to Elasticsearch in the <a href={kibana}>Kibana Dashboard</a> or the Head Plugin.</p>
         <p>You can also submit queries directly to the <a href={elasticsearch}>Elasticsearch endpoint</a>.</p>
         <h3>3. Understanding how Snowplow Mini works</h3>
         <h3>Quicklinks: </h3>
@@ -49,13 +48,14 @@ export class Overview extends React.Component<{}, {}> {
         </ul>
         <h3>The software stack installed: </h3>
         <ul>
-          <li>Snowplow Stream Collector 0.11.0</li>
-          <li>Snowplow Stream Enrich NSQ 0.16.1</li>
-          <li>Snowplow Elasticsearch Sink 0.10.1</li>
-          <li>Snowplow Iglu Server 0.2.0</li>
-          <li>NSQ 1.0.0</li>
-          <li>Elasticsearch 1.7.5</li>
-          <li>Kibana 4.0.1</li>
+          <li>Snowplow Stream Collector NSQ 0.13.0</li>
+          <li>Snowplow Stream Enrich NSQ 0.18.0</li>
+          <li>Snowplow Elasticsearch Loader 0.10.1</li>
+          <li>Snowplow Iglu Server 0.3.0</li>
+          <li>Postgres 9.5</li>
+          <li>NSQ v1.0.0-compat</li>
+          <li>Elasticsearch-OSS 6.3.1</li>
+          <li>Kibana-OSS 6.3.1</li>
         </ul>
         <h3>Stack topology: </h3>
         <div>

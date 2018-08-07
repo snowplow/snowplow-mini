@@ -14,29 +14,21 @@
     },
     "mappings": {
         "good": {
-            "_timestamp" : {
-                "enabled" : "yes",
-                "path" : "collector_tstamp"
-            },
-            "_ttl": {
-              "enabled": true,
-              "default": "604800000"
-            },
             "properties": {
                 "app_id": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "br_colordepth": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "br_cookies": {
                     "type": "boolean"
                 },
                 "br_family": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "br_features_director": {
                     "type": "boolean"
@@ -66,24 +58,24 @@
                     "type": "boolean"
                 },
                 "br_lang": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "br_name": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "br_renderengine": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "br_type": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "br_version": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "br_viewheight": {
                     "type": "long"
@@ -96,8 +88,8 @@
                     "format": "dateOptionalTime"
                 },
                 "doc_charset": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "doc_height": {
                     "type": "long"
@@ -106,15 +98,15 @@
                     "type": "long"
                 },
                 "domain_sessionid": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "domain_sessionidx": {
                     "type": "long"
                 },
                 "domain_userid": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "dvce_ismobile": {
                     "type": "boolean"
@@ -134,106 +126,106 @@
                     "format": "dateOptionalTime"
                 },
                 "dvce_type": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "etl_tstamp": {
                     "type": "date",
                     "format": "dateOptionalTime"
                 },
                 "event": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "event_id": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "geo_location": {
                     "type": "geo_point"
                 },
                 "mkt_campaign": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "mkt_content": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "mkt_medium": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "mkt_source": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "mkt_term": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "name_tracker": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "network_userid": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "os_family": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "os_manufacturer": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "os_name": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "os_timezone": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "page_referrer": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "page_title": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "page_url": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "page_urlfragment": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "page_urlhost": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "page_urlpath": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "page_urlport": {
                     "type": "long"
                 },
                 "page_urlquery": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "page_urlscheme": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "platform": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "pp_xoffset_max": {
                     "type": "long"
@@ -248,79 +240,79 @@
                     "type": "long"
                 },
                 "refr_medium": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "refr_source": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "refr_term": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "refr_urlfragment": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "refr_urlhost": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "refr_urlpath": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "refr_urlport": {
                     "type": "long"
                 },
                 "refr_urlquery": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "refr_urlscheme": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "se_action": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "se_category": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "se_label": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "user_fingerprint": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "user_id": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "user_ipaddress": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "useragent": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "v_collector": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "v_etl": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 },
                 "v_tracker": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": true
                 }
             }
         }

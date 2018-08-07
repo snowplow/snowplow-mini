@@ -12,17 +12,18 @@ config = "/home/ubuntu/snowplow/configs" #directory which all the configs are in
 [config_file_names]
 caddy = "Caddyfile"
 iglu_resolver = "iglu-resolver.json"
+iglu_server = "iglu-server.conf"
 
 [init_scripts]
-stream_collector = "snowplow_stream_collector"
-stream_enrich = "snowplow_stream_enrich"
-es_loader_good = "snowplow_elasticsearch_loader_good"
-es_loader_bad = "snowplow_elasticsearch_loader_bad"
-iglu = "iglu_server_0.2.0"
+stream_collector = "scala-stream-collector"
+stream_enrich = "stream-enrich"
+es_loader_good = "elasticsearch-loader-good"
+es_loader_bad = "elasticsearch-loader-bad"
+iglu = "iglu-server"
 caddy = "caddy_init"
 
 [PSQL]
 user = "snowplow"
 password = "snowplow"
 database = "iglu"
-adddress = "127.0.0.1:5432"
+address = "127.0.0.1:5433"

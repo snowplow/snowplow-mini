@@ -7,8 +7,7 @@
 
   roles:
     - sp_mini_1_create_dirs
-    - sp_mini_2_install_postgresl
     - sp_mini_4_setup_apps
     - sp_mini_6_copy_ui_folders
     - sp_mini_7_setup_init
-    - sp_mini_8_configure
+    - docker

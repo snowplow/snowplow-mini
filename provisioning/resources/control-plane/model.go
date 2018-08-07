@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2017 Snowplow Analytics Ltd.
+ * Copyright (c) 2016-2018 Snowplow Analytics Ltd.
  * All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
@@ -27,6 +27,7 @@ type directories struct {
 type configFileNames struct {
 	Caddy        string
 	IgluResolver string `toml:"iglu_resolver"`
+	IgluServer   string `toml:"iglu_server"`
 }
 
 type initScripts struct {

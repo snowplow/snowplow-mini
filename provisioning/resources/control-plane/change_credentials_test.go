@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2017 Snowplow Analytics Ltd.
+ * Copyright (c) 2016-2018 Snowplow Analytics Ltd.
  * All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
@@ -38,7 +38,6 @@ func TestChangeCredentials(t *testing.T) {
     /kibana
     /elasticsearch
     /control-plane
-    /_plugin
   }
 `
 	expectedCaddyConfigHeadAfter :=
@@ -49,7 +48,6 @@ func TestChangeCredentials(t *testing.T) {
     /kibana
     /elasticsearch
     /control-plane
-    /_plugin
   }
 `
 	dir, err := ioutil.TempDir("", "testDir")

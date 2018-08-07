@@ -1,10 +1,13 @@
 # Snowplow-Mini
 
-[![Build Status][travis-image]][travis] [![Release][release-image]][releases] [![License][license-image]][license]
+[![Join the chat at https://gitter.im/snowplow/snowplow-mini](https://badges.gitter.im/snowplow/snowplow-mini.svg)](https://gitter.im/snowplow/snowplow-mini?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status][travis-image]][travis]
+[![Release][release-image]][releases]
+[![License][license-image]][license]
 
 An easily-deployable, single instance version of Snowplow that serves three use cases:
 
-1. Gives a Snowplow consumer (e.g. an analyst / data team / marketing team) a way to quickly understand what Snowplow "does" i.e. what you put it at one end and take out of the other
+1. Gives a Snowplow consumer (e.g. an analyst / data team / marketing team) a way to quickly understand what Snowplow "does" i.e. what you put in at one end and take out of the other
 2. Gives developers new to Snowplow an easy way to start with Snowplow and understand how the different pieces fit together
 3. Gives people running Snowplow a quick way to debug tracker updates (because they can)
 
@@ -70,7 +73,7 @@ limitations under the License.
 [travis]: https://travis-ci.org/snowplow/snowplow-mini
 [travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
 
-[release-image]: http://img.shields.io/badge/release-0.5.0-blue.svg?style=flat
+[release-image]: http://img.shields.io/badge/release-0.6.0-blue.svg?style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
 [license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
