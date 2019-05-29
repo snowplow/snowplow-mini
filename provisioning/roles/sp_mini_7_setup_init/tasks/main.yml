@@ -11,7 +11,7 @@
   with_items:
     - snowplow_mini
     - snowplow_mini_control_plane_api
-    - caddy_init
+    - caddy
 
 - name: Configure for inits for calling at boot time
   become: yes
@@ -19,11 +19,15 @@
   with_items:
     - snowplow_mini
     - snowplow_mini_control_plane_api
-    - caddy_init
+    - caddy
 
-- name: Start UI and Control Plane
+- name: Start Caddy
   become: yes
-  shell: service snowplow_mini_control_plane_api start && service caddy_init start
+  shell: systemctl start caddy
+
+- name: Start Control Plane
+  become: yes
+  shell: systemctl start snowplow_mini_control_plane_api
 
 - cron:
     name: "Add cronjob to crop ES good index's docs older than a week"

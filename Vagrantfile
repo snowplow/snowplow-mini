@@ -28,21 +28,4 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell do |sh|
     sh.path = "vagrant/up.bash"
   end
-
-  # Requires Vagrant 1.7.0+
-  config.push.define "publish", strategy: "local-exec" do |push|
-    push.inline = <<-SCRIPT
-      # comment/uncomment below to enable/disable pushing to AWS/GCP
-      # or configure instance type large/xlarge/xxlarge
-
-      # vagrant/push.bash aws large
-      # vagrant/push.bash aws xlarge
-      # vagrant/push.bash aws xxlarge
-
-      # vagrant/push.bash gcp large
-      # vagrant/push.bash gcp xlarge
-      # vagrant/push.bash gcp xxlarge
-    SCRIPT
-  end
-
 end

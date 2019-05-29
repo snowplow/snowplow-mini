@@ -9,7 +9,7 @@
 # Description:       Enable service provided by daemon.
 ### END INIT INFO
 
-dir="/home/ubuntu/snowplow/bin/"
+dir="/home/ubuntu/snowplow/bin"
 cmd="$dir/snowplow-mini-control-plane-api -config=/home/ubuntu/snowplow/configs/control-plane-api.toml"
 user=""
 

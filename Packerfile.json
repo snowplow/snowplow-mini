@@ -13,7 +13,7 @@
       "ssh_username": "ubuntu",
       "tags": {
         "OS_Version": "Ubuntu-16.04",
-        "Release": "{{user `version`}}"
+        "Release": "{{user `aws_version`}}"
       },
       "type": "amazon-ebs"
     },
@@ -22,7 +22,6 @@
       "image_description": "Snowplow Mini - The Snowplow Pipeline in a box",
       "image_name": "snowplow-mini-{{user `gcp_version`}}-{{user `sp_mini_size`}}-{{timestamp}}",
       "machine_type": "{{user `gcp_machine_type`}}",
-      "account_file": "account.json",
       "project_id": "snowplow-images",
       "source_image_family": "ubuntu-1604-lts",
       "ssh_username": "ubuntu",
@@ -32,8 +31,11 @@
   "post-processors": [],
   "provisioners": [
     {
-      "playbook_file": "provisioning/without_building_ui_and_go_projects.yml",
-      "type": "ansible"
+      "playbook_file": "provisioning/publish.yml",
+      "type": "ansible",
+      "extra_arguments": [
+        "--become"
+      ]
     }
   ],
   "variables": {

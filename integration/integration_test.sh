@@ -7,7 +7,7 @@ while [  $COUNTER -lt 10 ]; do
   curl http://localhost:8080/i
   let COUNTER=COUNTER+1
 done
-sleep 90
+sleep 120
 
 # Assertions
 good_count="$(curl --silent -XGET 'http://localhost:9200/good/good/_count' | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["count"]')"

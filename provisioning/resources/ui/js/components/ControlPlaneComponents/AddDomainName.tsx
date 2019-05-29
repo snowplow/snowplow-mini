@@ -61,9 +61,9 @@ export default React.createClass({
       // 400 in everytime and this will be handled by catch section
     })
     .catch(function (error) {
-      alertShow("You will lose connection after change the username and \
-                password because of server restarting. Reload the page  \
-                after submission and login with your new username and password.", {
+      alertShow("You will lose connection after domain name update \
+                due to a required server restart. Reload the page  \
+                after submission.", {
         time: 10000,
         type: 'info'
       });

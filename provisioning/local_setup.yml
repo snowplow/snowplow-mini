@@ -1,8 +1,4 @@
 ---
-# This playbook is used for provisioning of the vagrant machine.
-# All tools for compilation of the Control Plane API, Caddy Server
-# and UI is setup to the vagrant machine in here.
-# Additionally, Snowplow Mini environment is made ready to use locally.
 - name: apply all scripts
   hosts: all
 

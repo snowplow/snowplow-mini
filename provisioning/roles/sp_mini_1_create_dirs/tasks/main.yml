@@ -25,25 +25,8 @@
 #playbook_dir is ansible defined variable which stores top level ansible-playbook directory
 - name: Copy folders to the /home/ubuntu/snowplow
   become: yes
-  block:
-    - synchronize:
-        src: "{{playbook_dir}}/resources/elasticsearch"
-        dest: "{{main_dir}}"
-        recursive: yes
-        archive: no
-
-    - synchronize:
-        src: "{{playbook_dir}}/resources/configs"
-        dest: "{{main_dir}}"
-        recursive: yes
-        archive: no
-
-    - synchronize:
-        src: "{{playbook_dir}}/resources/init"
-        dest: "{{main_dir}}"
-        recursive: yes
-        archive: no
-
-- name: Install NTP to prevent clock drifts
-  become: yes
-  shell: apt-get update && apt-get install ntp -y
+  copy: src={{ item.src }} dest={{ item.dest }} owner=ubuntu group=ubuntu mode=0644
+  with_items:
+    - { src: "{{playbook_dir}}/resources/elasticsearch", dest: "{{main_dir}}" }
+    - { src: "{{playbook_dir}}/resources/configs", dest: "{{main_dir}}" }
+    - { src: "{{playbook_dir}}/resources/init", dest: "{{main_dir}}" }

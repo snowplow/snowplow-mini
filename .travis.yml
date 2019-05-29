@@ -1,26 +1,35 @@
 ---
 sudo: required
-dist: trusty
+dist: xenial
 language: go
 
-go:
-  - 1.8
-
-services:
-  - postgresql
+go: 1.12
 
 before_install:
+  - openssl aes-256-cbc -K $encrypted_44efaf791086_key -iv $encrypted_44efaf791086_iv -in BIN.enc -out BIN -d
+  - export GOOGLE_APPLICATION_CREDENTIALS=$TRAVIS_BUILD_DIR/BIN
   - sudo apt-get update -qq
+  - sudo apt-get install -y language-pack-en python-pip python-paramiko=1.16.0-1ubuntu0.2 libffi-dev libssl-dev python-dev
+  - sudo pip install --upgrade pip
 
 install:
-  - sudo pip install setuptools
-  - sudo pip install ansible
+  - sudo pip install markupsafe==1.1.1
+  - sudo pip install setuptools==40.8.0
+  - sudo pip install ansible==2.8.1
 
-before_script:
-  - ansible-playbook -i provisioning/inventory provisioning/with_building_ui_and_go_projects.yml --connection=local --sudo
+before_script: ansible-playbook -i provisioning/inventory provisioning/local_setup.yml --connection=local --become
 
-script:
-  - ./integration/integration_test.sh
+script: ./integration/integration_test.sh
+
+deploy:
+  - provider: script
+    # travis builds timeout after 10 min of not seeing any output, hence the below work-around
+    # default travis_wait method doesn't show output until command finishes while this way allows us to see it
+    script: (while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &) && (./.travis/deploy.sh $TRAVIS_TAG)
+    skip_cleanup: true
+    on:
+      condition: '"$(.travis/is_valid_tag.sh $TRAVIS_TAG)" == "" && $? == 0'
+      tags: true
 
 env:
   global:
