@@ -10,13 +10,14 @@
   with_items:
     - curl
     - unzip
+    - resolvconf
 
 - name: Add Google DNS nameserver
   lineinfile:
-    dest="/etc/resolvconf/resolv.conf.d/base"
+    dest="/etc/resolvconf/resolv.conf.d/head"
     line="nameserver 8.8.8.8"
   become: yes
 
-- name: Update nameserver list
-  command: "resolvconf -u"
+- name: Restart resolveconf service
   become: yes
+  shell: service resolvconf restart
