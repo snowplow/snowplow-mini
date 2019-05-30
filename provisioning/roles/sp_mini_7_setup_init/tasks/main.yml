@@ -25,10 +25,6 @@
   become: yes
   shell: service snowplow_mini_control_plane_api start && service caddy_init start
 
-- name: Increase mmap count to recommended 262144 for Elasticsearch
-  become: yes
-  shell: echo "vm.max_map_count=262144" >> /etc/sysctl.conf && service procps start
-
 - cron:
     name: "Add cronjob to crop ES good index's docs older than a week"
     special_time: weekly
