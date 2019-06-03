@@ -1,3 +1,15 @@
+Version 0.6.1 (2019-07-01)
+--------------------------
+Overhaul build process (#195)
+Bump Stream Enrich to 0.21.0 (#198)
+Remove the PII default enrichment (#193)
+Add iglu central mirror to the resolver (#185)
+Bump UI dependencies' versions (#196)
+Fix enrichment upload mechanism (#194)
+Fix initialization of dockerized services (#182)
+Correct 0.6.0 release date in CHANGELOG (#179)
+Bump base Ubuntu image to 16.04 (#190)
+
 Version 0.6.0 (2018-08-07)
 --------------------------
 Bump Stream Enrich to 0.18.0 (#174)
