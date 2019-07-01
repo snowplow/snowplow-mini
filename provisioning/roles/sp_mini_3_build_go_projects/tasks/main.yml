@@ -36,40 +36,15 @@
 
 - name: Copy Control API to executables dir
   become: yes
-  synchronize:
-    src: "{{control_plane_dir}}/snowplow-mini-control-plane-api"
-    dest: "{{executables_dir}}"
+  shell: cp {{control_plane_dir}}/snowplow-mini-control-plane-api {{executables_dir}}
 
-- name: Create caddy source dir
-  become: yes
-  environment:
-    GOPATH: "{{ go_path }}"
-  file:
-    path: $GOPATH/src/github.com/mholt
-    state: directory
-
-- git:
-    repo: 'https://github.com/mholt/caddy.git'
-    dest: /usr/local/src/caddy
-    version: v0.10.10
-
-- name: Locate caddy
-  become: yes
-  environment:
-    GOPATH: "{{ go_path }}"
-  command: mv /usr/local/src/caddy $GOPATH/src/github.com/mholt/
-
-- name: Get Caddyserver builds
+- name: Get Caddyserver build
   environment:
     PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
     GOPATH: "{{ go_path }}"
-  shell: "go get -u github.com/caddyserver/builds"
-
-- name: Build Caddy
-  environment:
-    PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
-    GOPATH: "{{ go_path }}"
-  shell: "cd $GOPATH/src/github.com/mholt/caddy/caddy; go run build.go -goos=linux -goarch=amd64"
+  shell: |
+    export GO111MODULE=on
+    go get github.com/mholt/caddy/caddy
 
 - name: Copy Caddy executable to executables dir
   become: yes
@@ -77,5 +52,5 @@
     PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
     GOPATH: "{{ go_path }}"
   synchronize:
-    src: "/$GOPATH/src/github.com/mholt/caddy/caddy/caddy"
+    src: "/$GOPATH/bin/caddy"
     dest: "{{executables_dir}}"

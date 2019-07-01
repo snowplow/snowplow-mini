@@ -4,11 +4,13 @@
 - name: Set variables
   set_fact:
     control_plane_dir: '{{playbook_dir}}/resources/control-plane'
+    go_bin: '/usr/local/go/bin'
+    go_path: "{{ lookup('env', 'HOME') }}/go"
 
 - name: Copy Control API to executables dir
   become: yes
   synchronize:
-    src: "{{executables_dir}}/snowplow-mini-control-plane-api"
+    src: "{{control_plane_dir}}/snowplow-mini-control-plane-api"
     dest: "{{executables_dir}}"
 
 - name: Copy VERSION file to /home/ubuntu/snowplow for Control API
@@ -28,4 +30,6 @@
 
 - name: Set owner of the main directory
   become: yes
+  args:
+    warn: false
   shell: "chown -R ubuntu:ubuntu {{main_dir}} && chmod 755 -R {{main_dir}}"

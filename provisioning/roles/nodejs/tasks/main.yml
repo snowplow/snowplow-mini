@@ -7,7 +7,7 @@
 
 - name: Define nodejs_install_npm_user
   set_fact:
-    nodejs_install_npm_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+    nodejs_install_npm_user: "{{ ansible_user_id | default(ansible_user) | default(lookup('env', 'USER')) }}"
   when: nodejs_install_npm_user is not defined
 
 - name: Create npm global directory

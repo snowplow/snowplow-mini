@@ -47,6 +47,7 @@ func restartService(service string) error {
 			restartCommandArgs := []string{"-f", "/home/ubuntu/snowplow/docker-compose.yml", 
 											"restart", val}
 			cmd := exec.Command("/usr/local/bin/docker-compose", restartCommandArgs...)
+			cmd.Dir = "/home/ubuntu/snowplow"
 			err := cmd.Run()
 			if err != nil {
 				return err
@@ -60,6 +61,7 @@ func restartService(service string) error {
 func restartSPServices() error {
 	restartCommandArgs := []string{"-f", "/home/ubuntu/snowplow/docker-compose.yml", "restart"}
 	cmd := exec.Command("/usr/local/bin/docker-compose", restartCommandArgs...)
+	cmd.Dir = "/home/ubuntu/snowplow"
 	err := cmd.Run()
 	if err != nil {
 		return err

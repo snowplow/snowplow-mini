@@ -102,6 +102,12 @@ func uploadEnrichments(resp http.ResponseWriter, req *http.Request) {
 		}
 		defer f.Close()
 
+		// Uploaded enrichment can be shorter than the existing one
+		// Truncating to 0 bytes and seeking I/O offset to the beginning
+		// Prevents the possibility of corrupted json
+		f.Truncate(0)
+		f.Seek(0, 0)
+		// Now we can write to file in peace
 		io.WriteString(f, fileContent)
 
 		err = restartService("streamEnrich")
