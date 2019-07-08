@@ -1,12 +1,12 @@
 #!/bin/sh
 
 ### BEGIN INIT INFO
-# Provides:
-# Required-Start:	$docker
-# Required-Stop:	$docker
-# Default-Start:	2 3 4 5
-# Default-Stop:        0 1 6
-# Short-Description:	Snowplow Mini Services
+# Provides:             snowplow_mini
+# Required-Start:       $docker
+# Required-Stop:        $docker
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    Snowplow Mini Services
 ### END INIT INFO
 
 set -e
