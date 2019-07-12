@@ -31,21 +31,19 @@ func restartService(service string) error {
 		"esLoaderGood":    config.Inits.EsLoaderGood,
 		"esLoaderBad":     config.Inits.EsLoaderBad,
 		"iglu":            config.Inits.Iglu,
-		"caddy":           config.Inits.Caddy,
 	}
 
-	if val, ok := initMap[service]; ok {
-		if service == "caddy" {
-			restartCommand := []string{"service", val, "restart"}
-			cmd := exec.Command("/bin/bash", restartCommand...)
-			err := cmd.Run()
-			if err != nil {
-				return err
-			}
-			return nil
-		} else {
-			restartCommandArgs := []string{"-f", "/home/ubuntu/snowplow/docker-compose.yml", 
-											"restart", val}
+	if service == "caddy" {
+		restartCommand := []string{"systemctl", "restart", "caddy"}
+		cmd := exec.Command("sudo", restartCommand...)
+		err := cmd.Run()
+		if err != nil {
+			return err
+		}
+		return nil
+	} else {
+		if val, ok := initMap[service]; ok {
+			restartCommandArgs := []string{"-f", "/home/ubuntu/snowplow/docker-compose.yml", "restart", val}
 			cmd := exec.Command("/usr/local/bin/docker-compose", restartCommandArgs...)
 			cmd.Dir = "/home/ubuntu/snowplow"
 			err := cmd.Run()
@@ -54,8 +52,8 @@ func restartService(service string) error {
 			}
 			return nil
 		}
+		return errors.New("unrecognized service: " + service)
 	}
-	return errors.New("unrecognized service: " + service)
 }
 
 func restartSPServices() error {

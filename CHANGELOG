@@ -1,3 +1,7 @@
+Version 0.6.2 (2019-07-12)
+--------------------------
+Fix LSB init script for caddy (#200)
+
 Version 0.6.1 (2019-07-01)
 --------------------------
 Overhaul build process (#195)

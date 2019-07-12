@@ -7,50 +7,37 @@
     go_bin: '/usr/local/go/bin'
     go_path: "{{ lookup('env', 'HOME') }}/go"
 
-- name: Install Git
-  become: yes
-  apt:
-    name: git
-    state: present
-    update_cache: yes
-    cache_valid_time: 3600
-
-- name: Get toml parser library for Golang
+- name: Get toml parser & psql driver for Golang
   environment:
     PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
-    GOPATH: "{{ go_path }}"
-  shell: "go get github.com/BurntSushi/toml"
-
-- name: Get psql drive for Golang
-  environment:
-    PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
-    GOPATH: "{{ go_path }}"
-  shell: "go get gopkg.in/pg.v5"
+    GOPATH: "{{ lookup('env', 'GOPATH') }}"
+  shell: |
+    go get github.com/BurntSushi/toml
+    go get gopkg.in/pg.v5
 
 - name: Build Control Plane API
   become: yes
   environment:
     PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
-    GOPATH: "{{ go_path }}"
   shell: "go build -o {{control_plane_dir}}/snowplow-mini-control-plane-api {{control_plane_dir}}/*.go"
 
-- name: Copy Control API to executables dir
+- name: Copy Control Plane API to executables dir
   become: yes
-  shell: cp {{control_plane_dir}}/snowplow-mini-control-plane-api {{executables_dir}}
+  synchronize:
+    src: "{{control_plane_dir}}/snowplow-mini-control-plane-api"
+    dest: "{{executables_dir}}"
 
-- name: Get Caddyserver build
+- name: Build Caddy
   environment:
     PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
     GOPATH: "{{ go_path }}"
   shell: |
     export GO111MODULE=on
-    go get github.com/mholt/caddy/caddy
+    cd /home/ubuntu/snowplow/caddy
+    go install
 
 - name: Copy Caddy executable to executables dir
   become: yes
-  environment:
-    PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
-    GOPATH: "{{ go_path }}"
   synchronize:
-    src: "/$GOPATH/bin/caddy"
+    src: "{{ go_path }}/bin/caddy"
     dest: "{{executables_dir}}"

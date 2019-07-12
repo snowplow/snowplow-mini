@@ -7,7 +7,7 @@
     go_bin: '/usr/local/go/bin'
     go_path: "{{ lookup('env', 'HOME') }}/go"
 
-- name: Copy Control API to executables dir
+- name: Copy Control Plane API to executables dir
   become: yes
   synchronize:
     src: "{{control_plane_dir}}/snowplow-mini-control-plane-api"
@@ -33,3 +33,9 @@
   args:
     warn: false
   shell: "chown -R ubuntu:ubuntu {{main_dir}} && chmod 755 -R {{main_dir}}"
+
+- name: Adjust kernel limits to use Caddy in production settings
+  become: yes
+  shell: |
+    echo "soft nofile 16384" >> /etc/security/limits.conf
+    echo "hard nofile 16384" >> /etc/security/limits.conf
