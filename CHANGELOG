@@ -1,3 +1,7 @@
+Version 0.6.3 (2019-10-24)
+--------------------------
+Add basic auth to app endpoint (#203)
+
 Version 0.6.2 (2019-07-12)
 --------------------------
 Fix LSB init script for caddy (#200)
