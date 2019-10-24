@@ -2,6 +2,7 @@
   tls off
   basicauth "USERNAME_PLACEHOLDER" PASSWORD_PLACEHOLDER {
     /home
+    /app
     /kibana
     /elasticsearch
     /nsqadmin
