@@ -5,7 +5,9 @@
     /kibana
     /elasticsearch
     /static
-    /api
+    /api/counter
+    /api/nodes
+    /api/topics
     /nsqadmin
     /control-plane
   }
@@ -25,10 +27,23 @@
     without /kibana
   }
 
-  proxy /iglu-server localhost:8081 {
+  proxy /iglu-server localhost:8081/static/swagger-ui/index.html {
     without /iglu-server
   }
-  proxy /api-docs localhost:8081
+  proxy /iglu-server/swagger-ui.css localhost:8081/static/swagger-ui/swagger-ui.css {
+    without /iglu-server/swagger-ui.css
+  }
+  proxy /iglu-server/swagger-ui-bundle.js localhost:8081/static/swagger-ui/swagger-ui-bundle.js {
+    without /iglu-server/swagger-ui-bundle.js
+  }
+  proxy /iglu-server/swagger-ui-standalone-preset.js localhost:8081/static/swagger-ui/swagger-ui-standalone-preset.js {
+    without /iglu-server/swagger-ui-standalone-preset.js
+  }
+  proxy /api/schemas     localhost:8081
+  proxy /api/drafts      localhost:8081
+  proxy /api/auth        localhost:8081
+  proxy /api/validation  localhost:8081
+  proxy /api/meta        localhost:8081
 
   proxy /nsqadmin localhost:4171 {
     without /nsqadmin
