@@ -51,7 +51,7 @@ export class Overview extends React.Component<{}, {}> {
           <li>Snowplow Stream Collector NSQ 0.13.0</li>
           <li>Snowplow Stream Enrich NSQ 0.21.0</li>
           <li>Snowplow Elasticsearch Loader 0.10.1</li>
-          <li>Snowplow Iglu Server 0.3.0</li>
+          <li>Snowplow Iglu Server 0.6.1</li>
           <li>Postgres 9.5</li>
           <li>NSQ v1.0.0-compat</li>
           <li>Elasticsearch-OSS 6.3.1</li>

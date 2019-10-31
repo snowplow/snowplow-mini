@@ -160,7 +160,7 @@ services:
         max-file: "10"
 
   iglu-server:
-    image: snowplow-docker-registry.bintray.io/snowplow/iglu-server:0.3.0
+    image: snowplow-docker-registry.bintray.io/snowplow/iglu-server:0.6.1
     container_name: iglu-server
     entrypoint: /snowplow/bin/wait-for-postgres.sh postgres --config /snowplow/config/iglu-server.conf
     restart: always
