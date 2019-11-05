@@ -1,3 +1,7 @@
+Version 0.6.4 (2019-11-05)
+--------------------------
+Improve Kibana setup (#209)
+
 Version 0.6.3 (2019-10-24)
 --------------------------
 Add basic auth to app endpoint (#203)

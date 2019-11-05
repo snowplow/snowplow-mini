@@ -2,9 +2,10 @@
   tls off
   basicauth "USERNAME_PLACEHOLDER" PASSWORD_PLACEHOLDER {
     /home
-    /app
     /kibana
     /elasticsearch
+    /static
+    /api
     /nsqadmin
     /control-plane
   }
@@ -23,12 +24,6 @@
   proxy /kibana localhost:5601 {
     without /kibana
   }
-  proxy /app/kibana localhost:5601
-  proxy /app/timelion localhost:5601
-  proxy /bundles localhost:5601
-  proxy /plugins localhost:5601
-  proxy /ui localhost:5601
-  proxy /api localhost:5601
 
   proxy /iglu-server localhost:8081 {
     without /iglu-server

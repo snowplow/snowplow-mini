@@ -39,8 +39,8 @@
     }
   ],
   "variables": {
-    "aws_version": "0.6.3",
-    "gcp_version": "0-6-3",
+    "aws_version": "0.6.4",
+    "gcp_version": "0-6-4",
     "gcp_machine_type": "{{env `GCP_MACHINE_TYPE`}}",
     "aws_instance_type": "{{env `AWS_INSTANCE_TYPE`}}",
     "sp_mini_size": "{{env `SP_MINI_SIZE`}}"
