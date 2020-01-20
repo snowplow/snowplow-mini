@@ -1,3 +1,7 @@
+Version 0.7.0 (2020-01-20)
+--------------------------
+Disable IP lookup enrichment (#214)
+
 Version 0.6.4 (2019-11-05)
 --------------------------
 Improve Kibana setup (#209)
