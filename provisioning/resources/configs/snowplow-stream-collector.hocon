@@ -38,7 +38,8 @@ collector {
     enabled = true
     expiration = "365 days" # e.g. "365 days"
     name = sp
-    secure = false
+    secure = true
+    sameSite = "None"
     httpOnly = false
   }
 
