@@ -158,6 +158,8 @@ services:
       options:
         max-size: "1M"
         max-file: "10"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
 
   iglu-server:
     image: snowplow-docker-registry.bintray.io/snowplow/iglu-server:0.6.0
