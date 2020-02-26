@@ -1,575 +1,346 @@
 {
-    "settings": {
-        "analysis": {
-            "analyzer": {
-                "default": {
-                    "type": "keyword"
-                }
-            }
-        },
-        "index" : {
-            "number_of_replicas" : "0",
-            "number_of_shards" : "2"
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "default": {
+          "type": "keyword"
         }
+      }
     },
-    "mappings": {
-        "bad": {
-            "properties": {
-                "schema": {
+    "index" : {
+      "number_of_replicas" : "0",
+      "number_of_shards" : "2"
+    }
+  },
+  "mappings": {
+    "bad": {
+      "properties": {
+        "schema": {
+          "type": "keyword"
+        },
+        "data": {
+          "properties": {
+            "failure": {
+              "properties": {
+                "actualSizeBytes": {
+                  "type": "long"
+                },
+                "error": {
+                  "properties": {
+                    "location": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "message": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "reason": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    }
+                  }
+                },
+                "errors": {
+                  "properties": {
+                    "key": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "message": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "type": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "value": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    }
+                  }
+                },
+                "expectation": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "fieldCount": {
+                  "type": "long"
+                },
+                "loader": {
                   "type": "keyword"
                 },
-            
-                "data": {
+                "maximumAllowedSizeBytes": {
+                  "type": "long"
+                },
+                "message": {
                   "properties": {
-                    "failure": {
+                    "error": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "expectation": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "payloadField": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "value": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    }
+                  }
+                },
+                "messages": {
+                  "type": "nested",
+                  "properties": {
+                    "actual": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "enrichment": {
                       "properties": {
-                        "actualSizeBytes": {
-                          "type": "long"
-                        },
-                        "error": {
-                          "properties": {
-                            "location": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "message": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "reason": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            }
-                          }
-                        },
-                        "errors": {
-                          "properties": {
-                            "key": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "message": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "type": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "value": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            }
-                          }
-                        },
-                        "expectation": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "fieldCount": {
-                          "type": "long"
-                        },
-                        "loader": {
+                        "identifier": {
                           "type": "keyword"
                         },
-                        "maximumAllowedSizeBytes": {
-                          "type": "long"
-                        },
-                        "message": {
-                          "properties": {
-                            "error": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "expectation": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "payloadField": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "value": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            }
-                          }
-                        },
-                        "messages": {
-                          "type": "nested",
-                          "properties": {
-                            "actual": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "enrichment": {
-                              "properties": {
-                                "identifier": {
-                                  "type": "keyword"
-                                },
-                                "schemaKey": {
-                                  "type": "keyword"
-                                }
-                              }
-                            },
-                            "error": {
-                              "properties": {
-                                "dataReports": {
-                                  "properties": {
-                                    "keyword": {
-                                      "fields": {
-                                        "keyword": {
-                                          "ignore_above": 256,
-                                          "type": "keyword"
-                                        }
-                                      },
-                                      "type": "text"
-                                    },
-                                    "message": {
-                                      "fields": {
-                                        "keyword": {
-                                          "ignore_above": 256,
-                                          "type": "keyword"
-                                        }
-                                      },
-                                      "type": "text"
-                                    },
-                                    "path": {
-                                      "fields": {
-                                        "keyword": {
-                                          "ignore_above": 256,
-                                          "type": "keyword"
-                                        }
-                                      },
-                                      "type": "text"
-                                    },
-                                    "targets": {
-                                      "fields": {
-                                        "keyword": {
-                                          "ignore_above": 256,
-                                          "type": "keyword"
-                                        }
-                                      },
-                                      "type": "text"
-                                    }
-                                  }
-                                },
-                                "error": {
-                                  "fields": {
-                                    "keyword": {
-                                      "ignore_above": 256,
-                                      "type": "keyword"
-                                    }
-                                  },
-                                  "type": "text"
-                                },
-                                "lookupHistory": {
-                                  "type": "nested",
-                                  "properties": {
-                                    "attempts": {
-                                      "type": "long"
-                                    },
-                                    "errors": {
-                                      "type": "nested",
-                                      "properties": {
-                                        "error": {
-                                          "fields": {
-                                            "keyword": {
-                                              "ignore_above": 256,
-                                              "type": "keyword"
-                                            }
-                                          },
-                                          "type": "text"
-                                        },
-                                        "message": {
-                                          "fields": {
-                                            "keyword": {
-                                              "ignore_above": 256,
-                                              "type": "keyword"
-                                            }
-                                          },
-                                          "type": "text"
-                                        }
-                                      }
-                                    },
-                                    "lastAttempt": {
-                                      "type": "date"
-                                    },
-                                    "repository": {
-                                      "fields": {
-                                        "keyword": {
-                                          "ignore_above": 256,
-                                          "type": "keyword"
-                                        }
-                                      },
-                                      "type": "text"
-                                    }
-                                  }
-                                },
-                                "schemaIssues": {
-                                  "type": "nested",
-                                  "properties": {
-                                    "message": {
-                                      "fields": {
-                                        "keyword": {
-                                          "ignore_above": 256,
-                                          "type": "keyword"
-                                        }
-                                      },
-                                      "type": "text"
-                                    },
-                                    "path": {
-                                      "fields": {
-                                        "keyword": {
-                                          "ignore_above": 256,
-                                          "type": "keyword"
-                                        }
-                                      },
-                                      "type": "text"
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            "error_str": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "expectation": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "expectedMapping": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "field": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "json": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "message": {
-                              "properties": {
-                                "error": {
-                                  "properties": {
-                                    "dataReports": {
-                                      "type": "nested",
-                                      "properties": {
-                                        "keyword": {
-                                          "fields": {
-                                            "keyword": {
-                                              "ignore_above": 256,
-                                              "type": "keyword"
-                                            }
-                                          },
-                                          "type": "text"
-                                        },
-                                        "message": {
-                                          "fields": {
-                                            "keyword": {
-                                              "ignore_above": 256,
-                                              "type": "keyword"
-                                            }
-                                          },
-                                          "type": "text"
-                                        },
-                                        "path": {
-                                          "fields": {
-                                            "keyword": {
-                                              "ignore_above": 256,
-                                              "type": "keyword"
-                                            }
-                                          },
-                                          "type": "text"
-                                        },
-                                        "targets": {
-                                          "fields": {
-                                            "keyword": {
-                                              "ignore_above": 256,
-                                              "type": "keyword"
-                                            }
-                                          },
-                                          "type": "text"
-                                        }
-                                      }
-                                    },
-                                    "error": {
-                                      "fields": {
-                                        "keyword": {
-                                          "ignore_above": 256,
-                                          "type": "keyword"
-                                        }
-                                      },
-                                      "type": "text"
-                                    },
-                                    "lookupHistory": {
-                                      "properties": {
-                                        "attempts": {
-                                          "type": "long"
-                                        },
-                                        "errors": {
-                                          "properties": {
-                                            "error": {
-                                              "fields": {
-                                                "keyword": {
-                                                  "ignore_above": 256,
-                                                  "type": "keyword"
-                                                }
-                                              },
-                                              "type": "text"
-                                            },
-                                            "message": {
-                                              "fields": {
-                                                "keyword": {
-                                                  "ignore_above": 256,
-                                                  "type": "keyword"
-                                                }
-                                              },
-                                              "type": "text"
-                                            }
-                                          }
-                                        },
-                                        "lastAttempt": {
-                                          "type": "date"
-                                        },
-                                        "repository": {
-                                          "fields": {
-                                            "keyword": {
-                                              "ignore_above": 256,
-                                              "type": "keyword"
-                                            }
-                                          },
-                                          "type": "text"
-                                        }
-                                      }
-                                    },
-                                    "schemaIssues": {
-                                      "type": "nested",
-                                      "properties": {
-                                        "message": {
-                                          "fields": {
-                                            "keyword": {
-                                              "ignore_above": 256,
-                                              "type": "keyword"
-                                            }
-                                          },
-                                          "type": "text"
-                                        },
-                                        "path": {
-                                          "fields": {
-                                            "keyword": {
-                                              "ignore_above": 256,
-                                              "type": "keyword"
-                                            }
-                                          },
-                                          "type": "text"
-                                        }
-                                      }
-                                    }
-                                  }
-                                },
-                                "error_str": {
-                                  "fields": {
-                                    "keyword": {
-                                      "ignore_above": 256,
-                                      "type": "keyword"
-                                    }
-                                  },
-                                  "type": "text"
-                                },
-                                "expectation": {
-                                  "fields": {
-                                    "keyword": {
-                                      "ignore_above": 256,
-                                      "type": "keyword"
-                                    }
-                                  },
-                                  "type": "text"
-                                },
-                                "field": {
-                                  "fields": {
-                                    "keyword": {
-                                      "ignore_above": 256,
-                                      "type": "keyword"
-                                    }
-                                  },
-                                  "type": "text"
-                                },
-                                "schemaKey": {
-                                  "fields": {
-                                    "keyword": {
-                                      "ignore_above": 256,
-                                      "type": "keyword"
-                                    }
-                                  },
-                                  "type": "text"
-                                },
-                                "value": {
-                                  "fields": {
-                                    "keyword": {
-                                      "ignore_above": 256,
-                                      "type": "keyword"
-                                    }
-                                  },
-                                  "type": "text"
-                                }
-                              }
-                            },
-                            "schemaCriterion": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "schemaKey": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "value": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            }
-                          }
-                        },
-                        "timestamp": {
-                          "type": "date"
-                        },
-                        "type": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "vendor": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "version": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
+                        "schemaKey": {
+                          "type": "keyword"
                         }
                       }
                     },
-                    "failure_list": {
+                    "error": {
+                      "properties": {
+                        "dataReports": {
+                          "properties": {
+                            "keyword": {
+                              "fields": {
+                                "keyword": {
+                                  "ignore_above": 256,
+                                  "type": "keyword"
+                                }
+                              },
+                              "type": "text"
+                            },
+                            "message": {
+                              "fields": {
+                                "keyword": {
+                                  "ignore_above": 256,
+                                  "type": "keyword"
+                                }
+                              },
+                              "type": "text"
+                            },
+                            "path": {
+                              "fields": {
+                                "keyword": {
+                                  "ignore_above": 256,
+                                  "type": "keyword"
+                                }
+                              },
+                              "type": "text"
+                            },
+                            "targets": {
+                              "fields": {
+                                "keyword": {
+                                  "ignore_above": 256,
+                                  "type": "keyword"
+                                }
+                              },
+                              "type": "text"
+                            }
+                          }
+                        },
+                        "error": {
+                          "fields": {
+                            "keyword": {
+                              "ignore_above": 256,
+                              "type": "keyword"
+                            }
+                          },
+                          "type": "text"
+                        },
+                        "lookupHistory": {
+                          "type": "nested",
+                          "properties": {
+                            "attempts": {
+                              "type": "long"
+                            },
+                            "errors": {
+                              "type": "nested",
+                              "properties": {
+                                "error": {
+                                  "fields": {
+                                    "keyword": {
+                                      "ignore_above": 256,
+                                      "type": "keyword"
+                                    }
+                                  },
+                                  "type": "text"
+                                },
+                                "message": {
+                                  "fields": {
+                                    "keyword": {
+                                      "ignore_above": 256,
+                                      "type": "keyword"
+                                    }
+                                  },
+                                  "type": "text"
+                                }
+                              }
+                            },
+                            "lastAttempt": {
+                              "type": "date"
+                            },
+                            "repository": {
+                              "fields": {
+                                "keyword": {
+                                  "ignore_above": 256,
+                                  "type": "keyword"
+                                }
+                              },
+                              "type": "text"
+                            }
+                          }
+                        },
+                        "schemaIssues": {
+                          "type": "nested",
+                          "properties": {
+                            "message": {
+                              "fields": {
+                                "keyword": {
+                                  "ignore_above": 256,
+                                  "type": "keyword"
+                                }
+                              },
+                              "type": "text"
+                            },
+                            "path": {
+                              "fields": {
+                                "keyword": {
+                                  "ignore_above": 256,
+                                  "type": "keyword"
+                                }
+                              },
+                              "type": "text"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "error_str": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "expectation": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "expectedMapping": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "field": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "json": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "message": {
                       "properties": {
                         "error": {
                           "properties": {
@@ -689,7 +460,7 @@
                             }
                           }
                         },
-                        "expected": {
+                        "error_str": {
                           "fields": {
                             "keyword": {
                               "ignore_above": 256,
@@ -698,7 +469,7 @@
                           },
                           "type": "text"
                         },
-                        "key": {
+                        "expectation": {
                           "fields": {
                             "keyword": {
                               "ignore_above": 256,
@@ -707,16 +478,7 @@
                           },
                           "type": "text"
                         },
-                        "message": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "schemaCriterion": {
+                        "field": {
                           "fields": {
                             "keyword": {
                               "ignore_above": 256,
@@ -745,7 +507,7 @@
                         }
                       }
                     },
-                    "failure_str": {
+                    "schemaCriterion": {
                       "fields": {
                         "keyword": {
                           "ignore_above": 256,
@@ -754,9 +516,66 @@
                       },
                       "type": "text"
                     },
-                    "payload": {
+                    "schemaKey": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "value": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    }
+                  }
+                },
+                "timestamp": {
+                  "type": "date"
+                },
+                "type": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "vendor": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "version": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                }
+              }
+            },
+            "failure_list": {
+              "properties": {
+                "error": {
+                  "properties": {
+                    "dataReports": {
+                      "type": "nested",
                       "properties": {
-                        "body": {
+                        "keyword": {
                           "fields": {
                             "keyword": {
                               "ignore_above": 256,
@@ -765,7 +584,7 @@
                           },
                           "type": "text"
                         },
-                        "collector": {
+                        "message": {
                           "fields": {
                             "keyword": {
                               "ignore_above": 256,
@@ -774,10 +593,7 @@
                           },
                           "type": "text"
                         },
-                        "collector_tstamp": {
-                          "type": "date"
-                        },
-                        "contentType": {
+                        "path": {
                           "fields": {
                             "keyword": {
                               "ignore_above": 256,
@@ -786,277 +602,7 @@
                           },
                           "type": "text"
                         },
-                        "contexts": {
-                          "type": "object"
-                        },
-                        "derived_contexts": {
-                          "type": "object"
-                        },
-                        "encoding": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "enriched": {
-                          "properties": {
-                            "collector_tstamp": {
-                              "type": "date"
-                            },
-                            "v_collector": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "v_etl": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            }
-                          }
-                        },
-                        "event_id": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "headers": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "hostname": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "ipAddress": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "networkUserId": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "querystring": {
-                          "properties": {
-                            "name": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "value": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            }
-                          }
-                        },
-                        "raw": {
-                          "properties": {
-                            "contentType": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "encoding": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "headers": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "hostname": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "ipAddress": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "loaderName": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "parameters": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "refererUri": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "timestamp": {
-                              "type": "date"
-                            },
-                            "userId": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "useragent": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "vendor": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            },
-                            "version": {
-                              "fields": {
-                                "keyword": {
-                                  "ignore_above": 256,
-                                  "type": "keyword"
-                                }
-                              },
-                              "type": "text"
-                            }
-                          }
-                        },
-                        "refererUri": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "timestamp": {
-                          "type": "date"
-                        },
-                        "useragent": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "v_collector": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "v_etl": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "vendor": {
-                          "fields": {
-                            "keyword": {
-                              "ignore_above": 256,
-                              "type": "keyword"
-                            }
-                          },
-                          "type": "text"
-                        },
-                        "version": {
+                        "targets": {
                           "fields": {
                             "keyword": {
                               "ignore_above": 256,
@@ -1067,7 +613,7 @@
                         }
                       }
                     },
-                    "payload_str": {
+                    "error": {
                       "fields": {
                         "keyword": {
                           "ignore_above": 256,
@@ -1076,9 +622,51 @@
                       },
                       "type": "text"
                     },
-                    "processor": {
+                    "lookupHistory": {
                       "properties": {
-                        "artifact": {
+                        "attempts": {
+                          "type": "long"
+                        },
+                        "errors": {
+                          "properties": {
+                            "error": {
+                              "fields": {
+                                "keyword": {
+                                  "ignore_above": 256,
+                                  "type": "keyword"
+                                }
+                              },
+                              "type": "text"
+                            },
+                            "message": {
+                              "fields": {
+                                "keyword": {
+                                  "ignore_above": 256,
+                                  "type": "keyword"
+                                }
+                              },
+                              "type": "text"
+                            }
+                          }
+                        },
+                        "lastAttempt": {
+                          "type": "date"
+                        },
+                        "repository": {
+                          "fields": {
+                            "keyword": {
+                              "ignore_above": 256,
+                              "type": "keyword"
+                            }
+                          },
+                          "type": "text"
+                        }
+                      }
+                    },
+                    "schemaIssues": {
+                      "type": "nested",
+                      "properties": {
+                        "message": {
                           "fields": {
                             "keyword": {
                               "ignore_above": 256,
@@ -1087,7 +675,7 @@
                           },
                           "type": "text"
                         },
-                        "version": {
+                        "path": {
                           "fields": {
                             "keyword": {
                               "ignore_above": 256,
@@ -1099,8 +687,419 @@
                       }
                     }
                   }
+                },
+                "expected": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "key": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "message": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "schemaCriterion": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "schemaKey": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "value": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
                 }
               }
+            },
+            "failure_str": {
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              },
+              "type": "text"
+            },
+            "payload": {
+              "properties": {
+                "body": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "collector": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "collector_tstamp": {
+                  "type": "date"
+                },
+                "contentType": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "contexts": {
+                  "type": "object"
+                },
+                "derived_contexts": {
+                  "type": "object"
+                },
+                "encoding": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "enriched": {
+                  "properties": {
+                    "collector_tstamp": {
+                      "type": "text"
+                    },
+                    "v_collector": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "v_etl": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    }
+                  }
+                },
+                "event_id": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "headers": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "hostname": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "ipAddress": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "networkUserId": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "querystring": {
+                  "properties": {
+                    "name": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "value": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    }
+                  }
+                },
+                "raw": {
+                  "properties": {
+                    "contentType": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "encoding": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "headers": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "hostname": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "ipAddress": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "loaderName": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "parameters": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "refererUri": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "timestamp": {
+                      "type": "date"
+                    },
+                    "userId": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "useragent": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "vendor": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "version": {
+                      "fields": {
+                        "keyword": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                        }
+                      },
+                      "type": "text"
+                    }
+                  }
+                },
+                "refererUri": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "timestamp": {
+                  "type": "date"
+                },
+                "useragent": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "v_collector": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "v_etl": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "vendor": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "version": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                }
+              }
+            },
+            "payload_str": {
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              },
+              "type": "text"
+            },
+            "processor": {
+              "properties": {
+                "artifact": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                },
+                "version": {
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  },
+                  "type": "text"
+                }
+              }
+            }
+          }
         }
+      }
     }
+  }
 }
