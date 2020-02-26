@@ -1,3 +1,12 @@
+Version 0.8.0 (2020-03-23)
+--------------------------
+Bump Stream Enrich to 1.0.0 (#221)
+Bump Elasticsearch Loader to 0.12.0 (#220)
+Fix postgres not starting after image update (#219)
+Configure collector to return SameSite=None; Secure cookie (#218)
+Bump Scala Stream Collector to 1.0.0 (#206)
+Bump Iglu Server to 0.6.1 (#205)
+
 Version 0.7.0 (2020-01-20)
 --------------------------
 Disable IP lookup enrichment (#214)
