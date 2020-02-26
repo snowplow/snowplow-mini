@@ -40,7 +40,7 @@ services:
       - elasticsearch
 
   elasticsearch-loader-good:
-    image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:0.10.2
+    image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:0.12.0-rc4
     container_name: elasticsearch-loader-good
     command: [ "--config", "/snowplow/config/snowplow-es-loader-good.hocon" ]
     restart: always
@@ -56,7 +56,7 @@ services:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
   
   elasticsearch-loader-bad:
-    image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:0.10.2
+    image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:0.12.0-rc4
     container_name: elasticsearch-loader-bad
     command: [ "--config", "/snowplow/config/snowplow-es-loader-bad.hocon" ]
     restart: always

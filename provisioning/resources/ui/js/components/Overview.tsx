@@ -37,7 +37,7 @@ export class Overview extends React.Component<{}, {}> {
         <p>You can send events into Snowplow Mini automatically from the <a href="#/example-events">Example events</a> page.  Simply go to that page and click the sample event buttons.</p>
         <p>Alternatively, you can setup any of the Snowplow trackers to send data to this endpoint: {collector}</p>
         <h3>2. Viewing the events</h3>
-        <p>You can view the events that have been sent to Elasticsearch in the <a href={kibana}>Kibana Dashboard</a> or the Head Plugin.</p>
+        <p>You can view the events that have been sent to Elasticsearch in the <a href={kibana}>Kibana Dashboard</a> </p>
         <p>You can also submit queries directly to the <a href={elasticsearch}>Elasticsearch endpoint</a>.</p>
         <h3>3. Understanding how Snowplow Mini works</h3>
         <h3>Quicklinks: </h3>
