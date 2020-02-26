@@ -126,7 +126,7 @@ services:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
   stream-enrich:
-    image: snowplow-docker-registry.bintray.io/snowplow/stream-enrich-nsq:0.21.0
+    image: snowplow/stream-enrich-nsq:1.0.0
     container_name: stream-enrich-nsq
     command: [
       "--config", "/snowplow/config/snowplow-stream-enrich.hocon",
