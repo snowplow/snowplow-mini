@@ -18,8 +18,7 @@ curl -X POST \
   -H 'kbn-xsrf: true' \
   -d '{
   "attributes": {
-    "title": "bad",
-    "timeFieldName": "failure_tstamp"
+    "title": "bad"
   }
 }'
 

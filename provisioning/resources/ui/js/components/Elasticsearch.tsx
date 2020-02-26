@@ -19,10 +19,6 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
 
-var kibana_guide = "https://github.com/snowplow/snowplow-mini/wiki/Quickstart-guide#view-in-kibana";
-var head_plugin_repo = "https://github.com/mobz/elasticsearch-head";
-var elasticsearch_dsl = "https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html";
-
 export class Elasticsearch extends React.Component<{}, {}> {
 
   public render() {
@@ -30,15 +26,11 @@ export class Elasticsearch extends React.Component<{}, {}> {
       <div className="tab-content">
         <p>
           The local Elasticsearch cluster contains your enriched and failed events in two distinct indices.  
-          For ease of management Snowplow Mini comes pre-installed with both Kibana and the Head Plugin.
+          For ease of management Snowplow Mini comes pre-installed with Kibana.
         </p>
         <p>
-          <b>Kibana</b> can be used to view, query and discover the data sent into Snowplow Mini.  You can also build visualizations and dashboards from the information available.
-          <br></br>For help with setting up Kibana please consult <a href={kibana_guide}>the guide</a>.
-        </p>
-        <p>
-          <b>The Head Plugin</b> for Elasticsearch allows you to view the state of your cluster and to query the data directly through the <a href={elasticsearch_dsl}>Elasticsearch Query DSL</a>.
-          <br></br>For more information please consult the <a href={head_plugin_repo}>elasticsearch-head</a> repository.
+          <b>Kibana</b> can be used to view, query and discover the data sent into Snowplow Mini.
+          You can also build visualizations and dashboards from the information available.
         </p>
         <h3>Quicklinks:</h3>
         <ul>
