@@ -21,6 +21,8 @@ collector {
   interface = "0.0.0.0"
   port = 8080
 
+  paths {}
+
   p3p {
     policyRef = "/w3c/p3p.xml"
     CP = "NOI DSP COR NID PSA OUR IND COM NAV STA"
@@ -28,7 +30,7 @@ collector {
 
   crossDomain {
     enabled = false
-    domain = "*"
+    domains = ["*"]
     secure = true
   }
 
@@ -36,7 +38,9 @@ collector {
     enabled = true
     expiration = "365 days" # e.g. "365 days"
     name = sp
-    domain = ""
+    secure = true
+    sameSite = "None"
+    httpOnly = false
   }
 
   cookieBounce {
@@ -45,10 +49,31 @@ collector {
     fallbackNetworkUserId = "00000000-0000-4000-A000-000000000000"
   }
 
+  doNotTrackCookie {
+    enabled = false
+    name = dnt
+    value = 1
+  }
+
+  rootResponse {
+    enabled = true
+    statusCode = 302
+    headers = {
+        Location = "/home",
+    }
+    body = "302, redirecting"
+  }
+
   redirectMacro {
     enabled = false
     placeholder = "[TOKEN]"
   }
+
+  cors {
+    accessControlMaxAge = 10 seconds
+  }
+
+  prometheusMetrics.enabled = false
 
   streams {
     good = RawEvents

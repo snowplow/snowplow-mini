@@ -74,15 +74,14 @@ func (li LocalIglu) insertApiKeyToDb() error {
 	})
 	defer db.Close()
 
-	_, err := db.Exec("DELETE FROM apikeys")
+	_, err := db.Exec("DELETE FROM iglu_permissions")
 	if err != nil {
 		return err
 	}
 
-	_, err = db.Exec("INSERT INTO apikeys " +
-		"(uid, vendor_prefix, permission, createdat) " +
+	_, err = db.Exec("INSERT INTO iglu_permissions " +
 		"VALUES " +
-		"('" + li.IgluApikey + "','*','super',current_timestamp)")
+		"('" + li.IgluApikey + "', '', TRUE, 'CREATE_VENDOR'::schema_action, '{\"CREATE\", \"DELETE\"}'::key_action[])")
 
 	if err != nil {
 		return err

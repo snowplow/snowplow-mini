@@ -40,7 +40,7 @@ services:
       - elasticsearch
 
   elasticsearch-loader-good:
-    image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:0.10.2
+    image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:0.12.0
     container_name: elasticsearch-loader-good
     command: [ "--config", "/snowplow/config/snowplow-es-loader-good.hocon" ]
     restart: always
@@ -56,7 +56,7 @@ services:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
   
   elasticsearch-loader-bad:
-    image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:0.10.2
+    image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:0.12.0
     container_name: elasticsearch-loader-bad
     command: [ "--config", "/snowplow/config/snowplow-es-loader-bad.hocon" ]
     restart: always
@@ -108,7 +108,7 @@ services:
       - "4171:4171"
 
   scala-stream-collector:
-    image: snowplow-docker-registry.bintray.io/snowplow/scala-stream-collector-nsq:0.13.0
+    image: snowplow/scala-stream-collector-nsq:1.0.0
     container_name: scala-stream-collector-nsq
     command: [ "--config", "/snowplow/config/snowplow-stream-collector.hocon" ]
     restart: always
@@ -126,7 +126,7 @@ services:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
   stream-enrich:
-    image: snowplow-docker-registry.bintray.io/snowplow/stream-enrich-nsq:0.21.0
+    image: snowplow/stream-enrich-nsq:1.0.0
     container_name: stream-enrich-nsq
     command: [
       "--config", "/snowplow/config/snowplow-stream-enrich.hocon",
@@ -158,9 +158,11 @@ services:
       options:
         max-size: "1M"
         max-file: "10"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
 
   iglu-server:
-    image: snowplow-docker-registry.bintray.io/snowplow/iglu-server:0.3.0
+    image: snowplow-docker-registry.bintray.io/snowplow/iglu-server:0.6.1
     container_name: iglu-server
     entrypoint: /snowplow/bin/wait-for-postgres.sh postgres --config /snowplow/config/iglu-server.conf
     restart: always

@@ -19,7 +19,7 @@ curl -X POST \
   -d '{
   "attributes": {
     "title": "bad",
-    "timeFieldName": "failure_tstamp"
+    "timeFieldName": "data.failure.timestamp"
   }
 }'
 

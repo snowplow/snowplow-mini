@@ -57,7 +57,7 @@ These events can then be viewed in Kibana at `http://< sp mini public ip>/kibana
 
 ## Copyright and license
 
-Snowplow Mini is copyright 2016-2019 Snowplow Analytics Ltd.
+Snowplow Mini is copyright 2016-2020 Snowplow Analytics Ltd.
 
 Licensed under the **[Apache License, Version 2.0][license]** (the "License");
 you may not use this software except in compliance with the License.
@@ -73,7 +73,7 @@ limitations under the License.
 [travis]: https://travis-ci.org/snowplow/snowplow-mini
 [travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
 
-[release-image]: http://img.shields.io/badge/release-0.7.0-blue.svg?style=flat
+[release-image]: http://img.shields.io/badge/release-0.8.0-blue.svg?style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
 [license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat

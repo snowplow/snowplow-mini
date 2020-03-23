@@ -5,7 +5,9 @@
     /kibana
     /elasticsearch
     /static
-    /api
+    /api/counter
+    /api/nodes
+    /api/topics
     /nsqadmin
     /control-plane
   }
@@ -28,7 +30,6 @@
   proxy /iglu-server localhost:8081 {
     without /iglu-server
   }
-  proxy /api-docs localhost:8081
 
   proxy /nsqadmin localhost:4171 {
     without /nsqadmin

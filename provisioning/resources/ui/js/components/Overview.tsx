@@ -37,7 +37,7 @@ export class Overview extends React.Component<{}, {}> {
         <p>You can send events into Snowplow Mini automatically from the <a href="#/example-events">Example events</a> page.  Simply go to that page and click the sample event buttons.</p>
         <p>Alternatively, you can setup any of the Snowplow trackers to send data to this endpoint: {collector}</p>
         <h3>2. Viewing the events</h3>
-        <p>You can view the events that have been sent to Elasticsearch in the <a href={kibana}>Kibana Dashboard</a> or the Head Plugin.</p>
+        <p>You can view the events that have been sent to Elasticsearch in the <a href={kibana}>Kibana Dashboard</a> </p>
         <p>You can also submit queries directly to the <a href={elasticsearch}>Elasticsearch endpoint</a>.</p>
         <h3>3. Understanding how Snowplow Mini works</h3>
         <h3>Quicklinks: </h3>
@@ -48,10 +48,10 @@ export class Overview extends React.Component<{}, {}> {
         </ul>
         <h3>The software stack installed: </h3>
         <ul>
-          <li>Snowplow Stream Collector NSQ 0.13.0</li>
-          <li>Snowplow Stream Enrich NSQ 0.21.0</li>
-          <li>Snowplow Elasticsearch Loader 0.10.1</li>
-          <li>Snowplow Iglu Server 0.3.0</li>
+          <li>Snowplow Stream Collector NSQ 1.0.0</li>
+          <li>Snowplow Stream Enrich NSQ 1.0.0</li>
+          <li>Snowplow Elasticsearch Loader 0.12.0</li>
+          <li>Snowplow Iglu Server 0.6.1</li>
           <li>Postgres 9.5</li>
           <li>NSQ v1.0.0-compat</li>
           <li>Elasticsearch-OSS 6.3.1</li>
