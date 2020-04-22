@@ -1,3 +1,10 @@
+Version 0.9.0 (2020-05-25)
+--------------------------
+Bump Scala Stream Collector to 1.0.1 (#231)
+Automate publicizing GCP deployment (#208)
+Bump NSQ to 1.2.0 (#223)
+Bump Stream Enrich to 1.1.0 (#229)
+
 Version 0.8.1 (2020-04-16)
 --------------------------
 Make Iglu Server run in development mode (#227)
