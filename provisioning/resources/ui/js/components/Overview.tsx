@@ -53,7 +53,7 @@ export class Overview extends React.Component<{}, {}> {
           <li>Snowplow Elasticsearch Loader 0.12.0</li>
           <li>Snowplow Iglu Server 0.6.1</li>
           <li>Postgres 9.5</li>
-          <li>NSQ v1.0.0-compat</li>
+          <li>NSQ v1.2.0</li>
           <li>Elasticsearch-OSS 6.3.1</li>
           <li>Kibana-OSS 6.3.1</li>
         </ul>
