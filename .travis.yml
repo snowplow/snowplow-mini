@@ -5,6 +5,10 @@ language: go
 
 go: 1.12
 
+cache:
+  directories:
+    - "$HOME/google-cloud-sdk/"
+
 before_install:
   - openssl aes-256-cbc -K $encrypted_44efaf791086_key -iv $encrypted_44efaf791086_iv -in BIN.enc -out BIN -d
   - export GOOGLE_APPLICATION_CREDENTIALS=$TRAVIS_BUILD_DIR/BIN
@@ -16,8 +20,15 @@ install:
   - sudo pip install markupsafe==1.1.1
   - sudo pip install setuptools==40.8.0
   - sudo pip install ansible==2.8.1
+  - gcloud version || true
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - source /home/travis/google-cloud-sdk/path.bash.inc # add the Google Cloud SDK command line tools (gsutil, gcloud) to PATH
+  - gcloud version
+  - gcloud -q components update
+  - if [ -a $TRAVIS_BUILD_DIR/BIN ]; then gcloud -q auth activate-service-account --key-file $TRAVIS_BUILD_DIR/BIN; fi
 
-before_script: ansible-playbook -i provisioning/inventory provisioning/local_setup.yml --connection=local --become
+before_script:
+  - ansible-playbook -i provisioning/inventory provisioning/local_setup.yml --connection=local --become
 
 script: ./integration/integration_test.sh
 
