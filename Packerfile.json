@@ -20,7 +20,7 @@
     {
       "type": "googlecompute",
       "image_description": "Snowplow Mini - The Snowplow Pipeline in a box",
-      "image_name": "snowplow-mini-{{user `gcp_version`}}-{{user `sp_mini_size`}}-{{timestamp}}",
+      "image_name": "{{user `gcp_image_name`}}",
       "machine_type": "{{user `gcp_machine_type`}}",
       "project_id": "snowplow-images",
       "source_image_family": "ubuntu-1604-lts",
@@ -28,7 +28,25 @@
       "zone": "us-central1-a"
     }
   ],
-  "post-processors": [],
+  "post-processors": [
+    [
+      {
+        "type": "googlecompute-export",
+        "only": ["googlecompute"],
+        "paths": [
+          "gs://snowplow-mini/{{user `gcp_image_name`}}.tar.gz"
+        ],
+        "keep_input_artifact": true
+      },
+      {
+        "type": "shell-local",
+        "only": ["googlecompute"],
+        "inline": [
+          "gsutil acl ch -u AllUsers:R gs://snowplow-mini/{{user `gcp_image_name`}}.tar.gz"
+        ]
+      }
+    ]
+  ],
   "provisioners": [
     {
       "playbook_file": "provisioning/publish.yml",
@@ -39,8 +57,9 @@
     }
   ],
   "variables": {
-    "aws_version": "0.8.1",
-    "gcp_version": "0-8-1",
+    "aws_version": "0.9.0",
+    "gcp_version": "0-9-0",
+    "gcp_image_name": "snowplow-mini-{{user `gcp_version`}}-{{user `sp_mini_size`}}-{{timestamp}}",
     "gcp_machine_type": "{{env `GCP_MACHINE_TYPE`}}",
     "aws_instance_type": "{{env `AWS_INSTANCE_TYPE`}}",
     "sp_mini_size": "{{env `SP_MINI_SIZE`}}"
