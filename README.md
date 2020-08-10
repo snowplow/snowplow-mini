@@ -53,7 +53,7 @@ These events can then be viewed in Kibana at `http://< sp mini public ip>/kibana
 
 ## Documentation
 
-1. [Quick start guide][get-started-guide]
+Documentation is available at [our docs website][mini-docs].
 
 ## Copyright and license
 
@@ -68,12 +68,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-[get-started-guide]: https://github.com/snowplow/snowplow-mini/wiki/Quickstart-guide
+[mini-docs]: https://docs.snowplowanalytics.com/docs/open-source-components-and-applications/snowplow-mini/
 
 [travis]: https://travis-ci.org/snowplow/snowplow-mini
 [travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
 
-[release-image]: http://img.shields.io/badge/release-0.9.1-blue.svg?style=flat
+[release-image]: http://img.shields.io/badge/release-0.10.0-blue.svg?style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
 [license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
