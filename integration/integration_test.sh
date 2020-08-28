@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Send good and bad events
+# Send good and bad events, and test that the default redirect path is disabled
 COUNTER=0
 while [  $COUNTER -lt 10 ]; do
   curl http://localhost:8080/i?e=pv
   curl http://localhost:8080/i
+  curl http://localhost:8080/r/tp2
   let COUNTER=COUNTER+1
 done
 sleep 120
