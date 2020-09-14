@@ -17,7 +17,9 @@
   redir /nsqadmin /nsqadmin/
   redir /elasticsearch /elasticsearch/
 
-  proxy / localhost:8080
+  proxy / localhost:8080 {
+    header_upstream -Authorization
+  }
 
   proxy /home localhost:3000 {
     without /home
