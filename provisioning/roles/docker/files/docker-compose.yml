@@ -108,7 +108,7 @@ services:
       - "4171:4171"
 
   scala-stream-collector:
-    image: snowplow/scala-stream-collector-nsq:1.0.1
+    image: snowplow/scala-stream-collector-nsq:2.0.0
     container_name: scala-stream-collector-nsq
     command: [ "--config", "/snowplow/config/snowplow-stream-collector.hocon" ]
     restart: always
@@ -126,7 +126,7 @@ services:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
   stream-enrich:
-    image: snowplow/stream-enrich-nsq:1.3.2
+    image: snowplow/stream-enrich-nsq:1.4.1
     container_name: stream-enrich-nsq
     command: [
       "--config", "/snowplow/config/snowplow-stream-enrich.hocon",

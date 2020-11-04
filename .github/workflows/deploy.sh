@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-cd $TRAVIS_BUILD_DIR
+cd $GITHUB_WORKSPACE
 
 ###### input validation ######
 if [ "$#" -ne 1 ]
@@ -18,7 +18,7 @@ else
 		echo "Platform recognized!"
 	else
 		echo "Unrecognized platform! Aborted."
-		echo "Supported platforms; aws, gcp."
+		echo "Supported platforms: aws, gcp."
 		exit 1
 	fi
 
@@ -72,7 +72,7 @@ else
 		fi
 	else
 		echo "Unrecognized size! Aborted."
-		echo "Available sizes; large, xlarge and xxlarge."
+		echo "Available sizes: large, xlarge and xxlarge."
 		exit 1
 	fi
 fi
@@ -86,6 +86,8 @@ then
 	packer build -only=amazon-ebs Packerfile.json
 elif [ "$SP_MINI_PLATFORM" == "gcp" ]
 then
+	echo $GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64 | base64 --decode > $GITHUB_WORKSPACE/BIN
+	export GOOGLE_APPLICATION_CREDENTIALS=$GITHUB_WORKSPACE/BIN
 	packer build -only=googlecompute Packerfile.json
 else
 	echo "Unrecognized platform. Aborted."

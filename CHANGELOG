@@ -1,3 +1,13 @@
+Version 0.11.0 (2020-11-04)
+---------------------------
+Migrate from Travis to GitHub Actions (#250)
+Remove Authorization header (#245)
+Update documentation on index page (#247)
+Bump Enrich to 1.4.1 (#243)
+Bump Stream Collector to 2.0.0 (#241)
+Disable default redirect path in collector configuration (#239)
+Add section about errors when building with Vagrant to README.md (#238)
+
 Version 0.10.1 (2020-09-07)
 ---------------------------
 Bump Enrich to 1.3.2 (#240)

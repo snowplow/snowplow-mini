@@ -55,6 +55,20 @@ These events can then be viewed in Kibana at `http://< sp mini public ip>/kibana
 
 Documentation is available at [our docs website][mini-docs].
 
+## Vagrant
+
+Some advice on how to handle certain errors if you're trying to build this locally with Vagrant.
+
+### `The box 'ubuntu/xenial64' could not be found or could not be accessed in the remote catalog.`
+
+Your Vagrant version is probably outdated. Use Vagrant 2.0.0+.
+
+### `npm install` results in `enoent ENOENT: no such file or directory, open '/package.json'`
+
+This is caused by trying to use NFS. Comment the relevant lines in `Vagrantfile`.
+
+Most likely this will happen on `TASK [sp_mini_5_build_ui : Install npm packages based on package.json.]` but see also: https://discourse.snowplowanalytics.com/t/snowplow-mini-local-vagrant/2930.
+
 ## Copyright and license
 
 Snowplow Mini is copyright 2016-2020 Snowplow Analytics Ltd.
@@ -73,7 +87,7 @@ limitations under the License.
 [travis]: https://travis-ci.org/snowplow/snowplow-mini
 [travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
 
-[release-image]: http://img.shields.io/badge/release-0.10.1-blue.svg?style=flat
+[release-image]: http://img.shields.io/badge/release-0.11.0-blue.svg?style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
 [license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat

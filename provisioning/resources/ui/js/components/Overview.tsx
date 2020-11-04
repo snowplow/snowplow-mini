@@ -42,14 +42,17 @@ export class Overview extends React.Component<{}, {}> {
         <h3>3. Understanding how Snowplow Mini works</h3>
         <h3>Quicklinks: </h3>
         <ul>
+          <li><a href={'https://docs.snowplowanalytics.com/docs/understanding-your-pipeline/what-is-snowplow-mini'}>What is Snowplow Mini?</a></li>
+          <li><a href={'https://docs.snowplowanalytics.com/docs/open-source-components-and-applications/snowplow-mini/snowplow-mini-0-11-0/usage-guide/'}>Usage guide</a></li>
+          <li><a href={'https://docs.snowplowanalytics.com/docs/open-source-components-and-applications/snowplow-mini/snowplow-mini-0-11-0/control-plane-api/'}>Control Plane API</a></li>
           <li>Link to <a href={'https://github.com/snowplow/snowplow-mini'}>Snowplow Mini</a> repository</li>
-          <li>Link to <a href={'https://github.com/snowplow/snowplow-mini/wiki/Quickstart-guide'}>Quickstart Guide</a></li>
           <li>Collector endpoint <a href={collector}>{collector}</a></li>
         </ul>
         <h3>The software stack installed: </h3>
         <ul>
-          <li>Snowplow Stream Collector NSQ 1.0.1</li>
-          <li>Snowplow Stream Enrich NSQ 1.3.2</li>
+        <li><b>Snowplow Mini 0.11.0</b></li>
+          <li>Snowplow Stream Collector NSQ 2.0.0</li>
+          <li>Snowplow Stream Enrich NSQ 1.4.1</li>
           <li>Snowplow Elasticsearch Loader 1.0.0</li>
           <li>Snowplow Iglu Server 0.6.1</li>
           <li>Postgres 9.5</li>
