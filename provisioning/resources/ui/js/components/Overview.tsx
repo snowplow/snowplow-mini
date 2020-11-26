@@ -26,6 +26,7 @@ export class Overview extends React.Component<{}, {}> {
     var collector: string = location.protocol + '//' + window.location.host;
     var kibana: string = location.protocol + '//' + window.location.host + '/kibana/';
     var elasticsearch: string = location.protocol + '//' + window.location.host + '/elasticsearch';
+    var cAdvisor: string = location.protocol + '//' + window.location.host + '/metrics';
 
     return (
       <div className="tab-content">
@@ -47,6 +48,7 @@ export class Overview extends React.Component<{}, {}> {
           <li><a href={'https://docs.snowplowanalytics.com/docs/open-source-components-and-applications/snowplow-mini/snowplow-mini-0-11-0/control-plane-api/'}>Control Plane API</a></li>
           <li>Link to <a href={'https://github.com/snowplow/snowplow-mini'}>Snowplow Mini</a> repository</li>
           <li>Collector endpoint <a href={collector}>{collector}</a></li>
+          <li>Metrics endpoint <a href={cAdvisor}>{cAdvisor}</a></li>
         </ul>
         <h3>The software stack installed: </h3>
         <ul>
@@ -59,6 +61,7 @@ export class Overview extends React.Component<{}, {}> {
           <li>NSQ v1.2.0</li>
           <li>Elasticsearch-OSS 6.3.1</li>
           <li>Kibana-OSS 6.3.1</li>
+          <li>cAdvisor 0.36.0</li>
         </ul>
         <h3>Stack topology: </h3>
         <div>

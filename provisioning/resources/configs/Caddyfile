@@ -10,12 +10,14 @@
     /api/topics
     /nsqadmin
     /control-plane
+    /metrics
   }
   redir /home /home/
   redir /iglu-server /iglu-server/
   redir /kibana /kibana/
   redir /nsqadmin /nsqadmin/
   redir /elasticsearch /elasticsearch/
+  redir /metrics /metrics/
 
   proxy / localhost:8080 {
     header_upstream -Authorization
@@ -48,6 +50,8 @@
   proxy /control-plane localhost:10000 {
     without /control-plane
   }
+
+  proxy /metrics localhost:8093
 }
 
 *:3000 {

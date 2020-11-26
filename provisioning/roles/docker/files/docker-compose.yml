@@ -177,3 +177,18 @@ services:
       options:
         max-size: "1M"
         max-file: "10"
+
+  cadvisor:
+    image: gcr.io/google-containers/cadvisor:v0.36.0
+    container_name: cadvisor
+    restart: always
+    privileged: true
+    entrypoint: ["/usr/bin/cadvisor", "-logtostderr", "-url_base_prefix=/metrics"]
+    ports:
+      - 8093:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
