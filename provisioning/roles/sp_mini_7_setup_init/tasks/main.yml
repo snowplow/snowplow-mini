@@ -1,7 +1,7 @@
 ---
 - include_vars: ../../common_vars.yml
 
-- name: Copy init scripts to /etc/init.d
+- name: Copy SysVinit scripts to /etc/init.d
   become: yes
   copy:
     remote_src: true
@@ -9,17 +9,22 @@
     dest: "/etc/init.d"
     mode: 0755
   with_items:
-    - snowplow_mini
     - snowplow_mini_control_plane_api
     - caddy
 
-- name: Configure for inits for calling at boot time
+- name: Configure for SysVinits for calling at boot time
   become: yes
   shell: "update-rc.d {{item}} defaults"
   with_items:
-    - snowplow_mini
     - snowplow_mini_control_plane_api
     - caddy
+
+- name: Copy snowplow_mini service to /etc/systemd/system and enable it at reboot
+  become: yes
+  shell: |
+    cp "{{ init_dir }}/snowplow_mini.service" /etc/systemd/system/
+    chmod 644 /etc/systemd/system/snowplow_mini.service
+    systemctl enable snowplow_mini.service
 
 - name: Start Caddy
   become: yes

@@ -21,9 +21,10 @@ services:
         soft: 65536
         hard: 65536
     logging:
+      driver: awslogs
       options:
-        max-size: "50M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "elasticsearch"
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -39,9 +40,10 @@ services:
     depends_on:
       - elasticsearch
     logging:
+      driver: awslogs
       options:
-        max-size: "1M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "kibana"
 
   elasticsearch-loader-good:
     image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:1.0.0
@@ -53,9 +55,10 @@ services:
     volumes:
       - /home/ubuntu/snowplow/configs:/snowplow/config
     logging:
+      driver: awslogs
       options:
-        max-size: "10M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "elasticsearch-loader-good"
     environment:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
@@ -69,9 +72,10 @@ services:
     volumes:
       - /home/ubuntu/snowplow/configs:/snowplow/config
     logging:
+      driver: awslogs
       options:
-        max-size: "10M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "elasticsearch-loader-bad"
     environment:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
@@ -81,9 +85,10 @@ services:
     command: /nsqlookupd --broadcast-address=nsqlookupd
     restart: always
     logging:
+      driver: awslogs
       options:
-        max-size: "1M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "nsqlookupd"
     ports:
       - "4160:4160"
       - "4161:4161"
@@ -101,9 +106,10 @@ services:
       - "4150:4150"
       - "4151:4151"
     logging:
+      driver: awslogs
       options:
-        max-size: "1M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "nsqd"
 
   nsqadmin:
     image: nsqio/nsq:v1.2.0
@@ -115,9 +121,10 @@ services:
     ports:
       - "4171:4171"
     logging:
+      driver: awslogs
       options:
-        max-size: "1M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "nsqadmin"
 
   scala-stream-collector:
     image: snowplow/scala-stream-collector-nsq:2.0.0
@@ -131,9 +138,10 @@ services:
     volumes:
       - /home/ubuntu/snowplow/configs:/snowplow/config
     logging:
+      driver: awslogs
       options:
-        max-size: "10M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "scala-stream-collector"
     environment:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
@@ -152,9 +160,10 @@ services:
     volumes:
       - /home/ubuntu/snowplow/configs:/snowplow/config
     logging:
+      driver: awslogs
       options:
-        max-size: "10M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "stream-enrich"
     environment:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
@@ -168,9 +177,10 @@ services:
     ports:
       - "5433:5432"
     logging:
+      driver: awslogs
       options:
-        max-size: "1M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "postgres"
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
 
@@ -187,9 +197,10 @@ services:
       - /home/ubuntu/snowplow/init/wait-for-postgres.sh:/snowplow/bin/wait-for-postgres.sh
       - /home/ubuntu/snowplow/configs:/snowplow/config
     logging:
+      driver: awslogs
       options:
-        max-size: "1M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "iglu-server"
 
   cadvisor:
     image: gcr.io/google-containers/cadvisor:v0.36.0
@@ -206,6 +217,7 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
     logging:
+      driver: awslogs
       options:
-        max-size: "1M"
-        max-file: "10"
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "cadvisor"
