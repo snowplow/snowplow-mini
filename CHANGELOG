@@ -1,3 +1,12 @@
+Version 0.12.0 (2020-12-15)
+---------------------------
+Fix cronjobs (#260)
+Bump Stream Collector to 2.1.0 (#259)
+Bump Elastic stack to 6.8.9 (#253)
+Export logs to cloud logging services (#258)
+Remove golang setup from CI/CD (#256)
+Integrate cAdvisor (#254)
+
 Version 0.11.0 (2020-11-04)
 ---------------------------
 Migrate from Travis to GitHub Actions (#250)
