@@ -37,9 +37,9 @@
 - cron:
     name: "Add cronjob to crop ES good index's docs older than a week"
     special_time: weekly
-    job: /usr/bin/curl -s -X POST http://localhost:9200/good/_delete_by_query -H 'Content-Type:application/json' -d '{ "query" :{ "range" :{ "collector_tstamp" :{ "lt" :"now-1w/d" } } } }' > /dev/null 2>&1
+    job: /usr/bin/curl -s -X POST http://localhost:9200/good/_delete_by_query -H 'Content-Type:application/json' -d '{ "query" :{ "range" :{ "collector_tstamp" :{ "lt" :"now-1w/d" } } } }' 1>> /home/ubuntu/snowplow/good_cron.out 2>> /home/ubuntu/snowplow/good_cron.err
 
 - cron:
     name: "Add cronjob to crop ES bad index's docs older than a week"
     special_time: weekly
-    job: /usr/bin/curl -s -X POST http://localhost:9200/bad/_delete_by_query -H 'Content-Type:application/json' -d '{ "query" :{ "range" :{ "failure_tstamp" :{ "lt" :"now-1w/d" } } } }' > /dev/null 2>&1
+    job: /usr/bin/curl -s -X POST http://localhost:9200/bad/_delete_by_query -H 'Content-Type:application/json' -d '{ "query" :{ "range" :{ "data.failure.timestamp" :{ "lt" :"now-1w/d" } } } }' 1>> /home/ubuntu/snowplow/bad_cron.out 2>> /home/ubuntu/snowplow/bad_cron.err
