@@ -87,7 +87,7 @@ limitations under the License.
 [travis]: https://travis-ci.org/snowplow/snowplow-mini
 [travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
 
-[release-image]: http://img.shields.io/badge/release-0.12.0-blue.svg?style=flat
+[release-image]: http://img.shields.io/badge/release-0.12.1-blue.svg?style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
 [license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
