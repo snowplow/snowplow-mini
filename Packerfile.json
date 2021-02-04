@@ -9,10 +9,10 @@
       "ami_regions": "us-east-2,us-west-1,us-west-2,ca-central-1,eu-west-1,eu-central-1,eu-west-2,ap-southeast-1,ap-southeast-2,ap-northeast-2,ap-northeast-1,ap-south-1,sa-east-1",
       "instance_type": "{{user `aws_instance_type`}}",
       "region": "us-east-1",
-      "source_ami": "ami-03a935aafa6b52b97",
+      "source_ami": "ami-02fe94dee086c0c37",
       "ssh_username": "ubuntu",
       "tags": {
-        "OS_Version": "Ubuntu-16.04",
+        "OS_Version": "Ubuntu-18.04",
         "Release": "{{user `aws_version`}}"
       },
       "type": "amazon-ebs"
@@ -23,7 +23,7 @@
       "image_name": "{{user `gcp_image_name`}}",
       "machine_type": "{{user `gcp_machine_type`}}",
       "project_id": "snowplow-images",
-      "source_image_family": "ubuntu-1604-lts",
+      "source_image_family": "ubuntu-1804-lts",
       "ssh_username": "ubuntu",
       "zone": "us-central1-a"
     }
