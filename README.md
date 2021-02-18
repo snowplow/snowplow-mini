@@ -1,7 +1,7 @@
 # Snowplow-Mini
 
 [![Join the chat at https://gitter.im/snowplow/snowplow-mini](https://badges.gitter.im/snowplow/snowplow-mini.svg)](https://gitter.im/snowplow/snowplow-mini?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status][travis-image]][travis]
+[![Build Status][build-image]][build-wf]
 [![Release][release-image]][releases]
 [![License][license-image]][license]
 
@@ -84,11 +84,11 @@ limitations under the License.
 
 [mini-docs]: https://docs.snowplowanalytics.com/docs/open-source-components-and-applications/snowplow-mini/
 
-[travis]: https://travis-ci.org/snowplow/snowplow-mini
-[travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
+[build-image]: https://github.com/snowplow/snowplow-mini/workflows/build/badge.svg
+[build-wf]: https://github.com/snowplow/snowplow-mini/actions?query=workflow%3Apublish
 
-[release-image]: http://img.shields.io/badge/release-0.12.1-blue.svg?style=flat
+[release-image]: https://img.shields.io/github/v/release/snowplow/snowplow-mini?sort=semver&style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
-[license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
-[license]: http://www.apache.org/licenses/LICENSE-2.0
+[license-image]: https://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
+[license]: https://www.apache.org/licenses/LICENSE-2.0
