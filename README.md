@@ -1,7 +1,7 @@
-# Snowplow-Mini
+# Snowplow Mini
 
 [![Discourse posts][discourse-image]][discourse]
-[![Build Status][travis-image]][travis]
+[![Build Status][build-image]][build-wf]
 [![Release][release-image]][releases]
 [![License][license-image]][license]
 
@@ -24,9 +24,9 @@ An easily-deployable, single instance version of Snowplow that serves three use 
 
 ## Topology
 
-Snowplow-Mini runs several distinct applications on the same box which are all linked by NSQ topics.  In a production deployment each instance could be an Autoscaling Group and each NSQ topic would be a distinct Kinesis Stream.
+Snowplow Mini runs several distinct applications on the same box which are all linked by NSQ topics.  In a production deployment each instance could be an Autoscaling Group and each NSQ topic would be a distinct Kinesis Stream.
 
-* Scala Stream Collector:
+* Stream Collector:
   - Starts server listening on `http://< sp mini public ip>/` which events can be sent to.
   - Sends "good" events to the `RawEvents` NSQ topic
   - Sends "bad" events to the `BadEvents` NSQ topic
@@ -46,10 +46,6 @@ Snowplow-Mini runs several distinct applications on the same box which are all l
 These events can then be viewed in Kibana at `http://< sp mini public ip>/kibana`.
 
 ![](https://raw.githubusercontent.com/snowplow/snowplow-mini/master/utils/topology/snowplow-mini-topology.jpg)
-
-## Roadmap
-
-* [ ] Support loading data into Redshift. To give analysts / data teams a good idea to understand what Snowplow "does".
 
 ## Documentation
 
@@ -87,11 +83,12 @@ limitations under the License.
 [discourse]: https://discourse.snowplowanalytics.com/
 [discourse-image]: https://img.shields.io/discourse/posts?server=https%3A%2F%2Fdiscourse.snowplowanalytics.com%2F
 
-[travis]: https://travis-ci.org/snowplow/snowplow-mini
-[travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
 
-[release-image]: http://img.shields.io/badge/release-0.12.1-blue.svg?style=flat
+[build-image]: https://github.com/snowplow/snowplow-mini/actions/workflows/publish.yml/badge.svg
+[build-wf]: https://github.com/snowplow/snowplow-mini/actions/workflows/publish.yml
+
+[release-image]: https://img.shields.io/github/v/release/snowplow/snowplow-mini?sort=semver&style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
-[license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
-[license]: http://www.apache.org/licenses/LICENSE-2.0
+[license-image]: https://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
+[license]: https://www.apache.org/licenses/LICENSE-2.0
