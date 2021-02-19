@@ -1,6 +1,6 @@
 # Snowplow-Mini
 
-[![Join the chat at https://gitter.im/snowplow/snowplow-mini](https://badges.gitter.im/snowplow/snowplow-mini.svg)](https://gitter.im/snowplow/snowplow-mini?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Discourse posts][discourse-image]][discourse]
 [![Build Status][travis-image]][travis]
 [![Release][release-image]][releases]
 [![License][license-image]][license]
@@ -83,6 +83,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 [mini-docs]: https://docs.snowplowanalytics.com/docs/open-source-components-and-applications/snowplow-mini/
+
+[discourse]: https://discourse.snowplowanalytics.com/
+[discourse-image]: https://img.shields.io/discourse/posts?server=https%3A%2F%2Fdiscourse.snowplowanalytics.com%2F
 
 [travis]: https://travis-ci.org/snowplow/snowplow-mini
 [travis-image]: https://travis-ci.org/snowplow/snowplow-mini.svg?branch=master
