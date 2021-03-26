@@ -6,7 +6,7 @@ on:
 jobs:
   test:
     name: Test and publish artifacts
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - name: Checkout code
