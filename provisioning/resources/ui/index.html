@@ -22,12 +22,11 @@
       ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
       p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
       };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
-      n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","https://d1fc8wv8zag5ca.cloudfront.net/2.8.2/sp.js","snowplow"));
+      n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","https://cdn.jsdelivr.net/gh/snowplow/sp-js-assets@2.17.3/sp.js","snowplow"));
       var collector = window.location.host;
-      window.snowplow('newTracker','rt',collector, {
+      window.snowplow('newTracker', 'rt', collector, {
         encodeBase64: false,
         appId: 'SnowplowMini',
-        platform: 'web',
         contexts: {
           webPage: true,
           performanceTiming: true
