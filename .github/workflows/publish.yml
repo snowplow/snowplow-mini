@@ -25,9 +25,6 @@ jobs:
       - name: Provision a local Mini instance
         run: ansible-playbook -i $GITHUB_WORKSPACE/provisioning/inventory $GITHUB_WORKSPACE/provisioning/local_setup.yml --connection=local --become
 
-      - name: Integration test
-        run: $GITHUB_WORKSPACE/integration/integration_test.sh
-
       - name: Set up gcloud
         if: startsWith(github.ref, 'refs/tags/')
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
