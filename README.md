@@ -16,46 +16,59 @@ An easily-deployable, single instance version of Snowplow that serves three use 
 * [x] Data is tracked and processed in real time
 * [x] Added Iglu Server to allow for custom schemas to be uploaded
 * [x] Data is validated during processing
-  - This is done using both our standard Iglu schemas and any custom ones that you have loaded into the Iglu Server
+  * This is done using both our standard Iglu schemas and any custom ones that you have loaded into the Iglu Server
 * [x] Data is loaded into Elasticsearch
-  - Can be queried directly or through a Kibana dashboard
-  - Good and bad events are in distinct indexes
+  * Can be queried directly or through a Kibana dashboard
+  * Good and bad events are in distinct indexes
 * [x] Create UI to indicate what is happening with each of the different subsystems (collector, enrich etc.), so as to provide developers a very indepth way of understanding how the different Snowplow subsystems work with one another
-
-## Topology
-
-Snowplow Mini runs several distinct applications on the same box which are all linked by NSQ topics.  In a production deployment each instance could be an Autoscaling Group and each NSQ topic would be a distinct Kinesis Stream.
-
-* Stream Collector:
-  - Starts server listening on `http://< sp mini public ip>/` which events can be sent to.
-  - Sends "good" events to the `RawEvents` NSQ topic
-  - Sends "bad" events to the `BadEvents` NSQ topic
-* Stream Enrich:
-  - Reads events in from the `RawEvents` NSQ topic
-  - Sends events which passed the enrichment process to the `EnrichedEvents` NSQ topic
-  - Sends events which failed the enrichment process to the `BadEvents` NSQ topic
-* Elasticsearch Sink Good:
-  - Reads events from the `EnrichedEvents` NSQ topic
-  - Sends those events to the `good` Elasticsearch index
-  - On failure to insert, writes errors to `BadElasticsearchEvents` NSQ topic
-* Elasticsearch Sink Bad:
-  - Reads events from the `BadEvents` NSQ topic
-  - Sends those events to the `bad` Elasticsearch index
-  - On failure to insert, writes errors to `BadElasticsearchEvents` NSQ topic
-
-These events can then be viewed in Kibana at `http://< sp mini public ip>/kibana`.
-
-![](https://raw.githubusercontent.com/snowplow/snowplow-mini/master/utils/topology/snowplow-mini-topology.jpg)
 
 ## Documentation
 
-Documentation is available at [our docs website][mini-docs].
+Cloud setup guides for AWS and GCP, in addition to a usage guide, are available at [our docs website][mini-docs].
 
-## Vagrant
+## Local Quick Start
+
+To run `snowplow-mini` on your local machine you will need to install the following pre-requisites:
+
+* [Vagrant][vagrant]
+* [VirtualBox][virtualbox]
+
+Then you should be able stand up a `snowplow-mini` locally by then running:
+
+```bash
+$ git clone https://github.com/snowplow/snowplow-mini.git
+  Cloning into 'snowplow-mini'...
+$ cd snowplow-mini
+$ vagrant up
+  Bringing machine 'default' up with 'virtualbox' provider...
+```
+
+This will take a little time to complete, so grab yourself a ☕️ and come back in a few minutes. See the troubleshooting section below if you encounter any errors.
+
+Once complete, a Snowplow Collector will be running on `http://localhost:8080` and the Snowplow Mini UI will be on [http://localhost:2000/home](http://localhost:2000/home).
+
+To log in to the Snowplow Mini UI for the first time, follow the `First time usage` section within the [documentation][mini-docs] for the version of Snowplow Mini you have just created.
+
+Once you are finished with Snowplow Mini locally, it is wise to stop the virtual machine:
+
+```bash
+$ vagrant halt
+  ==> default: Attempting graceful shutdown of VM...
+```
+
+If you wish to tidy up all the resources, including deleting the virtual machine:
+
+```bash
+$ vagrant destroy
+  default: Are you sure you want to destroy the 'default' VM? [y/N] y
+  ==> default: Destroying VM and associated drives...
+```
+
+## Vagrant Troubleshooting
 
 Some advice on how to handle certain errors if you're trying to build this locally with Vagrant.
 
-### `The box 'ubuntu/xenial64' could not be found or could not be accessed in the remote catalog.`
+### `The box 'ubuntu/bionic64' could not be found or could not be accessed in the remote catalog.`
 
 Your Vagrant version is probably outdated. Use Vagrant 2.0.0+.
 
@@ -63,7 +76,32 @@ Your Vagrant version is probably outdated. Use Vagrant 2.0.0+.
 
 This is caused by trying to use NFS. Comment the relevant lines in `Vagrantfile`.
 
-Most likely this will happen on `TASK [sp_mini_5_build_ui : Install npm packages based on package.json.]` but see also: https://discourse.snowplowanalytics.com/t/snowplow-mini-local-vagrant/2930.
+Most likely this will happen on `TASK [sp_mini_5_build_ui : Install npm packages based on package.json.]` but see also: [https://discourse.snowplowanalytics.com/t/snowplow-mini-local-vagrant/2930](https://discourse.snowplowanalytics.com/t/snowplow-mini-local-vagrant/2930).
+
+## Topology
+
+Snowplow Mini runs several distinct applications on the same box which are all linked by NSQ topics.  In a production deployment each instance could be an Autoscaling Group and each NSQ topic would be a distinct Kinesis Stream.
+
+* Stream Collector:
+  * Starts server listening on `http://< sp mini public ip>/` which events can be sent to.
+  * Sends "good" events to the `RawEvents` NSQ topic
+  * Sends "bad" events to the `BadEvents` NSQ topic
+* Stream Enrich:
+  * Reads events in from the `RawEvents` NSQ topic
+  * Sends events which passed the enrichment process to the `EnrichedEvents` NSQ topic
+  * Sends events which failed the enrichment process to the `BadEvents` NSQ topic
+* Elasticsearch Sink Good:
+  * Reads events from the `EnrichedEvents` NSQ topic
+  * Sends those events to the `good` Elasticsearch index
+  * On failure to insert, writes errors to `BadElasticsearchEvents` NSQ topic
+* Elasticsearch Sink Bad:
+  * Reads events from the `BadEvents` NSQ topic
+  * Sends those events to the `bad` Elasticsearch index
+  * On failure to insert, writes errors to `BadElasticsearchEvents` NSQ topic
+
+These events can then be viewed in Kibana at `http://< sp mini public ip>/kibana`.
+
+![topology](https://raw.githubusercontent.com/snowplow/snowplow-mini/master/utils/topology/snowplow-mini-topology.jpg)
 
 ## Copyright and license
 
@@ -83,7 +121,6 @@ limitations under the License.
 [discourse]: https://discourse.snowplowanalytics.com/
 [discourse-image]: https://img.shields.io/discourse/posts?server=https%3A%2F%2Fdiscourse.snowplowanalytics.com%2F
 
-
 [build-image]: https://github.com/snowplow/snowplow-mini/actions/workflows/publish.yml/badge.svg
 [build-wf]: https://github.com/snowplow/snowplow-mini/actions/workflows/publish.yml
 
@@ -92,3 +129,6 @@ limitations under the License.
 
 [license-image]: https://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
 [license]: https://www.apache.org/licenses/LICENSE-2.0
+
+[vagrant]: https://www.vagrantup.com/
+[virtualbox]: https://www.virtualbox.org/
