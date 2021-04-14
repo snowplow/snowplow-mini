@@ -40,7 +40,7 @@ services:
       driver: gcplogs
 
   elasticsearch-loader-good:
-    image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:1.0.0
+    image: ssnowplow/elasticsearch-loader:1.0.0
     container_name: elasticsearch-loader-good
     command: [ "--config", "/snowplow/config/snowplow-es-loader-good.hocon" ]
     restart: always
@@ -54,7 +54,7 @@ services:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
   elasticsearch-loader-bad:
-    image: snowplow-docker-registry.bintray.io/snowplow/elasticsearch-loader:1.0.0
+    image: snowplow/elasticsearch-loader:1.0.0
     container_name: elasticsearch-loader-bad
     command: [ "--config", "/snowplow/config/snowplow-es-loader-bad.hocon" ]
     restart: always
@@ -155,7 +155,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
 
   iglu-server:
-    image: snowplow-docker-registry.bintray.io/snowplow/iglu-server:0.6.1
+    image: snowplow/iglu-server:0.6.1
     container_name: iglu-server
     entrypoint: /snowplow/bin/wait-for-postgres.sh postgres --config /snowplow/config/iglu-server.conf
     restart: always
