@@ -1,3 +1,12 @@
+Version 0.12.4 (2021-04-15)
+---------------------------
+Remove flaky integration test from CI (#279)
+Update deprecated ansible features in ansible-go (#277)
+Update UI to stop using Snowplow CDN (#249)
+Update readme to provide step by step instructions on running locally (#273)
+Migrate pulling of docker images to dockerhub (#276)
+Switch paramiko installation to pip (#274)
+
 Version 0.12.3 (2021-03-29)
 ---------------------------
 Bump Stream Collector to 2.2.1 (#270)
