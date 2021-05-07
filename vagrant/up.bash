@@ -3,6 +3,7 @@
 #echo "==============================="
 #echo "INSTALLING ANSIBLE DEPENDENCIES"
 #echo "-------------------------------"
+export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y language-pack-en python-pip libffi-dev libssl-dev python-dev
 sudo pip install --upgrade pip
