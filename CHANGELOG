@@ -1,3 +1,9 @@
+Version 0.12.5 (2021-05-10)
+---------------------------
+Switch to google-github-actions/setup-gcloud (#272)
+Bump Stream Enrich to 2.0.0 (#280)
+Make vagrant setup noninteractive (#281)
+
 Version 0.12.4 (2021-04-15)
 ---------------------------
 Remove flaky integration test from CI (#279)
