@@ -40,7 +40,7 @@ services:
       driver: gcplogs
 
   elasticsearch-loader-good:
-    image: ssnowplow/elasticsearch-loader:1.0.0
+    image: snowplow/elasticsearch-loader:1.0.0
     container_name: elasticsearch-loader-good
     command: [ "--config", "/snowplow/config/snowplow-es-loader-good.hocon" ]
     restart: always
