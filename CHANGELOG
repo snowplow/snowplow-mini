@@ -1,3 +1,7 @@
+Version 0.12.6 (2021-05-11)
+---------------------------
+Fix typo in elasticsearch-loader-good image (#283)
+
 Version 0.12.5 (2021-05-10)
 ---------------------------
 Switch to google-github-actions/setup-gcloud (#272)
