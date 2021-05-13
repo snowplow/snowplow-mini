@@ -3,11 +3,11 @@ version: "3"
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.9
-    container_name: elasticsearch
+    container_name: elasticsearchs
     restart: always
     environment:
       # Swapping needs to be disabled for performance and node stability
-      - "bootstrap.memory_lock=true"
+      - "bootstrap.memory_lock=false"
       - ES_JAVA_OPTS=-Xms${ES_JVM_SIZE} -Xmx${ES_JVM_SIZE}
     volumes:
       - /home/ubuntu/snowplow/elasticsearch/data:/usr/share/elasticsearch/data
@@ -173,7 +173,7 @@ services:
     image: gcr.io/google-containers/cadvisor:v0.36.0
     container_name: cadvisor
     restart: always
-    privileged: true
+    privileged: false
     entrypoint: ["/usr/bin/cadvisor", "-logtostderr", "-url_base_prefix=/metrics"]
     ports:
       - 8093:8080
