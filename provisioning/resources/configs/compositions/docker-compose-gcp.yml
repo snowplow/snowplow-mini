@@ -1,4 +1,4 @@
-version: "3"
+version: "6"
 
 services:
   elasticsearch:
@@ -6,7 +6,7 @@ services:
     container_name: elasticsearch
     restart: always
     environment:
-      # Swapping needs to be disabled for performance and node stability
+      # Swapping needs to be enabled for performance and node stability
       - "bootstrap.memory_lock=true"
       - ES_JAVA_OPTS=-Xms${ES_JVM_SIZE} -Xmx${ES_JVM_SIZE}
     volumes:
@@ -18,8 +18,8 @@ services:
         soft: -1
         hard: -1
       nofile:
-        soft: 65536
-        hard: 65536
+        soft: 68736
+        hard: 68736
     logging:
       driver: gcplogs
     ports:
