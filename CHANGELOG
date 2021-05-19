@@ -1,3 +1,69 @@
+Version 0.12.6 (2021-05-11)
+---------------------------
+Fix typo in elasticsearch-loader-good image (#283)
+
+Version 0.12.5 (2021-05-10)
+---------------------------
+Switch to google-github-actions/setup-gcloud (#272)
+Bump Stream Enrich to 2.0.0 (#280)
+Make vagrant setup noninteractive (#281)
+
+Version 0.12.4 (2021-04-15)
+---------------------------
+Remove flaky integration test from CI (#279)
+Update deprecated ansible features in ansible-go (#277)
+Update UI to stop using Snowplow CDN (#249)
+Update readme to provide step by step instructions on running locally (#273)
+Migrate pulling of docker images to dockerhub (#276)
+Switch paramiko installation to pip (#274)
+
+Version 0.12.3 (2021-03-29)
+---------------------------
+Bump Stream Collector to 2.2.1 (#270)
+
+Version 0.12.2 (2021-02-19)
+---------------------------
+Replace Gitter button with Discourse button (#261)
+Bump Stream Collector to 2.1.2 (#263)
+
+Version 0.12.1 (2021-02-04)
+---------------------------
+Extend copyright to 2021 (#264)
+Bump base image to 18.04 (#265)
+
+Version 0.12.0 (2020-12-15)
+---------------------------
+Fix cronjobs (#260)
+Bump Stream Collector to 2.1.0 (#259)
+Bump Elastic stack to 6.8.9 (#253)
+Export logs to cloud logging services (#258)
+Remove golang setup from CI/CD (#256)
+Integrate cAdvisor (#254)
+
+Version 0.11.0 (2020-11-04)
+---------------------------
+Migrate from Travis to GitHub Actions (#250)
+Remove Authorization header (#245)
+Update documentation on index page (#247)
+Bump Enrich to 1.4.1 (#243)
+Bump Stream Collector to 2.0.0 (#241)
+Disable default redirect path in collector configuration (#239)
+Add section about errors when building with Vagrant to README.md (#238)
+
+Version 0.10.1 (2020-09-07)
+---------------------------
+Bump Enrich to 1.3.2 (#240)
+
+Version 0.10.0 (2020-08-10)
+---------------------------
+Fix Quick Start Guide link in README (#237)
+Bump Elasticsearch Loader to 1.0.0 (#234)
+Bump Stream Enrich to 1.3.1 (#235)
+
+Version 0.9.1 (2020-06-16)
+--------------------------
+Bump Stream Enrich to 1.1.3 (#232)
+
 Version 0.9.0 (2020-05-25)
 --------------------------
 Bump Scala Stream Collector to 1.0.1 (#231)

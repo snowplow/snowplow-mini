@@ -64,6 +64,8 @@ collector {
     body = "302, redirecting"
   }
 
+  enableDefaultRedirect = false
+
   redirectMacro {
     enabled = false
     placeholder = "[TOKEN]"

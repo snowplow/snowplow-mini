@@ -70,3 +70,7 @@
     curl -X POST localhost:4151/topic/create?topic=EnrichedEvents
     curl -X POST localhost:4151/topic/create?topic=BadEnrichedEvents
     curl -X POST localhost:4151/topic/create?topic=PiiEvents
+
+- name: Replace docker-compose.yml based on the platform
+  become: yes
+  shell: sh {{init_dir}}/compose.sh
