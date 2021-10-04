@@ -2,6 +2,9 @@
 - name: Ensure apt-transport-https is installed.
   apt: name=apt-transport-https state=present
 
+- name: Install latest ca-certificates.
+  apt: name=ca-certificates state=latest
+
 - name: Add Nodesource apt key.
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
