@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
 
   # Use NFS for shared folders for better performance
-  config.vm.network :private_network, ip: '192.168.50.50' # Uncomment to use NFS
+  config.vm.network :private_network, ip: '192.168.56.56' # Uncomment to use NFS
   config.vm.synced_folder '.', '/vagrant', nfs: true # Uncomment to use NFS
 
   config.vm.network "forwarded_port", guest: 80, host: 2000
