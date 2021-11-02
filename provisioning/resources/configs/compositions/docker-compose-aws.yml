@@ -80,7 +80,7 @@ services:
       - "SP_JAVA_OPTS=-Xmx${SP_JVM_SIZE}"
 
   nsqlookupd:
-    image: nsqio/nsq:v1.2.0
+    image: nsqio/nsq:v1.2.1
     container_name: nsqlookupd
     command: /nsqlookupd --broadcast-address=nsqlookupd
     restart: always
@@ -94,7 +94,7 @@ services:
       - "4161:4161"
 
   nsqd:
-    image: nsqio/nsq:v1.2.0
+    image: nsqio/nsq:v1.2.1
     container_name: nsqd
     command: /nsqd --broadcast-address=nsqd --lookupd-tcp-address=nsqlookupd:4160 --data-path=/home/ubuntu/snowplow/nsq-data
     restart: always
@@ -112,7 +112,7 @@ services:
         awslogs-stream: "nsqd"
 
   nsqadmin:
-    image: nsqio/nsq:v1.2.0
+    image: nsqio/nsq:v1.2.1
     container_name: nsqadmin
     command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
     restart: always
