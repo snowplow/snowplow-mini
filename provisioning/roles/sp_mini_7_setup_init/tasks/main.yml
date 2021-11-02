@@ -43,3 +43,8 @@
     name: "Add cronjob to crop ES bad index's docs older than a week"
     special_time: weekly
     job: /usr/bin/curl -s -X POST http://localhost:9200/bad/_delete_by_query -H 'Content-Type:application/json' -d '{ "query" :{ "range" :{ "data.failure.timestamp" :{ "lt" :"now-1w/d" } } } }' 1>> /home/ubuntu/snowplow/bad_cron.out 2>> /home/ubuntu/snowplow/bad_cron.err
+
+- cron:
+    name: "Add cronjob to crop NSQ data"
+    special_time: weekly
+    job: /bin/rm -rf /home/ubuntu/snowplow/nsq-data/*
