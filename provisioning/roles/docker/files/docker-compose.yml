@@ -108,7 +108,7 @@ services:
   nsqadmin:
     image: nsqio/nsq:v1.2.1
     container_name: nsqadmin
-    command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+    command: /nsqadmin --lookupd-http-address=nsqlookupd:4161 --base-path=/nsqadmin
     restart: always
     depends_on:
       - nsqlookupd
