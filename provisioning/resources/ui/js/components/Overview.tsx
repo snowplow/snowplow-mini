@@ -65,7 +65,7 @@ export class Overview extends React.Component<{}, {}> {
         </ul>
         <h3>Stack topology: </h3>
         <div>
-          <img src="assets/img/snowplow-mini-topology.jpg" />
+          <img src="/home/assets/img/snowplow-mini-topology.jpg" />
         </div>
       </div>
     );

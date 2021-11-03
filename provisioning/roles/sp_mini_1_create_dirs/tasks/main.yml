@@ -30,4 +30,3 @@
     - { src: "{{playbook_dir}}/resources/elasticsearch", dest: "{{main_dir}}" }
     - { src: "{{playbook_dir}}/resources/configs", dest: "{{main_dir}}" }
     - { src: "{{playbook_dir}}/resources/init", dest: "{{main_dir}}" }
-    - { src: "{{playbook_dir}}/resources/caddy", dest: "{{main_dir}}" }

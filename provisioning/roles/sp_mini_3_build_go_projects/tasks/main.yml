@@ -7,13 +7,15 @@
     go_bin: '/usr/local/go/bin'
     go_path: "{{ lookup('env', 'HOME') }}/go"
 
-- name: Get toml parser & psql driver for Golang
+- name: Get Control Plane dependencies
   environment:
     PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
     GOPATH: "{{ lookup('env', 'GOPATH') }}"
   shell: |
     go get github.com/BurntSushi/toml
     go get gopkg.in/pg.v5
+    go get github.com/nbutton23/zxcvbn-go
+    go get golang.org/x/crypto/bcrypt
 
 - name: Build Control Plane API
   become: yes
@@ -25,19 +27,4 @@
   become: yes
   synchronize:
     src: "{{control_plane_dir}}/snowplow-mini-control-plane-api"
-    dest: "{{executables_dir}}"
-
-- name: Build Caddy
-  environment:
-    PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
-    GOPATH: "{{ go_path }}"
-  shell: |
-    export GO111MODULE=on
-    cd /home/ubuntu/snowplow/caddy
-    go install
-
-- name: Copy Caddy executable to executables dir
-  become: yes
-  synchronize:
-    src: "{{ go_path }}/bin/caddy"
     dest: "{{executables_dir}}"

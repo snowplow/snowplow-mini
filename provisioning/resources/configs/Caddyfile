@@ -1,59 +1,53 @@
-*:80 {
-  tls off
-  basicauth "USERNAME_PLACEHOLDER" PASSWORD_PLACEHOLDER {
-    /home
-    /kibana
-    /elasticsearch
-    /static
-    /api/counter
-    /api/nodes
-    /api/topics
-    /nsqadmin
-    /control-plane
-    /metrics
-  }
-  redir /home /home/
-  redir /iglu-server /iglu-server/
-  redir /kibana /kibana/
-  redir /nsqadmin /nsqadmin/
-  redir /elasticsearch /elasticsearch/
-  redir /metrics /metrics/
-
-  proxy / localhost:8080 {
-    header_upstream -Authorization
-  }
-
-  proxy /home localhost:3000 {
-    without /home
-  }
-
-  proxy /kibana localhost:5601 {
-    without /kibana
-  }
-
-  proxy /iglu-server localhost:8081 {
-    without /iglu-server
-  }
-
-  proxy /nsqadmin localhost:4171 {
-    without /nsqadmin
-  }
-  proxy /static localhost:4171
-  proxy /api/counter localhost:4171
-  proxy /api/nodes localhost:4171
-  proxy /api/topics localhost:4171
-
-  proxy /elasticsearch localhost:9200 {
-    without /elasticsearch
-  }
-
-  proxy /control-plane localhost:10000 {
-    without /control-plane
-  }
-
-  proxy /metrics localhost:8093
+{
+    grace_period 0.1s
 }
 
-*:3000 {
-  root /home/ubuntu/snowplow/ui
+:80 {
+    @protectedPaths {
+        path /home* /elasticsearch* /kibana* /nsqadmin* /control-plane* /metrics*
+        not path /kibana/ui/favicons/* /kibana/built_assets/* /kibana/bundles/*
+    }   
+
+    basicauth @protectedPaths  {
+        USERNAME_PLACEHOLDER JDJhJDA0JFRYSENkLi4vamh0cm1UcHhKWTZEaGVEWm1OMzk4SVZ0ZTVONVVLUzQ5Q3MvYjE0eUF4bEJL
+    }
+
+    request_header -Authorization
+
+    reverse_proxy localhost:8080
+
+    route /home* {
+        uri strip_prefix /home
+        root * /home/ubuntu/snowplow/ui
+        file_server
+    }
+
+    route /elasticsearch* {
+        uri strip_prefix /elasticsearch
+        reverse_proxy localhost:9200
+    }
+
+    route /kibana* {
+        uri strip_prefix /kibana
+        reverse_proxy localhost:5601
+    }
+
+    route /iglu-server* {
+        uri strip_prefix /iglu-server
+        reverse_proxy localhost:8081
+    }
+
+    route /nsqadmin* {
+        reverse_proxy localhost:4171
+    }
+
+    route /control-plane* {
+        uri strip_prefix /control-plane
+        reverse_proxy localhost:10000
+    }
+
+    route /metrics* {
+        uri strip_prefix /metrics
+        reverse_proxy localhost:8093
+    }
 }

@@ -10,7 +10,7 @@ enrichments = "/home/ubuntu/snowplow/configs/enrichments" #directory which all t
 config = "/home/ubuntu/snowplow/configs" #directory which all the configs are in
 
 [config_file_names]
-caddy = "Caddyfile"
+caddy = "/etc/caddy/Caddyfile"
 iglu_resolver = "iglu-resolver.json"
 iglu_server = "iglu-server.conf"
 collector = "snowplow-stream-collector.hocon"

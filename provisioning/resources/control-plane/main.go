@@ -290,33 +290,43 @@ func addLocalIgluApikey(resp http.ResponseWriter, req *http.Request) {
 
 func changeUsernameAndPassword(resp http.ResponseWriter, req *http.Request) {
 	if req.Method == "POST" {
-		req.ParseForm()
-
-		newUsernameArr, checkUsername := req.Form["new_username"]
-		newPasswordArr, checkPassword := req.Form["new_password"]
-		if !(checkUsername && checkPassword) {
-			http.Error(resp, "missing parameter", 400)
-			return
-		}
-		newUsername := newUsernameArr[0]
-		newPassword := newPasswordArr[0]
-
-		err := changeCredentials(
-			config.Dirs.Config+"/"+config.ConfigNames.Caddy,
-			newUsername,
-			newPassword,
-		)
+		err := req.ParseForm()
 		if err != nil {
 			http.Error(resp, err.Error(), 500)
 			return
 		}
 
+		var newUsername string
+		var newPassword string
+
+		if newUsernameArr, ok := req.Form["new_username"]; ok {
+			newUsername = newUsernameArr[0]
+		} else {
+			http.Error(resp, "missing parameter new_username", 400)
+			return
+		}
+
+		if newPasswordArr, ok := req.Form["new_password"]; ok {
+			newPassword = newPasswordArr[0]
+		} else {
+			http.Error(resp, "missing parameter new_password", 400)
+			return
+		}
+
+		err, status := changeCredentials(
+			config.ConfigNames.Caddy,
+			newUsername,
+			newPassword,
+		)
+		if err != nil {
+			http.Error(resp, err.Error(), status)
+			return
+		}
 		err = restartService("caddy")
 		if err != nil {
 			http.Error(resp, err.Error(), 500)
 			return
 		}
-
 		resp.WriteHeader(http.StatusOK)
 		io.WriteString(resp, "changed successfully")
 	} else {

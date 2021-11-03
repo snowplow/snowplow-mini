@@ -34,8 +34,7 @@ func restartService(service string) error {
 	}
 
 	if service == "caddy" {
-		restartCommand := []string{"systemctl", "restart", "caddy"}
-		cmd := exec.Command("sudo", restartCommand...)
+		cmd := exec.Command("/bin/systemctl", "reload", "caddy")
 		err := cmd.Run()
 		if err != nil {
 			return err
