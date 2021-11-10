@@ -13,6 +13,7 @@ config = "/home/ubuntu/snowplow/configs" #directory which all the configs are in
 caddy = "Caddyfile"
 iglu_resolver = "iglu-resolver.json"
 iglu_server = "iglu-server.conf"
+collector = "snowplow-stream-collector.hocon"
 
 [init_scripts]
 stream_collector = "scala-stream-collector"
