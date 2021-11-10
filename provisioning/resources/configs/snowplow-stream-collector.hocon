@@ -94,10 +94,19 @@ collector {
       timeLimit = 5000
     }
   }
+
+  telemetry {
+      disable = false
+      interval = 60 minutes
+      method = POST
+      url = collector-g.snowplowanalytics.com
+      port = 443
+      secure = true
+   }
 }
 
 akka {
-  loglevel = DEBUG # 'OFF' for no logging, 'DEBUG' for all logging.
+  loglevel = WARNING
   loggers = ["akka.event.slf4j.Slf4jLogger"]
 
   http.server {

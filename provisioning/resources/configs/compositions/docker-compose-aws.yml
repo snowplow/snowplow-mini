@@ -127,7 +127,7 @@ services:
         awslogs-stream: "nsqadmin"
 
   scala-stream-collector:
-    image: snowplow/scala-stream-collector-nsq:2.2.1
+    image: snowplow/scala-stream-collector-nsq:2.4.1
     container_name: scala-stream-collector-nsq
     command: [ "--config", "/snowplow/config/snowplow-stream-collector.hocon" ]
     restart: always
