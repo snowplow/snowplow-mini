@@ -28,6 +28,7 @@ type configFileNames struct {
 	Caddy        string
 	IgluResolver string `toml:"iglu_resolver"`
 	IgluServer   string `toml:"iglu_server"`
+	Collector    string
 }
 
 type initScripts struct {

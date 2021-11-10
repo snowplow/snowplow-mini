@@ -20,6 +20,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"io"
 	"io/ioutil"
@@ -36,7 +37,7 @@ var config ControlPlaneConfig
 
 func main() {
 	configFlag := flag.String("config", "/home/ubuntu/snowplow/configs/control-plane-api.toml",
-							"Control Plane API config file")
+		"Control Plane API config file")
 	flag.Parse()
 	configPath = *configFlag
 
@@ -52,6 +53,7 @@ func main() {
 	http.HandleFunc("/credentials", changeUsernameAndPassword)
 	http.HandleFunc("/domain-name", addDomainName)
 	http.HandleFunc("/version", getSpminiVersion)
+	http.HandleFunc("/telemetry", manageTelemetry)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
@@ -373,5 +375,40 @@ func getSpminiVersion(resp http.ResponseWriter, req *http.Request) {
 		io.WriteString(resp, versionStr)
 	} else {
 		http.Error(resp, "", 404)
+	}
+}
+
+func manageTelemetry(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "GET" {
+		telemetryDisable, err := getTelemetryDisable(config.Dirs.Config + "/" + config.ConfigNames.Collector)
+		handleError(resp, err, http.StatusInternalServerError)
+
+		resp.WriteHeader(http.StatusOK)
+		_, err = io.WriteString(resp, "{\"collector.telemetry.disable\": "+telemetryDisable+"}")
+		handleError(resp, err, http.StatusInternalServerError)
+	} else if req.Method == "PUT" {
+		err := req.ParseForm()
+		handleError(resp, err, http.StatusInternalServerError)
+
+		disable := req.PostFormValue("disable")
+		if disable == "" {
+			handleError(resp, errors.New("no key named disable"), http.StatusBadRequest)
+		} else if disable == "true" || disable == "false" {
+			err = setTelemetryDisable(config.Dirs.Config+"/"+config.ConfigNames.Collector, disable)
+			handleError(resp, err, http.StatusInternalServerError)
+			err = restartService("streamCollector")
+			handleError(resp, err, http.StatusInternalServerError)
+		} else {
+			handleError(resp, errors.New("set disable key to either true or false"), http.StatusBadRequest)
+		}
+	} else {
+		handleError(resp, errors.New("http method not supported"), http.StatusMethodNotAllowed)
+	}
+}
+
+func handleError(w http.ResponseWriter, err error, status int) {
+	if err != nil {
+		http.Error(w, err.Error(), status)
+		return
 	}
 }
