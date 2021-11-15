@@ -1,3 +1,21 @@
+Version 0.13.0 (2021-12-06)
+---------------------------
+Upgrade axios to 0.21.2 (#313)
+Upgrade ca-certificates upstream in the setup playbook (#312)
+Make it possible to refresh Elasticsearch index mapping (#192)
+Add dedicated endpoint to restart individual services (#310)
+Bump Caddy to 2.4.6 (#303)
+Bump cadvisor to 0.43.0 (#311)
+Make Elasticsearch index creation fault-tolerant (#309)
+Configure a base path for nsqadmin (close #217)
+Bump NSQ to 1.2.1 (#300)
+Add cronjob to crop nsq data (#297)
+Add new endpoint to manage telemetry (#307)
+Bump Stream Collector to 2.4.1 (#304)
+Bump Stream Enrich to 2.0.3 (#305)
+Bump Elastic stack to 6.8.20 (#306)
+Fix invalid vagrant ip address (#302)
+
 Version 0.12.6 (2021-05-11)
 ---------------------------
 Fix typo in elasticsearch-loader-good image (#283)
