@@ -61,7 +61,7 @@ export class Overview extends React.Component<{}, {}> {
           <li>NSQ v1.2.1</li>
           <li>Elasticsearch-OSS 6.8.20</li>
           <li>Kibana-OSS 6.8.20</li>
-          <li>cAdvisor 0.36.0</li>
+          <li>cAdvisor 0.43.0</li>
         </ul>
         <h3>Stack topology: </h3>
         <div>
