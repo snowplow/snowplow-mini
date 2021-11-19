@@ -170,11 +170,13 @@ services:
       driver: gcplogs
 
   cadvisor:
-    image: gcr.io/google-containers/cadvisor:v0.36.0
+    image: gcr.io/cadvisor/cadvisor:v0.43.0
     container_name: cadvisor
     restart: always
     privileged: true
-    entrypoint: ["/usr/bin/cadvisor", "-logtostderr", "-url_base_prefix=/metrics"]
+    entrypoint: ["/usr/bin/cadvisor", "-logtostderr", "-url_base_prefix=/metrics", "--docker_only"]
+    environment:
+      CADVISOR_HEALTHCHECK_URL: http://localhost:8080/metrics/healthz
     ports:
       - 8093:8080
     volumes:
