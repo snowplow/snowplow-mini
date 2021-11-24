@@ -21,6 +21,8 @@ stream_enrich = "stream-enrich"
 es_loader_good = "elasticsearch-loader-good"
 es_loader_bad = "elasticsearch-loader-bad"
 iglu = "iglu-server"
+kibana = "kibana"
+elasticsearch = "elasticsearch"
 
 [PSQL]
 user = "snowplow"

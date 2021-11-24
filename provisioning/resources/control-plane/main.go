@@ -46,6 +46,7 @@ func main() {
 	}
 
 	http.HandleFunc("/restart-services", restartServices)
+	http.HandleFunc("/restart-service", restartService)
 	http.HandleFunc("/enrichments", uploadEnrichments)
 	http.HandleFunc("/iglu-config", uploadIgluConfig)
 	http.HandleFunc("/external-iglu", addExternalIgluServer)
@@ -69,6 +70,27 @@ func restartServices(resp http.ResponseWriter, req *http.Request) {
 	} else {
 		// Return 404 for other methods
 		http.Error(resp, "", 404)
+	}
+}
+
+func restartService(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "PUT" {
+		req.ParseForm()
+		if serviceNameArr, ok := req.Form["service_name"]; ok {
+			err, status := restartSPService(serviceNameArr[0])
+			if err != nil {
+				http.Error(resp, err.Error(), status)
+			} else {
+				resp.WriteHeader(http.StatusOK)
+				io.WriteString(resp, "OK")
+			}
+		} else {
+			http.Error(resp, "Missing key service_name", 400)
+			return
+		}
+	} else {
+		http.Error(resp, "Only PUT is supported", 404)
+		return
 	}
 }
 
@@ -112,9 +134,9 @@ func uploadEnrichments(resp http.ResponseWriter, req *http.Request) {
 		// Now we can write to file in peace
 		io.WriteString(f, fileContent)
 
-		err = restartService("streamEnrich")
+		err, status := restartSPService("enrich")
 		if err != nil {
-			http.Error(resp, err.Error(), 500)
+			http.Error(resp, err.Error(), status)
 			return
 		}
 
@@ -162,9 +184,9 @@ func uploadIgluConfig(resp http.ResponseWriter, req *http.Request) {
 		// Now we can write to config file in peace
 		io.WriteString(f, fileContent)
 
-		err = restartService("iglu")
+		err, status := restartSPService("iglu")
 		if err != nil {
-			http.Error(resp, err.Error(), 500)
+			http.Error(resp, err.Error(), status)
 			return
 		}
 
@@ -228,9 +250,9 @@ func addExternalIgluServer(resp http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		err = restartService("streamEnrich")
+		err, status := restartSPService("enrich")
 		if err != nil {
-			http.Error(resp, err.Error(), 500)
+			http.Error(resp, err.Error(), status)
 			return
 		}
 		resp.WriteHeader(http.StatusOK)
@@ -276,9 +298,9 @@ func addLocalIgluApikey(resp http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		err = restartService("streamEnrich")
+		err, status := restartSPService("enrich")
 		if err != nil {
-			http.Error(resp, err.Error(), 500)
+			http.Error(resp, err.Error(), status)
 			return
 		}
 		resp.WriteHeader(http.StatusOK)
@@ -322,9 +344,9 @@ func changeUsernameAndPassword(resp http.ResponseWriter, req *http.Request) {
 			http.Error(resp, err.Error(), status)
 			return
 		}
-		err = restartService("caddy")
+		err, status = restartSPService("caddy")
 		if err != nil {
-			http.Error(resp, err.Error(), 500)
+			http.Error(resp, err.Error(), status)
 			return
 		}
 		resp.WriteHeader(http.StatusOK)
@@ -360,9 +382,9 @@ func addDomainName(resp http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		err = restartService("caddy")
+		err, status := restartSPService("caddy")
 		if err != nil {
-			http.Error(resp, err.Error(), 500)
+			http.Error(resp, err.Error(), status)
 			return
 		}
 
@@ -406,8 +428,8 @@ func manageTelemetry(resp http.ResponseWriter, req *http.Request) {
 		} else if disable == "true" || disable == "false" {
 			err = setTelemetryDisable(config.Dirs.Config+"/"+config.ConfigNames.Collector, disable)
 			handleError(resp, err, http.StatusInternalServerError)
-			err = restartService("streamCollector")
-			handleError(resp, err, http.StatusInternalServerError)
+			err, status := restartSPService("collector")
+			handleError(resp, err, status)
 		} else {
 			handleError(resp, errors.New("set disable key to either true or false"), http.StatusBadRequest)
 		}

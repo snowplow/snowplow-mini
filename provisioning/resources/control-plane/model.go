@@ -32,12 +32,13 @@ type configFileNames struct {
 }
 
 type initScripts struct {
-	StreamCollector string `toml:"stream_collector"`
-	StreamEnrich    string `toml:"stream_enrich"`
-	EsLoaderGood    string `toml:"es_loader_good"`
-	EsLoaderBad     string `toml:"es_loader_bad"`
-	Iglu            string
-	Caddy           string
+	Collector     string `toml:"stream_collector"`
+	Enrich        string `toml:"stream_enrich"`
+	EsLoaderGood  string `toml:"es_loader_good"`
+	EsLoaderBad   string `toml:"es_loader_bad"`
+	Iglu          string
+	Kibana        string
+	Elasticsearch string
 }
 
 type psqlInfos struct {

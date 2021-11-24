@@ -24,34 +24,35 @@ import (
 	"os/exec"
 )
 
-func restartService(service string) error {
+func restartSPService(service string) (error, int) {
 	var initMap = map[string]string{
-		"streamCollector": config.Inits.StreamCollector,
-		"streamEnrich":    config.Inits.StreamEnrich,
-		"esLoaderGood":    config.Inits.EsLoaderGood,
-		"esLoaderBad":     config.Inits.EsLoaderBad,
-		"iglu":            config.Inits.Iglu,
+		"collector":     config.Inits.Collector,
+		"enrich":        config.Inits.Enrich,
+		"esLoaderGood":  config.Inits.EsLoaderGood,
+		"esLoaderBad":   config.Inits.EsLoaderBad,
+		"iglu":          config.Inits.Iglu,
+		"kibana":        config.Inits.Kibana,
+		"elasticsearch": config.Inits.Elasticsearch,
 	}
-
 	if service == "caddy" {
 		cmd := exec.Command("/bin/systemctl", "reload", "caddy")
 		err := cmd.Run()
 		if err != nil {
-			return err
+			return err, 500
 		}
-		return nil
+		return nil, 200
 	} else {
-		if val, ok := initMap[service]; ok {
-			restartCommandArgs := []string{"-f", "/home/ubuntu/snowplow/docker-compose.yml", "restart", val}
+		if serviceName, ok := initMap[service]; ok {
+			restartCommandArgs := []string{"restart", serviceName}
 			cmd := exec.Command("/usr/local/bin/docker-compose", restartCommandArgs...)
 			cmd.Dir = "/home/ubuntu/snowplow"
 			err := cmd.Run()
 			if err != nil {
-				return err
+				return err, 500
 			}
-			return nil
+			return nil, 200
 		}
-		return errors.New("unrecognized service: " + service)
+		return errors.New("Recognized service names: collector, enrich, esLoaderGood, esLoaderBad, iglu, kibana, elasticsearch. Received: " + service), 400
 	}
 }
 
