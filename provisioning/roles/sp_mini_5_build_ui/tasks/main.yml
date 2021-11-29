@@ -3,8 +3,7 @@
 
 - name: Install npm packages based on package.json.
   become: yes
-  npm:
-    path: "{{playbook_dir}}/resources/ui"
+  shell: "cd {{playbook_dir}}/resources/ui && npm install --legacy-peer-deps"
 
 - name: Create dist files
   become: yes
