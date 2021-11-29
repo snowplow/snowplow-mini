@@ -55,6 +55,7 @@ func main() {
 	http.HandleFunc("/domain-name", addDomainName)
 	http.HandleFunc("/version", getSpminiVersion)
 	http.HandleFunc("/telemetry", manageTelemetry)
+	http.HandleFunc("/reset-service", resetService)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
@@ -90,6 +91,47 @@ func restartService(resp http.ResponseWriter, req *http.Request) {
 		}
 	} else {
 		http.Error(resp, "Only PUT is supported", 404)
+		return
+	}
+}
+
+func resetService(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "POST" {
+		err := req.ParseForm()
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+		if serviceNameArr, ok := req.Form["service_name"]; ok {
+			serviceName := serviceNameArr[0]
+			if serviceName == "elasticsearch" {
+				err = resetElasticsearch("http://localhost:9200/_all")
+				if err != nil {
+					http.Error(resp, err.Error(), 500)
+					return
+				}
+				err = createESIndices()
+				if err != nil {
+					http.Error(resp, err.Error(), 500)
+					return
+				}
+				err = createKibanaIndexPatterns()
+				if err != nil {
+					http.Error(resp, err.Error(), 500)
+					return
+				}
+				resp.WriteHeader(http.StatusOK)
+				io.WriteString(resp, "Both Elasticsearch & Kibana are reset including the data and index mappings")
+			} else {
+				http.Error(resp, serviceName+" can't be reset. Only elasticsearch can be reset.", 400)
+				return
+			}
+		} else {
+			http.Error(resp, "Missing key service_name", 400)
+			return
+		}
+	} else {
+		http.Error(resp, "Only POST is supported", 400)
 		return
 	}
 }

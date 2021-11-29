@@ -29,6 +29,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/exec"
 	"regexp"
 	"time"
 )
@@ -141,4 +142,29 @@ func linesFromReader(r io.Reader) ([]string, error) {
 	}
 
 	return lines, nil
+}
+
+func resetElasticsearch(url string) error {
+	deleteReq, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		return err
+	}
+	deleteResp, err := http.DefaultClient.Do(deleteReq)
+	if err != nil {
+		return err
+	}
+	defer deleteResp.Body.Close()
+	return err
+}
+
+func createESIndices() error {
+	cmd := exec.Command("/bin/sh", "/home/ubuntu/snowplow/init/create-es-indices.sh")
+	err := cmd.Run()
+	return err
+}
+
+func createKibanaIndexPatterns() error {
+	cmd := exec.Command("/bin/sh", "/home/ubuntu/snowplow/init/create-kibana-indexes.sh")
+	err := cmd.Run()
+	return err
 }
