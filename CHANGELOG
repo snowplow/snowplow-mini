@@ -1,3 +1,8 @@
+Version 0.13.2 (2021-12-15)
+---------------------------
+Use -Dlog4j2.formatMsgNoLookups=true flag (#317)
+Fix JAVA_OPTS environment variable (#316)
+
 Version 0.13.1 (2021-12-09)
 ---------------------------
 Bump Stream Collector to 2.4.2 (#314)
