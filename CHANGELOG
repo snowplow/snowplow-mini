@@ -1,3 +1,9 @@
+Version 0.13.3 (2021-12-16)
+---------------------------
+Bump Stream Collector to 2.4.3 (#319)
+Bump Stream Enrich to 2.0.4 (#320)
+Bump Elasticsearch Loader to 1.0.3 (#321)
+
 Version 0.13.2 (2021-12-15)
 ---------------------------
 Use -Dlog4j2.formatMsgNoLookups=true flag (#317)
