@@ -1,3 +1,11 @@
+Version 0.13.4 (2021-12-21)
+---------------------------
+Fix JAVA_OPTS environment variable in the local docker-compose (#326)
+Bump elasticsearch loader to 1.0.4 (#325)
+Bump stream enrich to 2.0.5 (#324)
+Bump stream collector to 2.4.4 (#323)
+Change implementations of zxcvbn (#328)
+
 Version 0.13.3 (2021-12-16)
 ---------------------------
 Bump Stream Collector to 2.4.3 (#319)
