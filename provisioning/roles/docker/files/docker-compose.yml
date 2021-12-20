@@ -120,7 +120,7 @@ services:
         max-file: "10"
 
   scala-stream-collector:
-    image: snowplow/scala-stream-collector-nsq:2.4.3
+    image: snowplow/scala-stream-collector-nsq:2.4.4
     container_name: scala-stream-collector-nsq
     command: [ "--config", "/snowplow/config/snowplow-stream-collector.hocon" ]
     restart: always
