@@ -14,7 +14,7 @@
   shell: |
     go get github.com/BurntSushi/toml
     go get gopkg.in/pg.v5
-    go get github.com/nbutton23/zxcvbn-go
+    go get github.com/trustelem/zxcvbn
     go get golang.org/x/crypto/bcrypt
 
 - name: Build Control Plane API
