@@ -1,3 +1,7 @@
+Version 0.13.5 (2021-12-23)
+---------------------------
+Bump stream collector to 2.4.5 (#329)
+
 Version 0.13.4 (2021-12-21)
 ---------------------------
 Fix JAVA_OPTS environment variable in the local docker-compose (#326)

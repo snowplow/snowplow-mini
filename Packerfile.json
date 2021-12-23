@@ -57,8 +57,8 @@
     }
   ],
   "variables": {
-    "aws_version": "0.13.4",
-    "gcp_version": "0-13-4",
+    "aws_version": "0.13.5",
+    "gcp_version": "0-13-5",
     "gcp_image_name": "snowplow-mini-{{user `gcp_version`}}-{{user `sp_mini_size`}}-{{timestamp}}",
     "gcp_machine_type": "{{env `GCP_MACHINE_TYPE`}}",
     "aws_instance_type": "{{env `AWS_INSTANCE_TYPE`}}",
