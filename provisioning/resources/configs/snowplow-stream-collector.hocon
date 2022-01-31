@@ -103,6 +103,7 @@ collector {
       port = 443
       secure = true
    }
+   preTerminationPeriod = 0 seconds
 }
 
 akka {
