@@ -1,3 +1,10 @@
+Version 0.13.6 (2022-02-01)
+---------------------------
+Bump collector to 2.5.0 (#333)
+Bump Elastic stack to 6.8.22 (#334)
+Upgrade policykit-1 to latest available (#335)
+Fix /metrics endpoint (#331)
+
 Version 0.13.5 (2021-12-23)
 ---------------------------
 Bump stream collector to 2.4.5 (#329)
