@@ -47,7 +47,6 @@
     }
 
     route /metrics* {
-        uri strip_prefix /metrics
         reverse_proxy localhost:8093
     }
 }
