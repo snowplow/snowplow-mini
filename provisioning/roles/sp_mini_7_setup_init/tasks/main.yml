@@ -42,3 +42,7 @@
     name: "Add cronjob to crop NSQ data"
     special_time: weekly
     job: /bin/rm -rf /home/ubuntu/snowplow/nsq-data/*
+
+- name: Upgrade policykit-1 to latest available
+  become: yes
+  shell: apt-get -y install --only-upgrade policykit-1
