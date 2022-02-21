@@ -6,7 +6,7 @@
     @protectedPaths {
         path /home* /elasticsearch* /kibana* /nsqadmin* /control-plane* /metrics*
         not path /kibana/ui/favicons/* /kibana/built_assets/* /kibana/bundles/*
-    }   
+    }
 
     basicauth @protectedPaths  {
         USERNAME_PLACEHOLDER JDJhJDA0JFRYSENkLi4vamh0cm1UcHhKWTZEaGVEWm1OMzk4SVZ0ZTVONVVLUzQ5Q3MvYjE0eUF4bEJL
@@ -19,6 +19,10 @@
     route /home* {
         uri strip_prefix /home
         root * /home/ubuntu/snowplow/ui
+        header {
+          Content-Security-Policy "default-src 'self'; script-src 'self' cdn.jsdelivr.net 'unsafe-inline'; frame-ancestors 'none'; style-src 'self' 'unsafe-inline'"
+          X-Frame-Options "DENY"
+        }
         file_server
     }
 
@@ -29,7 +33,13 @@
 
     route /kibana* {
         uri strip_prefix /kibana
-        reverse_proxy localhost:5601
+        header {
+          Content-Security-Policy "default-src 'self'; frame-ancestors 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src data: 'self'"
+          X-Frame-Options "DENY"
+        }
+        reverse_proxy localhost:5601 {
+          header_down -Content-Security-Policy
+        }
     }
 
     route /iglu-server* {
@@ -38,7 +48,13 @@
     }
 
     route /nsqadmin* {
-        reverse_proxy localhost:4171
+        header {
+          Content-Security-Policy "default-src 'self'; frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-hashes' 'unsafe-inline'"
+          X-Frame-Options "DENY"
+        }
+        reverse_proxy localhost:4171 {
+          header_down -Content-Security-Policy
+        }
     }
 
     route /control-plane* {
@@ -47,6 +63,12 @@
     }
 
     route /metrics* {
-        reverse_proxy localhost:8093
+        header {
+          Content-Security-Policy "default-src 'self'; frame-ancestors 'none'; script-src-elem 'self' www.gstatic.com 'unsafe-inline'; img-src data: 'self'; style-src-elem 'self' www.gstatic.com"
+          X-Frame-Options "DENY"
+        }
+        reverse_proxy localhost:8093 {
+          header_down -Content-Security-Policy
+        }
     }
 }
