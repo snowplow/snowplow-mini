@@ -211,3 +211,19 @@ services:
       options:
         max-size: "1M"
         max-file: "10"
+
+  swagger:
+    image: swaggerapi/swagger-ui:v4.5.2
+    container_name: swagger-ui
+    restart: always
+    ports:
+      - 8082:8080
+    environment:
+      - SWAGGER_JSON=/snowplow/openapi.yaml
+      - BASE_URL=/swagger
+    volumes:
+      - /home/ubuntu/snowplow/configs/openapi.yaml:/snowplow/openapi.yaml
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "10"

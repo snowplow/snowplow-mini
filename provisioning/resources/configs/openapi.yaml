@@ -1,0 +1,318 @@
+openapi: "3.0.3"
+info:
+  title: "Snowplow Mini"
+  description: |
+    Snowplow Mini is a small, single instance version of Snowplow that primarily serves as a development sandbox which gives you a quick way to debug tracker updates and changes to your schema and pipeline configuration.
+  version: "0.14.0"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+- name: "configuration"
+  description: "Configure the services running on your Mini"
+  #externalDocs:
+  #  description: "Find out more"
+  #  url: "http://swagger.io"
+- name: "actions"
+  description: "Actions to take on your Mini's running services"
+- name: "meta"
+
+servers:
+- url: "/control-plane"
+
+security:
+- basic: []
+#schemes:
+#- "https"
+#- "http"
+paths:
+  /enrichments:
+    post:
+      tags:
+      - "configuration"
+      summary: "Upload enrichment configuration"
+      description: "Upload enrichment json file to enrichments directory and restart the enrich service to activate the new enrichment."
+      operationId: "uploadEnrichments"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: ["enrichmentjson"]
+              properties:
+                enrichmentjson:
+                  type: string
+                  description: A file containing the enrichment JSON
+                  format: binary
+      responses:
+        "200":
+          description: "The enrichment configuration has been placed in the enrichments directory and the enrich service has been restarted"
+        "401":
+          description: "Unauthorized"
+  /iglu-config:
+    post:
+      tags:
+      - "configuration"
+      summary: "Upload Iglu Server configuration"
+      description: "Upload Iglu Server configuration file and restart Iglu Server to activate the new configuration."
+      operationId: "uploadIgluConfig"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: ["igluserverhocon"]
+              properties:
+                igluserverhocon:
+                  type: string
+                  description: A file containing the configuration HOCON
+                  format: binary
+      responses:
+        "200":
+          description: "The configuration has been uploaded and the Iglu Server has been restarted"
+        "401":
+          description: "Unauthorized"
+  /external-iglu:
+    put:
+      tags:
+      - "configuration"
+      summary: "Amend Enrich's Iglu resolver with external Iglu details"
+      description: "Adds given pieces of information about an external Iglu Server to the Iglu Resolver JSON file used by Enrich"
+      operationId: "addExternalIgluServer"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: ["vendor_prefix", "uri", "name", "priority"]
+              properties:
+                vendor_prefix:
+                  description: "Schema vendor prefixes for which this external Iglu should be prioritized"
+                  type: string
+                  example: "com.snowplowanalytics"
+                uri:
+                  description: "Location of the external Iglu server"
+                  type: "string"
+                  format: "uri"
+                  example: "https://<your-domain>"
+                apiKey:
+                  description: "Api Key for authorization to the Iglu Server"
+                  type: "string"
+                name:
+                  description: "Name to use for this Iglu server"
+                  example: "my custom iglu"
+                  type: "string"
+                priority:
+                  description: "Priority of this Iglu server used during schema resolution"
+                  type: "number"
+                  example: 100
+      responses:
+        "200":
+          description: "Iglu Server configuration has been added to Iglu resolver, and Enrich has been restarted successfully."
+        "401":
+          description: "Unauthorized"
+  /local-iglu-apikey:
+    post:
+      tags:
+      - "configuration"
+      summary: "Amend Enrich's Iglu resolver with local Iglu api key"
+      description: "Adds api key for the local Iglu Server to the Iglu resolver JSON file used by Enrich"
+      operationId: "addLocalIgluApiKey"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: ["local_iglu_apikey"]
+              properties:
+                local_iglu_apikey:
+                  description: "Api key of the local Iglu Server"
+                  type: string
+                  format: "uuid"
+      responses:
+        "200":
+          description: "Iglu Server configuration has been added to Iglu resolver, and Enrich has been restarted successfully."
+        "401":
+          description: "Unauthorized"
+  /credentials:
+    post:
+      tags:
+      - "configuration"
+      summary: "Reset the admin credentials"
+      description: "Reset the Mini admin's username and password"
+      operationId: "changeUsernameAndPassword"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: ["new_username", "new_password"]
+              properties:
+                new_username:
+                  description: "New username for the Mini admin"
+                  type: "string"
+                new_password:
+                  description: "New password for the Mini admin"
+                  type: "string"
+      responses:
+        "200":
+          description: "The Mini admin username and password have been reset"
+        "401":
+          description: "Unauthorized"
+  /domain-name:
+    post:
+      tags:
+      - "configuration"
+      summary: "Secure Mini with a TLS certificate on this domain"
+      description: "Adds domain name for your Snowplow Mini.  After adding the domain name, your http listener will be secured with TLS.  Make sure that the given domain name is resolving to the Snowplow Mini instance IP address. This feature only works if Mini is running on a AWS EC2 instance with a public IP address."
+      operationId: "addDomainName"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: ["domain_name"]
+              properties:
+                domain_name:
+                  description: "The domain name that resolves to your Mini"
+                  type: "string"
+      responses:
+        "default":
+          description: "You will always get empty reply from the server because Caddy server will be restarted after the domain name is submitted, and the connection will be lost until Caddy server is back up and running."
+        "401":
+          description: "Unauthorized"
+  /telemetry:
+    get:
+      tags:
+      - "configuration"
+      summary: "Get the current telemetry configuration"
+      description: "Discover whether [Snowplow telemetry](https://docs.snowplowanalytics.com/docs/open-source-quick-start/what-is-the-quick-start-for-open-source/telemetry-principles/) is currently turned on or off"
+      operationId: "getTelemetry"
+      responses:
+        "200":
+          description: "The current telemetry configuration"
+        "401":
+          description: "Unauthorized"
+    put:
+      tags:
+      - "configuration"
+      summary: "Change the telemetry configuration"
+      description: "Set whether [Snowplow telemetry](https://docs.snowplowanalytics.com/docs/open-source-quick-start/what-is-the-quick-start-for-open-source/telemetry-principles/) is turned on or off"
+      operationId: "setTelemetry"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: ["disable"]
+              properties:
+                disable:
+                  description: "Whether to disable telemetry"
+                  type: "boolean"
+      responses:
+        "200":
+          description: "Telemetry has been reconfigured"
+        "401":
+          description: "Unauthorized"
+      
+      
+      
+      
+  /restart-services:
+    put:
+      tags:
+      - "actions"
+      summary: "Restart all services running on the Snowplow Mini"
+      description: "Restarted services include the collector, enrich, and elasticsearch loaders.  This API call blocks until all the services have been restarted."
+      operationId: "restartServices"
+      responses:
+        "200":
+          description: "Services have been restarted"
+        "401":
+          description: "Unauthorized"
+  /restart-service:
+    put:
+      tags:
+      - "actions"
+      summary: "Restart a service running on the Snowplow Mini"
+      description: "Restart a single service, such as the collector, enrich, or elasticsearch loaders.  This API call blocks until the service has been restarted."
+      operationId: "restartService"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: ["service_name"]
+              properties:
+                service_name:
+                  description: "The service to be restarted"
+                  type: string
+                  enum:
+                  - "collector"
+                  - "enrich"
+                  - "esLoaderGood"
+                  - "esLoaderBad"
+                  - "iglu"
+                  - "kibana"
+                  - "elasticsearch"
+                  - "caddy"
+      responses:
+        "200":
+          description: "Service has been restarted"
+        "401":
+          description: "Unauthorized"
+  /reset-service:
+    post:
+      tags:
+      - "actions"
+      summary: "Reset Elasticsearch indices"
+      description: "It is possible to reset Elasticsearch indices, along with the corresponding index patterns in Kibana. Note, this action deletes not only indices and patterns, but also all events stored in Elasticsearch so far."
+      operationId: "resetService"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: ["service_name"]
+              properties:
+                service_name:
+                  description: "The service to be reset"
+                  type: string
+                  enum:
+                  - "elasticsearch"
+      responses:
+        "200":
+          description: "Service has been reset"
+        "401":
+          description: "Unauthorized"
+  /version:
+    get:
+      tags:
+      - "meta"
+      summary: "Snowplow Mini version"
+      description: "Snowplow Mini version"
+      operationId: "version"
+      responses:
+        "200":
+          description: "The Snowplow Mini version number"
+        "401":
+          description: "Unauthorized"
+components:
+  securitySchemes:
+    basic:
+      type: "http"
+      description: "admin's username and password"
+      scheme: "basic"
+
+externalDocs:
+  description: "Find out more about Snowplow Mini"
+  url: "https://docs.snowplowanalytics.com/docs/pipeline-components-and-applications/snowplow-mini/"

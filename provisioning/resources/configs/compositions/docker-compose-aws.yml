@@ -223,3 +223,20 @@ services:
       options:
         awslogs-group: "${AWS_LOGS_GROUP}"
         awslogs-stream: "cadvisor"
+
+  swagger:
+    image: swaggerapi/swagger-ui:v4.5.2
+    container_name: swagger-ui
+    restart: always
+    ports:
+      - 8082:8080
+    environment:
+      - SWAGGER_JSON=/snowplow/openapi.yaml
+      - BASE_URL=/swagger
+    volumes:
+      - /home/ubuntu/snowplow/configs/openapi.yaml:/snowplow/openapi.yaml
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: "${AWS_LOGS_GROUP}"
+        awslogs-stream: "swagger"
