@@ -157,14 +157,13 @@ services:
   iglu-server:
     image: snowplow/iglu-server:0.8.2
     container_name: iglu-server
-    entrypoint: /snowplow/bin/wait-for-postgres.sh postgres --config /snowplow/config/iglu-server.conf
+    command: ["--config", "/snowplow/config/iglu-server.conf"]
     restart: always
     depends_on:
       - postgres
     ports:
       - "8081:8081"
     volumes:
-      - /home/ubuntu/snowplow/init/wait-for-postgres.sh:/snowplow/bin/wait-for-postgres.sh
       - /home/ubuntu/snowplow/configs:/snowplow/config
     logging:
       driver: gcplogs
