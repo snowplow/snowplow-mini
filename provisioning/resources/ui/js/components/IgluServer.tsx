@@ -29,7 +29,7 @@ export class IgluServer extends React.Component<{}, {}> {
         </p>
         <h3>Quicklinks:</h3>
         <ul>
-          <li>Link to <a href={location.protocol + '//' + window.location.host + '/iglu-server/'}>Iglu Server management</a> page</li>
+          <li>Link to <a href='/iglu-server/static/swagger-ui/index.html'>Iglu Server management</a> page</li>
         </ul>
       </div>
     );
