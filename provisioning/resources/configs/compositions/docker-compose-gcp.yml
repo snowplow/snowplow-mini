@@ -155,7 +155,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
 
   iglu-server:
-    image: snowplow/iglu-server:0.6.1
+    image: snowplow/iglu-server:0.8.4
     container_name: iglu-server
     entrypoint: /snowplow/bin/wait-for-postgres.sh postgres --config /snowplow/config/iglu-server.conf
     restart: always
