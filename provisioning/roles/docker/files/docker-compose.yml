@@ -159,7 +159,7 @@ services:
       - "JAVA_OPTS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
 
   postgres:
-    image: postgres:9.5
+    image: postgres:14.2-alpine
     container_name: postgres
     restart: always
     volumes:
