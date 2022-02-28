@@ -18,28 +18,18 @@
 
 import React = require("react");
 import ReactDOM = require("react-dom");
-import axios from 'axios';
-import RestartServicesSection from "./ControlPlaneComponents/RestartServices";
-import UploadEnrichmentsForm from "./ControlPlaneComponents/UploadEnrichments";
-import AddExternalIgluServerForm from "./ControlPlaneComponents/AddExternalIgluServer";
-import AddLocalIgluApikeyForm from "./ControlPlaneComponents/AddLocalIgluApikey";
-import ChangeUsernamePasswordForm from "./ControlPlaneComponents/ChangeUsernamePassword";
-import AddDomainNameForm from "./ControlPlaneComponents/AddDomainName";
-import IgluServerConfigForm from "./ControlPlaneComponents/IgluServerConfig";
 
 export class ControlPlane extends React.Component<{}, {}> {
 
   public render() {
     return (
       <div className="tab-content">
-        <p>The buttons below can be used to interact with the internal systems of Snowplow Mini:</p>
-        <RestartServicesSection />
-        <UploadEnrichmentsForm />
-        <IgluServerConfigForm />
-        <AddExternalIgluServerForm />
-        <AddLocalIgluApikeyForm />
-        <ChangeUsernamePasswordForm />
-        <AddDomainNameForm />
+        <p>The control-plan can be used to interact with the internal systems of Snowplow Mini:</p>
+        <h3>Quicklinks:</h3>
+        <ul>
+          <li><a href='/swagger/'>Control Plane Swagger ui</a> page</li>
+          <li><a href='https://docs.snowplowanalytics.com/docs/pipeline-components-and-applications/snowplow-mini/control-plane-api/'>Guide to using the Control Plane API</a></li>
+        </ul>
       </div>
     );
   }
