@@ -6,11 +6,7 @@
     "director": "1.2.0",
     "react": "15.6.1",
     "react-dom": "15.6.1",
-    "react-grid-layout": "0.16.6",
-    "react-simpletabs": "^0.7.0",
-    "uuid": "2.0.1",
-    "axios": "0.21.2",
-    "react-alert": "2.4.0"
+    "react-simpletabs": "^0.7.0"
   },
   "contributors": [
     "Joshua Beemster",
