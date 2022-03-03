@@ -2,19 +2,24 @@
     grace_period 0.1s
 }
 
-:80 {
+(protectedPaths) {
     @protectedPaths {
-        path /home* /elasticsearch* /kibana* /nsqadmin* /control-plane* /metrics* /swagger* /iglu-server/static/swagger-ui*
-        not path /kibana/ui/favicons/* /kibana/built_assets/* /kibana/bundles/* /swagger/*.css /swagger/*.js /iglu-server/static/swagger-ui/*.css /iglu-server/static/swagger-ui/*.js
+      path /home* /elasticsearch* /kibana* /nsqadmin* /control-plane* /metrics* /swagger* /iglu-server/static/swagger-ui*
+      not path /kibana/ui/favicons/* /kibana/built_assets/* /kibana/bundles/* /swagger/*.css /swagger/*.js /iglu-server/static/swagger-ui/*.css /iglu-server/static/swagger-ui/*.js
     }
+}
 
+(handleCollector) {
+    route {
+      request_header -Authorization
+      reverse_proxy localhost:8080
+    }
+}
+
+(handleProtectedPaths) {
     basicauth @protectedPaths  {
         USERNAME_PLACEHOLDER JDJhJDA0JFRYSENkLi4vamh0cm1UcHhKWTZEaGVEWm1OMzk4SVZ0ZTVONVVLUzQ5Q3MvYjE0eUF4bEJL
     }
-
-    request_header -Authorization
-
-    reverse_proxy localhost:8080
 
     route /home* {
         uri strip_prefix /home
@@ -89,4 +94,27 @@
           header_down -Content-Security-Policy
         }
     }
+}
+
+:80 {
+    import protectedPaths
+    import handleProtectedPaths
+    import handleCollector
+}
+
+:8443 {
+    import protectedPaths
+
+    @isHttps {
+        header X-Forwarded-Proto https
+    }
+
+    route {
+      handle @isHttps {
+        import handleProtectedPaths
+      }
+      redir @protectedPaths https://{host}{uri}
+    }
+
+    import handleCollector
 }
