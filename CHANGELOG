@@ -1,3 +1,17 @@
+Version 0.14.0 (2022-04-25)
+---------------------------
+Use project's go binary in CI (#352)
+Bump collector to 2.6.0 (#350)
+Redirect http to https on authenticated services (#346)
+Bump postgres to 14.2 (#345)
+Bump Enrich to 3.0.2 (#344)
+Replace control-plane ui with swagger ui (#343)
+Remove wait-for-postgres in docker-compose (#342)
+Fix Iglu Server's swagger ui (#340)
+Bump Iglu Server to 0.8.4 (#341)
+Add swagger ui (#337)
+Use Content-Security-Policy headers (#338)
+
 Version 0.13.7 (2022-04-13)
 ---------------------------
 Fix setup-gcloud action (#349)
