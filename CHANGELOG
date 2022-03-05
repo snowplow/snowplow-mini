@@ -1,3 +1,8 @@
+Version 0.14.1 (2022-04-29)
+---------------------------
+Run distroless version of collector docker image (#354)
+Dynamically choose most recent source_ami (#353)
+
 Version 0.14.0 (2022-04-25)
 ---------------------------
 Use project's go binary in CI (#352)
