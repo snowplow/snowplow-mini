@@ -59,8 +59,8 @@ export class Overview extends React.Component<{}, {}> {
           <li>Snowplow Iglu Server 0.6.1</li>
           <li>Postgres 9.5</li>
           <li>NSQ v1.2.1</li>
-          <li>Elasticsearch-OSS 6.8.22</li>
-          <li>Kibana-OSS 6.8.22</li>
+          <li>Elasticsearch-OSS 6.8.23</li>
+          <li>Kibana-OSS 6.8.23</li>
           <li>cAdvisor 0.43.0</li>
         </ul>
         <h3>Stack topology: </h3>
