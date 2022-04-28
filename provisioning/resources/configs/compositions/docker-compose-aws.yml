@@ -127,7 +127,7 @@ services:
         awslogs-stream: "nsqadmin"
 
   scala-stream-collector:
-    image: snowplow/scala-stream-collector-nsq:2.6.0
+    image: snowplow/scala-stream-collector-nsq:2.6.0-distroless
     container_name: scala-stream-collector-nsq
     command: [ "--config", "/snowplow/config/snowplow-stream-collector.hocon" ]
     restart: always
@@ -143,7 +143,7 @@ services:
         awslogs-group: "${AWS_LOGS_GROUP}"
         awslogs-stream: "scala-stream-collector"
     environment:
-      - "JAVA_OPTS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
+      - "JDK_JAVA_OPTIONS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
 
   stream-enrich:
     image: snowplow/stream-enrich-nsq:3.0.2
