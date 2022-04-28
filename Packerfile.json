@@ -9,7 +9,16 @@
       "ami_regions": "us-east-2,us-west-1,us-west-2,ca-central-1,eu-west-1,eu-central-1,eu-west-2,ap-southeast-1,ap-southeast-2,ap-northeast-2,ap-northeast-1,ap-south-1,sa-east-1",
       "instance_type": "{{user `aws_instance_type`}}",
       "region": "us-east-1",
-      "source_ami": "ami-02fe94dee086c0c37",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "architecture": "x86_64",
+          "name": "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["099720109477"],
+        "most_recent": true
+      },
       "ssh_username": "ubuntu",
       "tags": {
         "OS_Version": "Ubuntu-18.04",
