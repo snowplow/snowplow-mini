@@ -6,7 +6,11 @@ Vagrant.configure("2") do |config|
 
   # Use NFS for shared folders for better performance
   config.vm.network :private_network, ip: '192.168.56.56' # Uncomment to use NFS
-  config.vm.synced_folder '.', '/vagrant', nfs: true # Uncomment to use NFS
+  if Vagrant::Util::Platform.windows? then
+    config.vm.synced_folder '.', '/vagrant' # NFS not supported on Windows
+  else
+    config.vm.synced_folder '.', '/vagrant', nfs: true # Uncomment to use NFS
+  end
 
   config.vm.network "forwarded_port", guest: 80, host: 2000     # Caddy insecure
   config.vm.network "forwarded_port", guest: 8443, host: 2443   # Caddy secure
