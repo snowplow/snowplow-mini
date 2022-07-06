@@ -40,7 +40,7 @@ services:
       driver: gcplogs
 
   elasticsearch-loader-good:
-    image: snowplow/elasticsearch-loader:1.0.4
+    image: snowplow/elasticsearch-loader:1.0.7
     container_name: elasticsearch-loader-good
     command: [ "--config", "/snowplow/config/snowplow-es-loader-good.hocon" ]
     restart: always
@@ -54,7 +54,7 @@ services:
       - "JAVA_OPTS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
 
   elasticsearch-loader-bad:
-    image: snowplow/elasticsearch-loader:1.0.4
+    image: snowplow/elasticsearch-loader:1.0.7
     container_name: elasticsearch-loader-bad
     command: [ "--config", "/snowplow/config/snowplow-es-loader-bad.hocon" ]
     restart: always
