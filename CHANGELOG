@@ -1,4 +1,4 @@
-Version 0.14.2 (2022-07-08)
+Version 0.14.2 (2022-08-17)
 ---------------------------
 Bump collector to 2.6.2 (#360)
 Bump Elasticsearch Loader to 1.0.7 (#361)
