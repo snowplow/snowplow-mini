@@ -1,3 +1,12 @@
+Version 0.14.2 (2022-08-19)
+---------------------------
+Bump collector to 2.6.2 (#360)
+Bump Elasticsearch Loader to 1.0.7 (#361)
+Bump Enrich to 3.2.5 (#362)
+Fix links on overview page (#359)
+Update how gpg key is loaded when installing Caddy (#364)
+Fix synced folder failing on Windows due to lack in NFS support (#365)
+
 Version 0.14.1 (2022-04-29)
 ---------------------------
 Run distroless version of collector docker image (#354)
