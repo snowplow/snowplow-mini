@@ -116,7 +116,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-[mini-docs]: https://docs.snowplowanalytics.com/docs/open-source-components-and-applications/snowplow-mini/
+[mini-docs]: https://docs.snowplowanalytics.com/docs/pipeline-components-and-applications/snowplow-mini/
 
 [discourse]: https://discourse.snowplowanalytics.com/
 [discourse-image]: https://img.shields.io/discourse/posts?server=https%3A%2F%2Fdiscourse.snowplowanalytics.com%2F

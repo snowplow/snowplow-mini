@@ -44,8 +44,8 @@ export class Overview extends React.Component<{}, {}> {
         <h3>Quicklinks: </h3>
         <ul>
           <li><a href={'https://docs.snowplowanalytics.com/docs/understanding-your-pipeline/what-is-snowplow-mini'}>What is Snowplow Mini?</a></li>
-          <li><a href={'https://docs.snowplowanalytics.com/docs/open-source-components-and-applications/snowplow-mini/snowplow-mini-0-11-0/usage-guide/'}>Usage guide</a></li>
-          <li><a href={'https://docs.snowplowanalytics.com/docs/open-source-components-and-applications/snowplow-mini/snowplow-mini-0-11-0/control-plane-api/'}>Control Plane API</a></li>
+          <li><a href={'https://docs.snowplowanalytics.com/docs/pipeline-components-and-applications/snowplow-mini/usage-guide/'}>Usage guide</a></li>
+          <li><a href={'https://docs.snowplowanalytics.com/docs/pipeline-components-and-applications/snowplow-mini/control-plane-api/'}>Control Plane API</a></li>
           <li>Link to <a href={'https://github.com/snowplow/snowplow-mini'}>Snowplow Mini</a> repository</li>
           <li>Collector endpoint <a href={collector}>{collector}</a></li>
           <li>Metrics endpoint <a href={cAdvisor}>{cAdvisor}</a></li>
