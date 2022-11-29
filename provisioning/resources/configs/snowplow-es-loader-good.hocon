@@ -11,125 +11,104 @@
 # implied.  See the Apache License Version 2.0 for the specific language
 # governing permissions and limitations there under.
 
-# This file (config.hocon.sample) contains a template with
-# configuration options for the Elasticsearch Loader.
+{
+  "input": {
+    # Sources currently supported are:
+    # "kinesis" for reading records from a Kinesis stream
+    # "stdin" for reading unencoded tab-separated events from stdin
+    # If set to "stdin", JSON documents will not be sent to Elasticsearch
+    # but will be written to stdout.
+    # "nsq" for reading unencoded tab-separated events from NSQ
+    "type": "nsq"
 
-# Sources currently supported are:
-# "kinesis" for reading records from a Kinesis stream
-# "stdin" for reading unencoded tab-separated events from stdin
-# If set to "stdin", JSON documents will not be sent to Elasticsearch
-# but will be written to stdout.
-# "nsq" for reading unencoded tab-separated events from NSQ
-source = "nsq"
+    # Stream name for incoming data
+    "streamName": "EnrichedEvents"
 
-# Where to write good and bad records
-sink {
-  # Sinks currently supported are:
-  # "elasticsearch" for writing good records to Elasticsearch
-  # "stdout" for writing good records to stdout
-  good = "elasticsearch"
+    # Channel name for NSQ source
+    # If more than one application reading from the same NSQ topic at the same time,
+    # all of them must have unique channel name for getting all the data from the same topic
+    "channelName": "ESLoaderChannelGood"
 
-  # Sinks currently supported are:
-  # "kinesis" for writing bad records to Kinesis
-  # "stderr" for writing bad records to stderr
-  # "nsq" for writing bad records to NSQ
-  # "none" for ignoring bad records
-  bad = "nsq"
-}
+    # Host name for nsqlookupd
+    "nsqlookupdHost": "nsqlookupd"
 
-# "good" for a stream of successfully enriched events
-# "bad" for a stream of bad events
-# "plain-json" for writing plain json
-enabled = "good"
+    # HTTP port for nsqd
+    "nsqlookupdPort": 4161
 
-# The following are used to authenticate for the Amazon Kinesis sink.
-#
-# If both are set to "default", the default provider chain is used
-# (see http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/DefaultAWSCredentialsProviderChain.html)
-#
-# If both are set to "iam", use AWS IAM Roles to provision credentials.
-#
-# If both are set to "env", use environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
-aws {
-  accessKey = ""
-  secretKey = ""
-}
-
-queue {
-  # What queue to use, can be "kinesis" or "nsq"
-  enabled="nsq"
-
-  # Config for NSQ
-  # Channel name for NSQ source
-  # If more than one application reading from the same NSQ topic at the same time,
-  # all of them must have unique channel name for getting all the data from the same topic
-  channelName = "ESLoaderChannelGood"
-
-  # Host name for nsqd
-  nsqdHost = "nsqd"
-  # HTTP port for nsqd
-  nsqdPort = 4150
-
-  # Host name for nsqlookupd
-  nsqlookupdHost = "nsqlookupd"
-  # HTTP port for nsqd
-  nsqlookupdPort = 4161
-}
-
-# Common configuration section for all stream sources
-streams {
-  inStreamName = "EnrichedEvents"
-
-  # Stream for enriched events which are rejected by Elasticsearch
-  outStreamName = "BadElasticsearchEvents"
-
-  # Events are accumulated in a buffer before being sent to Elasticsearch.
-  # The buffer is emptied whenever:
-  # - the combined size of the stored records exceeds byteLimit or
-  # - the number of stored records exceeds recordLimit or
-  # - the time in milliseconds since it was last emptied exceeds timeLimit
-  buffer {
-    byteLimit = 5242880 # Not supported by NSQ, will be ignored
-    recordLimit = 1
-    timeLimit = 60000 # Not supported by NSQ, will be ignored
-  }
-}
-
-elasticsearch {
-
-  # Events are indexed using an Elasticsearch Client
-  # - endpoint: the cluster endpoint
-  # - port: the port the cluster can be accessed on
-  #   - for http this is usually 9200
-  #   - for transport this is usually 9300
-  # - username (optional, remove if not active): http basic auth username
-  # - password (optional, remove if not active): http basic auth password
-  # - shardDateFormat (optional, remove if not needed): formatting used for sharding good stream, i.e. _yyyy-MM-dd
-  # - shardDateField (optional, if not specified derived_tstamp is used): timestamp field for sharding good stream
-  # - max-timeout: the maximum attempt time before a client restart
-  # - ssl: if using the http client, whether to use ssl or not
-  client {
-    endpoint = "elasticsearch"
-    port = "9200"
-    maxTimeout = "10000"
-    maxRetries = 3
-    ssl = false
+    # Events are accumulated in a buffer before being sent to Elasticsearch.
+    # The buffer is emptied whenever the number of stored records exceeds recordLimit
+    # This value is optional.
+    "buffer": {
+      "recordLimit" = 1
+    }
   }
 
-  # When using the AWS ES service
-  # - signing: if using the http client and the AWS ES service you can sign your requests
-  #    http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html
-  # - region where the AWS ES service is located
-  aws {
-    signing = false
-    region = ""
+  "output": {
+    "good": {
+      # Good sinks currently supported are:
+      # "elasticsearch" for writing good records to Elasticsearch
+      # "stdout" for writing good records to stdout
+      # Default value "elasticsearch"
+      "type": "elasticsearch"
+
+      # Events are indexed using an Elasticsearch Client
+      # - endpoint: the cluster endpoint
+      # - port (optional, default value 9200): the port the cluster can be accessed on
+      #   - for http this is usually 9200
+      #   - for transport this is usually 9300
+      # - username (optional, remove if not active): http basic auth username
+      # - password (optional, remove if not active): http basic auth password
+      # - shardDateFormat (optional, remove if not needed): formatting used for sharding good stream, i.e. _yyyy-MM-dd
+      # - shardDateField (optional, if not specified derived_tstamp is used): timestamp field for sharding good stream
+      # - indexTimeout (optional, default value 60000): the maximum time to wait in milliseconds for a single http transaction when indexing events
+      # - maxTimeout (optional, default value 10000): the maximum time to wait in milliseconds between retries after load failures
+      # - maxRetries (optional, default value 6): the maximum number of request attempts before giving up
+      # - ssl (optional, default value false): if using the http client, whether to use ssl or not
+      "client": {
+        "endpoint": "elasticsearch"
+        "port": 9200
+        "maxTimeout" = "10000"
+        "maxRetries" = 3
+        "ssl" = false
+      }
+
+      # When using the AWS ES service
+      # - signing: if using the http client and the AWS ES service you can sign your requests
+      #    http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html
+      # - region where the AWS ES service is located
+      # These values are optional.
+      aws {
+        "signing" = false
+        "region" = "eu-central-1"
+      }
+
+      "cluster": {
+        # The Elasticsearch index name
+        # Default value "good"
+        "index": "good"
+      }
+    }
+    "bad" {
+      # Bad sinks currently supported are:
+      # "kinesis" for writing bad records to Kinesis
+      # "stderr" for writing bad records to stderr
+      # "nsq" for writing bad records to NSQ
+      # "none" for ignoring bad records
+      "type": "nsq"
+
+      # Stream name for events which are rejected by Elasticsearch
+      "streamName": "BadElasticsearchEvents"
+
+      # Host name for nsqd
+      "nsqdHost": "nsqd"
+      # HTTP port for nsqd
+      "nsqdPort": 4150
+    }
   }
 
-  # index: the Elasticsearch index name
-  # type: the Elasticsearch index type
-  cluster {
-    name = "elasticsearch"
-    index = "good"
-    documentType = "good"
-  }
+  # "ENRICHED_EVENTS" for a stream of successfully enriched events
+  # "BAD_ROWS" for a stream of bad events
+  # "JSON" for writing plain json
+  "purpose": "ENRICHED_EVENTS"
 }
+
