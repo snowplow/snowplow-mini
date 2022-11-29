@@ -13,307 +13,305 @@
         }
     },
     "mappings": {
-        "good": {
-            "properties": {
-                "app_id": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "br_colordepth": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "br_cookies": {
-                    "type": "boolean"
-                },
-                "br_family": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "br_features_director": {
-                    "type": "boolean"
-                },
-                "br_features_flash": {
-                    "type": "boolean"
-                },
-                "br_features_gears": {
-                    "type": "boolean"
-                },
-                "br_features_java": {
-                    "type": "boolean"
-                },
-                "br_features_pdf": {
-                    "type": "boolean"
-                },
-                "br_features_quicktime": {
-                    "type": "boolean"
-                },
-                "br_features_realplayer": {
-                    "type": "boolean"
-                },
-                "br_features_silverlight": {
-                    "type": "boolean"
-                },
-                "br_features_windowsmedia": {
-                    "type": "boolean"
-                },
-                "br_lang": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "br_name": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "br_renderengine": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "br_type": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "br_version": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "br_viewheight": {
-                    "type": "long"
-                },
-                "br_viewwidth": {
-                    "type": "long"
-                },
-                "collector_tstamp": {
-                    "type": "date",
-                    "format": "dateOptionalTime"
-                },
-                "doc_charset": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "doc_height": {
-                    "type": "long"
-                },
-                "doc_width": {
-                    "type": "long"
-                },
-                "domain_sessionid": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "domain_sessionidx": {
-                    "type": "long"
-                },
-                "domain_userid": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "dvce_ismobile": {
-                    "type": "boolean"
-                },
-                "dvce_screenheight": {
-                    "type": "long"
-                },
-                "dvce_screenwidth": {
-                    "type": "long"
-                },
-                "dvce_sent_tstamp": {
-                    "type": "date",
-                    "format": "dateOptionalTime"
-                },
-                "dvce_tstamp": {
-                    "type": "date",
-                    "format": "dateOptionalTime"
-                },
-                "dvce_type": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "etl_tstamp": {
-                    "type": "date",
-                    "format": "dateOptionalTime"
-                },
-                "event": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "event_id": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "geo_location": {
-                    "type": "geo_point"
-                },
-                "mkt_campaign": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "mkt_content": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "mkt_medium": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "mkt_source": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "mkt_term": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "name_tracker": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "network_userid": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "os_family": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "os_manufacturer": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "os_name": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "os_timezone": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "page_referrer": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "page_title": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "page_url": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "page_urlfragment": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "page_urlhost": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "page_urlpath": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "page_urlport": {
-                    "type": "long"
-                },
-                "page_urlquery": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "page_urlscheme": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "platform": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "pp_xoffset_max": {
-                    "type": "long"
-                },
-                "pp_xoffset_min": {
-                    "type": "long"
-                },
-                "pp_yoffset_max": {
-                    "type": "long"
-                },
-                "pp_yoffset_min": {
-                    "type": "long"
-                },
-                "refr_medium": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "refr_source": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "refr_term": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "refr_urlfragment": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "refr_urlhost": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "refr_urlpath": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "refr_urlport": {
-                    "type": "long"
-                },
-                "refr_urlquery": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "refr_urlscheme": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "se_action": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "se_category": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "se_label": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "user_fingerprint": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "user_id": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "user_ipaddress": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "useragent": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "v_collector": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "v_etl": {
-                    "type": "keyword",
-                    "index": true
-                },
-                "v_tracker": {
-                    "type": "keyword",
-                    "index": true
-                }
+        "properties": {
+            "app_id": {
+                "type": "keyword",
+                "index": true
+            },
+            "br_colordepth": {
+                "type": "keyword",
+                "index": true
+            },
+            "br_cookies": {
+                "type": "boolean"
+            },
+            "br_family": {
+                "type": "keyword",
+                "index": true
+            },
+            "br_features_director": {
+                "type": "boolean"
+            },
+            "br_features_flash": {
+                "type": "boolean"
+            },
+            "br_features_gears": {
+                "type": "boolean"
+            },
+            "br_features_java": {
+                "type": "boolean"
+            },
+            "br_features_pdf": {
+                "type": "boolean"
+            },
+            "br_features_quicktime": {
+                "type": "boolean"
+            },
+            "br_features_realplayer": {
+                "type": "boolean"
+            },
+            "br_features_silverlight": {
+                "type": "boolean"
+            },
+            "br_features_windowsmedia": {
+                "type": "boolean"
+            },
+            "br_lang": {
+                "type": "keyword",
+                "index": true
+            },
+            "br_name": {
+                "type": "keyword",
+                "index": true
+            },
+            "br_renderengine": {
+                "type": "keyword",
+                "index": true
+            },
+            "br_type": {
+                "type": "keyword",
+                "index": true
+            },
+            "br_version": {
+                "type": "keyword",
+                "index": true
+            },
+            "br_viewheight": {
+                "type": "long"
+            },
+            "br_viewwidth": {
+                "type": "long"
+            },
+            "collector_tstamp": {
+                "type": "date",
+                "format": "dateOptionalTime"
+            },
+            "doc_charset": {
+                "type": "keyword",
+                "index": true
+            },
+            "doc_height": {
+                "type": "long"
+            },
+            "doc_width": {
+                "type": "long"
+            },
+            "domain_sessionid": {
+                "type": "keyword",
+                "index": true
+            },
+            "domain_sessionidx": {
+                "type": "long"
+            },
+            "domain_userid": {
+                "type": "keyword",
+                "index": true
+            },
+            "dvce_ismobile": {
+                "type": "boolean"
+            },
+            "dvce_screenheight": {
+                "type": "long"
+            },
+            "dvce_screenwidth": {
+                "type": "long"
+            },
+            "dvce_sent_tstamp": {
+                "type": "date",
+                "format": "dateOptionalTime"
+            },
+            "dvce_tstamp": {
+                "type": "date",
+                "format": "dateOptionalTime"
+            },
+            "dvce_type": {
+                "type": "keyword",
+                "index": true
+            },
+            "etl_tstamp": {
+                "type": "date",
+                "format": "dateOptionalTime"
+            },
+            "event": {
+                "type": "keyword",
+                "index": true
+            },
+            "event_id": {
+                "type": "keyword",
+                "index": true
+            },
+            "geo_location": {
+                "type": "geo_point"
+            },
+            "mkt_campaign": {
+                "type": "keyword",
+                "index": true
+            },
+            "mkt_content": {
+                "type": "keyword",
+                "index": true
+            },
+            "mkt_medium": {
+                "type": "keyword",
+                "index": true
+            },
+            "mkt_source": {
+                "type": "keyword",
+                "index": true
+            },
+            "mkt_term": {
+                "type": "keyword",
+                "index": true
+            },
+            "name_tracker": {
+                "type": "keyword",
+                "index": true
+            },
+            "network_userid": {
+                "type": "keyword",
+                "index": true
+            },
+            "os_family": {
+                "type": "keyword",
+                "index": true
+            },
+            "os_manufacturer": {
+                "type": "keyword",
+                "index": true
+            },
+            "os_name": {
+                "type": "keyword",
+                "index": true
+            },
+            "os_timezone": {
+                "type": "keyword",
+                "index": true
+            },
+            "page_referrer": {
+                "type": "keyword",
+                "index": true
+            },
+            "page_title": {
+                "type": "keyword",
+                "index": true
+            },
+            "page_url": {
+                "type": "keyword",
+                "index": true
+            },
+            "page_urlfragment": {
+                "type": "keyword",
+                "index": true
+            },
+            "page_urlhost": {
+                "type": "keyword",
+                "index": true
+            },
+            "page_urlpath": {
+                "type": "keyword",
+                "index": true
+            },
+            "page_urlport": {
+                "type": "long"
+            },
+            "page_urlquery": {
+                "type": "keyword",
+                "index": true
+            },
+            "page_urlscheme": {
+                "type": "keyword",
+                "index": true
+            },
+            "platform": {
+                "type": "keyword",
+                "index": true
+            },
+            "pp_xoffset_max": {
+                "type": "long"
+            },
+            "pp_xoffset_min": {
+                "type": "long"
+            },
+            "pp_yoffset_max": {
+                "type": "long"
+            },
+            "pp_yoffset_min": {
+                "type": "long"
+            },
+            "refr_medium": {
+                "type": "keyword",
+                "index": true
+            },
+            "refr_source": {
+                "type": "keyword",
+                "index": true
+            },
+            "refr_term": {
+                "type": "keyword",
+                "index": true
+            },
+            "refr_urlfragment": {
+                "type": "keyword",
+                "index": true
+            },
+            "refr_urlhost": {
+                "type": "keyword",
+                "index": true
+            },
+            "refr_urlpath": {
+                "type": "keyword",
+                "index": true
+            },
+            "refr_urlport": {
+                "type": "long"
+            },
+            "refr_urlquery": {
+                "type": "keyword",
+                "index": true
+            },
+            "refr_urlscheme": {
+                "type": "keyword",
+                "index": true
+            },
+            "se_action": {
+                "type": "keyword",
+                "index": true
+            },
+            "se_category": {
+                "type": "keyword",
+                "index": true
+            },
+            "se_label": {
+                "type": "keyword",
+                "index": true
+            },
+            "user_fingerprint": {
+                "type": "keyword",
+                "index": true
+            },
+            "user_id": {
+                "type": "keyword",
+                "index": true
+            },
+            "user_ipaddress": {
+                "type": "keyword",
+                "index": true
+            },
+            "useragent": {
+                "type": "keyword",
+                "index": true
+            },
+            "v_collector": {
+                "type": "keyword",
+                "index": true
+            },
+            "v_etl": {
+                "type": "keyword",
+                "index": true
+            },
+            "v_tracker": {
+                "type": "keyword",
+                "index": true
             }
         }
     }

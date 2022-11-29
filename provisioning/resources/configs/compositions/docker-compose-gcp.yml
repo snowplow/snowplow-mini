@@ -2,17 +2,19 @@ version: "3"
 
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.23
+    image: opensearchproject/opensearch:2.4.0
     container_name: elasticsearch
     restart: always
     environment:
       # Swapping needs to be disabled for performance and node stability
       - "bootstrap.memory_lock=true"
-      - ES_JAVA_OPTS=-Xms${ES_JVM_SIZE} -Xmx${ES_JVM_SIZE}
+      - OPENSEARCH_JAVA_OPTS=-Xms${ES_JVM_SIZE} -Xmx${ES_JVM_SIZE}
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      - "DISABLE_SECURITY_PLUGIN=true"
     volumes:
-      - /home/ubuntu/snowplow/elasticsearch/data:/usr/share/elasticsearch/data
-      - /home/ubuntu/snowplow/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - /home/ubuntu/snowplow/elasticsearch/config/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+      - /home/ubuntu/snowplow/elasticsearch/data:/usr/share/opensearch/data
+      - /home/ubuntu/snowplow/elasticsearch/config/elasticsearch.yml:/usr/share/opensearch/config/opensearch.yml
+      - /home/ubuntu/snowplow/elasticsearch/config/log4j2.properties:/usr/share/opensearch/config/log4j2.properties
     ulimits:
       memlock:
         soft: -1
@@ -27,11 +29,13 @@ services:
       - "9300:9300"
 
   kibana:
-    image: docker.elastic.co/kibana/kibana-oss:6.8.23
+    image: opensearchproject/opensearch-dashboards:2.4.0
     container_name: kibana
     restart: always
+    environment:
+      - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true"
     volumes:
-      - /home/ubuntu/snowplow/elasticsearch/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - /home/ubuntu/snowplow/elasticsearch/config/kibana.yml:/usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
     ports:
       - "5601:5601"
     depends_on:
@@ -40,7 +44,7 @@ services:
       driver: gcplogs
 
   elasticsearch-loader-good:
-    image: snowplow/elasticsearch-loader:1.0.7
+    image: snowplow/elasticsearch-loader:2.0.8
     container_name: elasticsearch-loader-good
     command: [ "--config", "/snowplow/config/snowplow-es-loader-good.hocon" ]
     restart: always
@@ -54,7 +58,7 @@ services:
       - "JAVA_OPTS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
 
   elasticsearch-loader-bad:
-    image: snowplow/elasticsearch-loader:1.0.7
+    image: snowplow/elasticsearch-loader:2.0.8
     container_name: elasticsearch-loader-bad
     command: [ "--config", "/snowplow/config/snowplow-es-loader-bad.hocon" ]
     restart: always
