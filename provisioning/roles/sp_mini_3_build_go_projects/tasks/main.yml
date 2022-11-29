@@ -12,10 +12,10 @@
     PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
     GOPATH: "{{ lookup('env', 'GOPATH') }}"
   shell: |
-    /usr/local/go/bin/go get github.com/BurntSushi/toml
-    /usr/local/go/bin/go get gopkg.in/pg.v5
-    /usr/local/go/bin/go get github.com/trustelem/zxcvbn
-    /usr/local/go/bin/go get golang.org/x/crypto/bcrypt
+    until $(/usr/local/go/bin/go get github.com/BurntSushi/toml); do echo "github.com/BurntSushi/toml"; sleep 1; done
+    until $(/usr/local/go/bin/go get gopkg.in/pg.v5); do echo "gopkg.in/pg.v5"; sleep 1; done
+    until $(/usr/local/go/bin/go get github.com/trustelem/zxcvbn); do echo "github.com/trustelem/zxcvbn"; sleep 1; done
+    until $(/usr/local/go/bin/go get golang.org/x/crypto/bcrypt); do echo "golang.org/x/crypto/bcrypt"; sleep 1; done
 
 - name: Build Control Plane API
   become: yes

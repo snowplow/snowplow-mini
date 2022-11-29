@@ -39,7 +39,7 @@
     route /kibana* {
         uri strip_prefix /kibana
         header {
-          Content-Security-Policy "default-src 'self'; frame-ancestors 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src data: 'self'"
+          Content-Security-Policy "default-src 'self'; frame-ancestors 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; img-src data: 'self'"
           X-Frame-Options "DENY"
         }
         reverse_proxy localhost:5601 {

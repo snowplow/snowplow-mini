@@ -1,15 +1,3 @@
-# ======================== Elasticsearch Configuration =========================
-#
-# NOTE: Elasticsearch comes with reasonable defaults for most settings.
-#       Before you set out to tweak and tune the configuration, make sure you
-#       understand what are you trying to accomplish and the consequences.
-#
-# The primary way of configuring a node is via this file. This template lists
-# the most important settings you may want to configure for a production cluster.
-#
-# Please consult the documentation for further information on configuration options:
-# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
-#
 # ---------------------------------- Cluster -----------------------------------
 #
 # Use a descriptive name for your cluster:
@@ -28,6 +16,6 @@ node.name: "sp-mini-es-node"
 network.host: 0.0.0.0
 # --------------------------------- Discovery ----------------------------------
 #
-# Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
+# Specifies whether it should form a multiple-node cluster:
 #
-discovery.zen.minimum_master_nodes: 1
+discovery.type: single-node
