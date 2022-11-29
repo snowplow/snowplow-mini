@@ -17,10 +17,12 @@ An easily-deployable, single instance version of Snowplow that serves three use 
 * [x] Added Iglu Server to allow for custom schemas to be uploaded
 * [x] Data is validated during processing
   * This is done using both our standard Iglu schemas and any custom ones that you have loaded into the Iglu Server
-* [x] Data is loaded into Elasticsearch
-  * Can be queried directly or through a Kibana dashboard
+* [x] Data is loaded into Opensearch
+  * Can be queried directly or through a Opensearch dashboard
   * Good and bad events are in distinct indexes
 * [x] Create UI to indicate what is happening with each of the different subsystems (collector, enrich etc.), so as to provide developers a very indepth way of understanding how the different Snowplow subsystems work with one another
+
+*Note*: Starting with 0.15.0, Elasticsearch is replaced with Opensearch, and Kibana is replaced with Opensearch Dashboard. However, you may still encounter `elasticsearch` and `kibana` terms in the project.
 
 ## Documentation
 

@@ -120,6 +120,10 @@ func resetService(resp http.ResponseWriter, req *http.Request) {
 					http.Error(resp, err.Error(), 500)
 					return
 				}
+				err, status := restartSPService("kibana")
+				if err != nil {
+					http.Error(resp, err.Error(), status)
+				}
 				resp.WriteHeader(http.StatusOK)
 				io.WriteString(resp, "Both Elasticsearch & Kibana are reset including the data and index mappings")
 			} else {

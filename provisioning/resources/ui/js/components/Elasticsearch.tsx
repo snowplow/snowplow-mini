@@ -25,16 +25,16 @@ export class Elasticsearch extends React.Component<{}, {}> {
     return (
       <div className="tab-content">
         <p>
-          The local Elasticsearch cluster contains your enriched and failed events in two distinct indices.  
-          For ease of management Snowplow Mini comes pre-installed with Kibana.
+          The local Opensearch cluster contains your enriched and failed events in two distinct indices.
+          For ease of management Snowplow Mini comes pre-installed with Opensearch Dashboards.
         </p>
         <p>
-          <b>Kibana</b> can be used to view, query and discover the data sent into Snowplow Mini.
+          <b>Opensearch Dashboards</b> can be used to view, query and discover the data sent into Snowplow Mini.
           You can also build visualizations and dashboards from the information available.
         </p>
         <h3>Quicklinks:</h3>
         <ul>
-          <li>Link to <a href={location.protocol +'//' + window.location.host + '/kibana/'}>Kibana</a></li>
+          <li>Link to <a href={location.protocol +'//' + window.location.host + '/kibana/'}>Opensearch Dashboards</a></li>
         </ul>
       </div>
     );

@@ -76,7 +76,7 @@ export class SnowplowMiniApp extends React.Component<{}, IAppState> {
             <Tabs.Panel key={2} title="Example events">
               <JSTracker />
             </Tabs.Panel>
-            <Tabs.Panel key={3} title="Elasticsearch">
+            <Tabs.Panel key={3} title="Opensearch">
               <Elasticsearch />
             </Tabs.Panel>
             <Tabs.Panel key={4} title="Iglu Server">
