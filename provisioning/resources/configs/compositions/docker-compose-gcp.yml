@@ -126,7 +126,7 @@ services:
       - "JDK_JAVA_OPTIONS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
 
   stream-enrich:
-    image: snowplow/stream-enrich-nsq:3.2.5
+    image: snowplow/stream-enrich-nsq:3.6.0-distroless
     container_name: stream-enrich-nsq
     command: [
       "--config", "/snowplow/config/snowplow-stream-enrich.hocon",
@@ -142,7 +142,7 @@ services:
     logging:
       driver: gcplogs
     environment:
-      - "JAVA_OPTS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
+      - "JDK_JAVA_OPTIONS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
 
   postgres:
     image: postgres:15.1-alpine
