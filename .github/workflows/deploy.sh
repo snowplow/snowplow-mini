@@ -10,6 +10,7 @@ then
 	echo "Usage: deploy.sh tag"
 	exit 1
 else
+	export SP_MINI_VERSION=`echo $1 | cut -d'/' -f1`
 	export SP_MINI_PLATFORM=`echo $1 | cut -d'/' -f2`
 	export SP_MINI_SIZE=`echo $1 | cut -d'/' -f3`
 
@@ -86,6 +87,7 @@ then
 	echo "AWS_LOGS_GROUP=snowplow-mini" >> provisioning/roles/docker/files/.env
 	export AWS_ACCESS_KEY_ID=$AWS_DEPLOY_ACCESS_KEY
 	export AWS_SECRET_ACCESS_KEY=$AWS_DEPLOY_SECRET_KEY
+	export AWS_SP_MINI_VERSION=$SP_MINI_VERSION
 	packer build -only=amazon-ebs Packerfile.json
 elif [ "$SP_MINI_PLATFORM" == "gcp" ]
 then
@@ -93,6 +95,7 @@ then
 	echo "gcp" >> provisioning/resources/configs/compositions/.platform
 	echo $GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64 | base64 --decode > $GITHUB_WORKSPACE/BIN
 	export GOOGLE_APPLICATION_CREDENTIALS=$GITHUB_WORKSPACE/BIN
+	export GCP_SP_MINI_VERSION=`echo $SP_MINI_VERSION | tr . -`
 	packer build -only=googlecompute Packerfile.json
 else
 	echo "Unrecognized platform. Aborted."
