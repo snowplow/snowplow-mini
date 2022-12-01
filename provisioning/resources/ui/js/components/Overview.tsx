@@ -52,7 +52,7 @@ export class Overview extends React.Component<{}, {}> {
         </ul>
         <h3>The software stack installed: </h3>
         <ul>
-        <li><b>Snowplow Mini 0.14.2</b></li>
+        <li><b>Snowplow Mini 0.15.0</b></li>
           <li>Snowplow Stream Collector NSQ 2.8.2</li>
           <li>Snowplow Stream Enrich NSQ 3.6.0</li>
           <li>Snowplow Elasticsearch Loader 2.0.8</li>
