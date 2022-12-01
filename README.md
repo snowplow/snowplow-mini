@@ -22,7 +22,7 @@ An easily-deployable, single instance version of Snowplow that serves three use 
   * Good and bad events are in distinct indexes
 * [x] Create UI to indicate what is happening with each of the different subsystems (collector, enrich etc.), so as to provide developers a very indepth way of understanding how the different Snowplow subsystems work with one another
 
-*Note*: Starting with 0.15.0, Elasticsearch is replaced with Opensearch, and Kibana is replaced with Opensearch Dashboard. However, you may still encounter `elasticsearch` and `kibana` terms in the project.
+*Note*: Until version 0.15.0, Snowplow data was loaded to Elasticsearch 6.x in the Mini. However, a [licensing change](https://www.elastic.co/blog/licensing-change) in Elasticsearch prevented us from upgrading it to more recent versions. To make sure we stay up to date with important security fixes, we've decided to replace Elasticsearch with [Opensearch](https://opensearch.org/). Also, Kibana is replaced with [Opensearch Dashboards](https://opensearch.org/docs/latest/dashboards/index/). However, you may still encounter `elasticsearch` and `kibana` terms in the project.
 
 ## Documentation
 

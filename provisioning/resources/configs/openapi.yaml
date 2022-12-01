@@ -3,7 +3,7 @@ info:
   title: "Snowplow Mini"
   description: |
     Snowplow Mini is a small, single instance version of Snowplow that primarily serves as a development sandbox which gives you a quick way to debug tracker updates and changes to your schema and pipeline configuration.
-  version: "0.14.2"
+  version: "0.15.0"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"

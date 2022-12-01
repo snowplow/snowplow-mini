@@ -1,3 +1,12 @@
+Version 0.15.0 (2022-12-05)
+---------------------------
+Replace Elasticsearch with Opensearch (#367)
+Bump postgres to 15.1
+Bump collector to 2.8.2
+Bump enrich to 3.6.0
+Bump Iglu Server to 0.8.7
+Change versions in the Packerfile according to the Git tag (#370)
+
 Version 0.14.2 (2022-08-19)
 ---------------------------
 Bump collector to 2.6.2 (#360)
