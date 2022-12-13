@@ -150,7 +150,7 @@ services:
       - "JDK_JAVA_OPTIONS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
 
   stream-enrich:
-    image: snowplow/stream-enrich-nsq:3.6.0-distroless
+    image: snowplow/stream-enrich-nsq:3.6.1-distroless
     container_name: stream-enrich-nsq
     command: [
       "--config", "/snowplow/config/snowplow-stream-enrich.hocon",
