@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 
 services:
   elasticsearch:
@@ -8,7 +8,7 @@ services:
     environment:
       # Swapping needs to be disabled for performance and node stability
       - "bootstrap.memory_lock=true"
-      - OPENSEARCH_JAVA_OPTS=-Xms${ES_JVM_SIZE} -Xmx${ES_JVM_SIZE}
+      - OPENSEARCH_JAVA_OPTS=-Xms${ELASTICSEARCH_HEAP_SIZE} -Xmx${ELASTICSEARCH_HEAP_SIZE}
       - "DISABLE_INSTALL_DEMO_CONFIG=true"
       - "DISABLE_SECURITY_PLUGIN=true"
     volumes:
@@ -27,6 +27,7 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+    mem_limit: ${ELASTICSEARCH_MEM_SIZE}
 
   kibana:
     image: opensearchproject/opensearch-dashboards:2.4.0
@@ -42,6 +43,7 @@ services:
       - elasticsearch
     logging:
       driver: gcplogs
+    mem_limit: ${KIBANA_MEM_SIZE}
 
   elasticsearch-loader-good:
     image: snowplow/elasticsearch-loader:2.0.8
@@ -55,7 +57,8 @@ services:
     logging:
       driver: gcplogs
     environment:
-      - "JAVA_OPTS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
+      - "JAVA_OPTS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
+    mem_limit: ${SP_ES_LOADER_MEM_SIZE}
 
   elasticsearch-loader-bad:
     image: snowplow/elasticsearch-loader:2.0.8
@@ -69,7 +72,8 @@ services:
     logging:
       driver: gcplogs
     environment:
-      - "JAVA_OPTS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
+      - "JAVA_OPTS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
+    mem_limit: ${SP_ES_LOADER_MEM_SIZE}
 
   nsqlookupd:
     image: nsqio/nsq:v1.2.1
@@ -81,6 +85,7 @@ services:
     ports:
       - "4160:4160"
       - "4161:4161"
+    mem_limit: 64m
 
   nsqd:
     image: nsqio/nsq:v1.2.1
@@ -96,6 +101,7 @@ services:
       - "4151:4151"
     logging:
       driver: gcplogs
+    mem_limit: ${NSQD_MEM_SIZE}
 
   nsqadmin:
     image: nsqio/nsq:v1.2.1
@@ -108,6 +114,7 @@ services:
       - "4171:4171"
     logging:
       driver: gcplogs
+    mem_limit: 64m
 
   scala-stream-collector:
     image: snowplow/scala-stream-collector-nsq:2.8.2-distroless
@@ -123,7 +130,8 @@ services:
     logging:
       driver: gcplogs
     environment:
-      - "JDK_JAVA_OPTIONS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
+      - "JDK_JAVA_OPTIONS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
+    mem_limit: ${SP_COLLECTOR_MEM_SIZE}
 
   stream-enrich:
     image: snowplow/stream-enrich-nsq:3.7.0-distroless
@@ -142,7 +150,8 @@ services:
     logging:
       driver: gcplogs
     environment:
-      - "JDK_JAVA_OPTIONS=-Xmx${SP_JVM_SIZE} -Dlog4j2.formatMsgNoLookups=true"
+      - "JDK_JAVA_OPTIONS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
+    mem_limit: ${SP_ENRICH_MEM_SIZE}
 
   postgres:
     image: postgres:15.1-alpine
@@ -157,6 +166,7 @@ services:
       driver: gcplogs
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
+    mem_limit: 128m
 
   iglu-server:
     image: snowplow/iglu-server:0.9.0-distroless
@@ -171,6 +181,9 @@ services:
       - /home/ubuntu/snowplow/configs:/snowplow/config
     logging:
       driver: gcplogs
+    environment:
+      - "JAVA_OPTS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75"
+    mem_limit: ${SP_IGLU_SERVER_MEM_SIZE}
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.43.0
@@ -190,6 +203,7 @@ services:
       - /dev/disk/:/dev/disk:ro
     logging:
       driver: gcplogs
+    mem_limit: ${CA_ADVISOR_MEM_SIZE}
 
   swagger:
     image: swaggerapi/swagger-ui:v4.5.2
@@ -204,3 +218,4 @@ services:
       - /home/ubuntu/snowplow/configs/openapi.yaml:/snowplow/openapi.yaml
     logging:
       driver: gcplogs
+    mem_limit: 64m

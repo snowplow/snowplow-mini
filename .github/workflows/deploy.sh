@@ -26,10 +26,16 @@ else
 	if [ "$SP_MINI_SIZE" == "large" ]
 	then
 		# prepare env vars for docker-compose
-		# to be used as -Xmx jvm option for Elasticsearch & Snowplow apps
 		echo -n > provisioning/roles/docker/files/.env
-		echo "ES_JVM_SIZE=4g" >> provisioning/roles/docker/files/.env
-		echo "SP_JVM_SIZE=512m" >> provisioning/roles/docker/files/.env
+		echo "ELASTICSEARCH_MEM_SIZE=2560m" >> provisioning/roles/docker/files/.env
+		echo "ELASTICSEARCH_HEAP_SIZE=1280m" >> provisioning/roles/docker/files/.env
+		echo "KIBANA_MEM_SIZE=512m" >> provisioning/roles/docker/files/.env
+		echo "SP_COLLECTOR_MEM_SIZE=512m" >> provisioning/roles/docker/files/.env
+		echo "SP_ENRICH_MEM_SIZE=1g" >> provisioning/roles/docker/files/.env
+		echo "SP_ES_LOADER_MEM_SIZE=512m" >> provisioning/roles/docker/files/.env
+		echo "SP_IGLU_SERVER_MEM_SIZE=386m" >> provisioning/roles/docker/files/.env
+		echo "CA_ADVISOR_MEM_SIZE=128m" >> provisioning/roles/docker/files/.env
+		echo "NSQD_MEM_SIZE=256m" >> provisioning/roles/docker/files/.env
 		# prepare env var for packer
 		# to be used to determine which instance type to use
 		if [ "$SP_MINI_PLATFORM" == "aws" ]
@@ -42,10 +48,16 @@ else
 	elif [ "$SP_MINI_SIZE" == "xlarge" ]
 	then
 		# prepare env vars for docker-compose
-		# to be used as -Xmx jvm option for Elasticsearch & Snowplow apps
 		echo -n > provisioning/roles/docker/files/.env
-		echo "ES_JVM_SIZE=8g" >> provisioning/roles/docker/files/.env
-		echo "SP_JVM_SIZE=1536m" >> provisioning/roles/docker/files/.env
+		echo "ELASTICSEARCH_MEM_SIZE=5g" >> provisioning/roles/docker/files/.env
+		echo "ELASTICSEARCH_HEAP_SIZE=2560m" >> provisioning/roles/docker/files/.env
+		echo "KIBANA_MEM_SIZE=1g" >> provisioning/roles/docker/files/.env
+		echo "SP_COLLECTOR_MEM_SIZE=1g" >> provisioning/roles/docker/files/.env
+		echo "SP_ENRICH_MEM_SIZE=2g" >> provisioning/roles/docker/files/.env
+		echo "SP_ES_LOADER_MEM_SIZE=1g" >> provisioning/roles/docker/files/.env
+		echo "SP_IGLU_SERVER_MEM_SIZE=512m" >> provisioning/roles/docker/files/.env
+		echo "CA_ADVISOR_MEM_SIZE=256m" >> provisioning/roles/docker/files/.env
+		echo "NSQD_MEM_SIZE=512m" >> provisioning/roles/docker/files/.env
 		# prepare env var for packer
 		# to be used to determine which instance type to use
 		if [ "$SP_MINI_PLATFORM" == "aws" ]
@@ -58,10 +70,16 @@ else
 	elif [ "$SP_MINI_SIZE" == "xxlarge" ]
 	then
 		# prepare env vars for docker-compose
-		# to be used as -Xmx jvm option for Elasticsearch & Snowplow apps
 		echo -n > provisioning/roles/docker/files/.env
-		echo "ES_JVM_SIZE=16g" >> provisioning/roles/docker/files/.env
-		echo "SP_JVM_SIZE=3g" >> provisioning/roles/docker/files/.env
+		echo "ELASTICSEARCH_MEM_SIZE=10g" >> provisioning/roles/docker/files/.env
+		echo "ELASTICSEARCH_HEAP_SIZE=5g" >> provisioning/roles/docker/files/.env
+		echo "KIBANA_MEM_SIZE=2g" >> provisioning/roles/docker/files/.env
+		echo "SP_COLLECTOR_MEM_SIZE=2g" >> provisioning/roles/docker/files/.env
+		echo "SP_ENRICH_MEM_SIZE=4g" >> provisioning/roles/docker/files/.env
+		echo "SP_ES_LOADER_MEM_SIZE=2g" >> provisioning/roles/docker/files/.env
+		echo "SP_IGLU_SERVER_MEM_SIZE=512m" >> provisioning/roles/docker/files/.env
+		echo "CA_ADVISOR_MEM_SIZE=512m" >> provisioning/roles/docker/files/.env
+		echo "NSQD_MEM_SIZE=1g" >> provisioning/roles/docker/files/.env
 		# prepare env var for packer
 		# to be used to determine which instance type to use
 		if [ "$SP_MINI_PLATFORM" == "aws" ]
