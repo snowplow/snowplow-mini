@@ -189,7 +189,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
 
   iglu-server:
-    image: snowplow/iglu-server:0.8.7-distroless
+    image: snowplow/iglu-server:0.9.0-distroless
     container_name: iglu-server
     command: ["--config", "/snowplow/config/iglu-server.conf"]
     restart: always
