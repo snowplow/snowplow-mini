@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   if Vagrant::Util::Platform.windows? then
     config.vm.synced_folder '.', '/vagrant' # NFS not supported on Windows
   else
-    config.vm.synced_folder '.', '/vagrant', nfs: true # Uncomment to use NFS
+    config.vm.synced_folder '.', '/vagrant', nfs: false # Uncomment to use NFS
   end
 
   config.vm.network "forwarded_port", guest: 80, host: 2000     # Caddy insecure
