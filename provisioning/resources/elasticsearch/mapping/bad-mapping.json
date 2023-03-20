@@ -3,7 +3,14 @@
     "analysis": {
       "analyzer": {
         "default": {
-          "type": "keyword"
+          "tokenizer": "keyword",
+          "filter": ["oversized-fields"]
+        }
+      },
+      "filter": {
+        "oversized-fields": {
+          "type": "length",
+          "max": 8191
         }
       }
     },
