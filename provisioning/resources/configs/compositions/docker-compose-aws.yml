@@ -52,7 +52,7 @@ services:
     mem_limit: ${KIBANA_MEM_SIZE}
 
   elasticsearch-loader-good:
-    image: snowplow/elasticsearch-loader:2.0.8
+    image: snowplow/elasticsearch-loader:2.1.0-distroless
     container_name: elasticsearch-loader-good
     command: [ "--config", "/snowplow/config/snowplow-es-loader-good.hocon" ]
     restart: always
@@ -66,11 +66,11 @@ services:
         awslogs-group: "${AWS_LOGS_GROUP}"
         awslogs-stream: "elasticsearch-loader-good"
     environment:
-      - "JAVA_OPTS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
+      - "JDK_JAVA_OPTIONS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
     mem_limit: ${SP_ES_LOADER_MEM_SIZE}
 
   elasticsearch-loader-bad:
-    image: snowplow/elasticsearch-loader:2.0.8
+    image: snowplow/elasticsearch-loader:2.1.0-distroless
     container_name: elasticsearch-loader-bad
     command: [ "--config", "/snowplow/config/snowplow-es-loader-bad.hocon" ]
     restart: always
@@ -84,7 +84,7 @@ services:
         awslogs-group: "${AWS_LOGS_GROUP}"
         awslogs-stream: "elasticsearch-loader-bad"
     environment:
-      - "JAVA_OPTS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
+      - "JDK_JAVA_OPTIONS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
     mem_limit: ${SP_ES_LOADER_MEM_SIZE}
 
   nsqlookupd:

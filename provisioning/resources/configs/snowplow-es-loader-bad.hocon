@@ -36,10 +36,15 @@
     "nsqlookupdPort": 4161
 
     # Events are accumulated in a buffer before being sent to Elasticsearch.
-    # The buffer is emptied whenever the number of stored records exceeds recordLimit
+    # The buffer is emptied:
+    # - whenever the number of stored records exceeds recordLimit
+    # - whenever the combined of stored records exceeds byteLimit
+    # - at regular intervals, controlled by timeLimit in milliseconds
     # This value is optional.
     "buffer": {
-      "recordLimit" = 1
+      "byteLimit": 1000000
+      "recordLimit" = 500
+      "timeLimit" = 500
     }
   }
 
