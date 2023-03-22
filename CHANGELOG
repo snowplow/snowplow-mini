@@ -1,3 +1,11 @@
+Version 0.16.0 (2023-03-22)
+---------------------------
+Improve buffer settings of ES Loaders to allow for higher throughput (#378)
+Update Elasticsearch mapping to allow very long strings (#374)
+Tune memory defaults to better balance the services (#376)
+Bump iglu-server to v0.9.0
+Bump enrich to v3.7.0
+
 Version 0.15.1 (2022-12-14)
 ---------------------------
 Bump enrich to 3.6.1 (#371)
