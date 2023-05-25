@@ -117,7 +117,7 @@ services:
     mem_limit: 64m
 
   scala-stream-collector:
-    image: snowplow/scala-stream-collector-nsq:2.8.2-distroless
+    image: snowplow/scala-stream-collector-nsq:2.9.0-distroless
     container_name: scala-stream-collector-nsq
     command: [ "--config", "/snowplow/config/snowplow-stream-collector.hocon" ]
     restart: always
