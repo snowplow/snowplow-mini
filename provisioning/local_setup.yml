@@ -3,7 +3,7 @@
   hosts: all
 
   roles:
-    - ansible-go
+    - go
     - nodejs
     - typescript
     - packer

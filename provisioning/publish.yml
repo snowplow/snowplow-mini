@@ -1,6 +1,6 @@
 ---
 # This playbook is used for provisioning of the AMI
-# UI and executables file are made ready in the vagrant environment
+# UI and executables file are made ready locally in Github Actions
 # They are only copied into the AMI here
 - name: apply all scripts
   hosts: all

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2018 Snowplow Analytics Ltd.
+ * Copyright (c) 2016-2023 Snowplow Analytics Ltd.
  * All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
@@ -44,7 +44,7 @@ func restartSPService(service string) (error, int) {
 	} else {
 		if serviceName, ok := initMap[service]; ok {
 			restartCommandArgs := []string{"restart", serviceName}
-			cmd := exec.Command("/usr/local/bin/docker-compose", restartCommandArgs...)
+			cmd := exec.Command("docker-compose", restartCommandArgs...)
 			cmd.Dir = "/home/ubuntu/snowplow"
 			err := cmd.Run()
 			if err != nil {
@@ -58,7 +58,7 @@ func restartSPService(service string) (error, int) {
 
 func restartSPServices() error {
 	restartCommandArgs := []string{"-f", "/home/ubuntu/snowplow/docker-compose.yml", "restart"}
-	cmd := exec.Command("/usr/local/bin/docker-compose", restartCommandArgs...)
+	cmd := exec.Command("docker-compose", restartCommandArgs...)
 	cmd.Dir = "/home/ubuntu/snowplow"
 	err := cmd.Run()
 	if err != nil {

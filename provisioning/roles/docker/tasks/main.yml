@@ -1,24 +1,23 @@
 ---
 - include_vars: ../../common_vars.yml
 
-- name: Setup the docker repository and install docker
+- name: Install ca-certificates curl gnupg
+  become: yes
+  shell: sudo apt-get install ca-certificates curl gnupg
+
+- name: Add Docker’s official GPG key
   become: yes
   shell: |
-    apt-get update
-    apt-get install apt-transport-https ca-certificates curl software-properties-common --yes
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    apt-get update && apt-get install docker-ce --yes
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-- name: Download docker-compose
+- name: Set up Docker repo
   become: yes
-  shell: curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+  shell: echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable" > /etc/apt/sources.list.d/docker.list
 
-- name: Apply executable permissions to the docker-compose binary
-  become: yes
-  args:
-    warn: false
-  shell: chmod +x /usr/local/bin/docker-compose
+- name: Install docker-compose
+  apt: name=docker-compose state=latest
 
 - name: Copy docker-compose.yml and its environment file
   copy: src={{ item.src }} dest={{ item.dest }} owner=ubuntu group=ubuntu mode=0644
@@ -28,15 +27,13 @@
 
 - name: Create & set permissions of elasticsearch data directory
   become: yes
-  args:
-    warn: false
   shell: rm -rf {{main_dir}}/elasticsearch/data && mkdir {{main_dir}}/elasticsearch/data && chown -R 1000:1000 {{main_dir}}/elasticsearch/data
 
 - name: Increase mmap count to recommended 262144 for Elasticsearch
   become: yes
   shell: echo "vm.max_map_count=262144" >> /etc/sysctl.conf && service procps restart
 
-- name: Deploy snowplow mini
+- name: Start snowplow mini (docker-compose up)
   become: yes
   shell: cd {{main_dir}} && docker-compose up -d && sleep 20
 

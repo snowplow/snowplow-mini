@@ -4,24 +4,22 @@
 - name: Set variables
   set_fact:
     control_plane_dir: '{{playbook_dir}}/resources/control-plane'
-    go_bin: '/usr/local/go/bin'
-    go_path: "{{ lookup('env', 'HOME') }}/go"
 
-- name: Get Control Plane dependencies
-  environment:
-    PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
-    GOPATH: "{{ lookup('env', 'GOPATH') }}"
-  shell: |
-    until $(/usr/local/go/bin/go get github.com/BurntSushi/toml); do echo "github.com/BurntSushi/toml"; sleep 1; done
-    until $(/usr/local/go/bin/go get gopkg.in/pg.v5); do echo "gopkg.in/pg.v5"; sleep 1; done
-    until $(/usr/local/go/bin/go get github.com/trustelem/zxcvbn); do echo "github.com/trustelem/zxcvbn"; sleep 1; done
-    until $(/usr/local/go/bin/go get golang.org/x/crypto/bcrypt); do echo "golang.org/x/crypto/bcrypt"; sleep 1; done
+- name: Add Go backports for old versions
+  become: yes
+  command: sudo add-apt-repository -y ppa:longsleep/golang-backports
+
+- name: Install Go 1.15
+  become: yes
+  command: sudo apt install golang-1.15-go
+
+- name: Init Go module
+  become: yes
+  command: /usr/lib/go-1.15/bin/go mod init control-plane
 
 - name: Build Control Plane API
   become: yes
-  environment:
-    PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
-  shell: "/usr/local/go/bin/go build -o {{control_plane_dir}}/snowplow-mini-control-plane-api {{control_plane_dir}}/*.go"
+  shell: "/usr/lib/go-1.15/bin/go build -o {{control_plane_dir}}/snowplow-mini-control-plane-api {{control_plane_dir}}/*.go"
 
 - name: Copy Control Plane API to executables dir
   become: yes

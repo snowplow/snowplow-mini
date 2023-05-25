@@ -1,5 +1,6 @@
 ---
-main_dir:             "/home/ubuntu/snowplow"
+home_dir:             "/home/ubuntu"
+main_dir:             "{{home_dir}}/snowplow"
 configs_dir:          "{{main_dir}}/configs"
 staging_dir:          "{{main_dir}}/staging"
 executables_dir:      "{{main_dir}}/bin"

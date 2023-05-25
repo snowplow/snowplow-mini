@@ -37,6 +37,4 @@
 
 - name: Set owner of the main directory
   become: yes
-  args:
-    warn: false
-  shell: "chown -R ubuntu:ubuntu {{main_dir}} && chmod 755 -R {{main_dir}}"
+  shell: "chown -R ubuntu:ubuntu {{home_dir}} && chmod 755 -R {{home_dir}}"

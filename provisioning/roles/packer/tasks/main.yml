@@ -1,16 +1,9 @@
 ---
-- name: Download Packer
-  become: yes
-  args:
-    warn: false
-  shell: curl -o {{ packer_install_dir }}/{{ packer_archive }}.zip {{ packer_url }}
+- name: Add the HashiCorp GPG key
+  shell: 'curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -'
 
-- name: Extract Packer
-  become: yes
-  unarchive: copy=no src={{ packer_install_dir }}/{{ packer_archive }}.zip dest={{ packer_install_dir }}
+- name: Add the official HashiCorp Linux repository
+  shell: 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
 
-- name: Remove downloaded packer_archive
-  become: yes
-  args:
-    warn: false
-  shell: "rm -f {{ packer_install_dir }}/{{ packer_archive }}.zip"
+- name : Install packer
+  shell: 'sudo apt-get update && sudo apt-get install packer'
