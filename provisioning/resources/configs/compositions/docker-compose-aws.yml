@@ -158,7 +158,7 @@ services:
     mem_limit: ${SP_COLLECTOR_MEM_SIZE}
 
   stream-enrich:
-    image: snowplow/stream-enrich-nsq:3.7.0-distroless
+    image: snowplow/stream-enrich-nsq:3.8.0-distroless
     container_name: stream-enrich-nsq
     command: [
       "--config", "/snowplow/config/snowplow-stream-enrich.hocon",
