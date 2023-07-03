@@ -33,7 +33,7 @@ type configFileNames struct {
 
 type initScripts struct {
 	Collector     string `toml:"stream_collector"`
-	Enrich        string `toml:"stream_enrich"`
+	Enrich        string `toml:"enrich"`
 	EsLoaderGood  string `toml:"es_loader_good"`
 	EsLoaderBad   string `toml:"es_loader_bad"`
 	Iglu          string
