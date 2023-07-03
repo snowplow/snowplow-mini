@@ -17,7 +17,7 @@ collector = "snowplow-stream-collector.hocon"
 
 [init_scripts]
 stream_collector = "scala-stream-collector"
-stream_enrich = "stream-enrich"
+enrich = "enrich"
 es_loader_good = "elasticsearch-loader-good"
 es_loader_bad = "elasticsearch-loader-bad"
 iglu = "iglu-server"
