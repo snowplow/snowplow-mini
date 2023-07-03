@@ -1,0 +1,33 @@
+{
+  "input": {
+    "topic": "RawEvents"
+    "lookupHost": "nsqlookupd"
+    "lookupPort": 4161
+  }
+
+  "output": {
+    "good": {
+      "topic": "EnrichedEvents"
+      "nsqdHost": "nsqd"
+      "nsqdPort": 4150
+    }
+
+    "bad": {
+      "topic": "BadEnrichedEvents"
+      "nsqdHost": "nsqd"
+      "nsqdPort": 4150
+    }
+
+    "pii": {
+      "type": "Nsq"
+      "topic": "PiiEvents"
+      "nsqdHost": "nsqd"
+      "nsqdPort": 4150
+      "backoffPolicy": {
+        "minBackoff": 100 milliseconds
+        "maxBackoff": 10 seconds
+        "maxRetries": 10
+      }
+    }
+  }
+}

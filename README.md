@@ -88,7 +88,7 @@ Snowplow Mini runs several distinct applications on the same box which are all l
   * Starts server listening on `http://< sp mini public ip>/` which events can be sent to.
   * Sends "good" events to the `RawEvents` NSQ topic
   * Sends "bad" events to the `BadEvents` NSQ topic
-* Stream Enrich:
+* Enrich:
   * Reads events in from the `RawEvents` NSQ topic
   * Sends events which passed the enrichment process to the `EnrichedEvents` NSQ topic
   * Sends events which failed the enrichment process to the `BadEvents` NSQ topic
