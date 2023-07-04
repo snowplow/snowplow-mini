@@ -1,3 +1,11 @@
+Version 0.17.0 (2023-07-04)
+---------------------------
+Use Ubuntu 22.04 as base image and in Github Actions (#381)
+Bump Collector to 2.9.0 (#383)
+Bump Iglu Server to 0.10.0 (#384)
+Bump Enrich to 3.8.0 (#382)
+Make index pattern creation error resilient (#379)
+
 Version 0.16.0 (2023-03-22)
 ---------------------------
 Improve buffer settings of ES Loaders to allow for higher throughput (#378)
