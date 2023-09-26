@@ -51,8 +51,6 @@ collector {
 
   doNotTrackCookie {
     enabled = false
-    name = dnt
-    value = 1
   }
 
   rootResponse {
@@ -104,18 +102,4 @@ collector {
       secure = true
    }
    preTerminationPeriod = 0 seconds
-}
-
-akka {
-  loglevel = WARNING
-  loggers = ["akka.event.slf4j.Slf4jLogger"]
-
-  http.server {
-    remote-address-header = on
-    raw-request-uri-header = on
-    parsing {
-      max-uri-length = 32768
-      uri-parsing-mode = relaxed
-    }
-  }
 }
