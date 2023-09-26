@@ -3,7 +3,7 @@
 
 - name: Install ca-certificates curl gnupg
   become: yes
-  shell: sudo apt-get install ca-certificates curl gnupg
+  shell: sudo apt-get install ca-certificates curl gnupg --yes
 
 - name: Add Docker’s official GPG key
   become: yes
