@@ -11,7 +11,7 @@
 
 - name: Install Go 1.15
   become: yes
-  command: sudo apt install golang-1.15-go
+  command: sudo apt -y install golang-1.15-go
 
 - name: Init Go module
   become: yes
