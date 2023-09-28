@@ -107,10 +107,9 @@ These events can then be viewed in Kibana at `http://< sp mini public ip>/kibana
 
 ## Copyright and license
 
-Snowplow Mini is copyright 2016-2022 Snowplow Analytics Ltd.
+Snowplow Mini is copyright 2016-present Snowplow Analytics Ltd.
 
-Licensed under the **[Apache License, Version 2.0][license]** (the "License");
-you may not use this software except in compliance with the License.
+Licensed under the [Snowplow Limited Use License Agreement][license]. _(If you are uncertain how it applies to your use case, check our answers to [frequently asked questions][faq].)_
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -129,8 +128,9 @@ limitations under the License.
 [release-image]: https://img.shields.io/github/v/release/snowplow/snowplow-mini?sort=semver&style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
-[license-image]: https://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
-[license]: https://www.apache.org/licenses/LICENSE-2.0
+[license]: https://docs.snowplow.io/limited-use-license-1.0
+[license-image]: https://img.shields.io/badge/license-Snowplow--Limited-Use-blue.svg?style=flat
+[faq]: https://docs.snowplow.io/docs/contributing/limited-use-license-faq/
 
 [vagrant]: https://www.vagrantup.com/
 [virtualbox]: https://www.virtualbox.org/
