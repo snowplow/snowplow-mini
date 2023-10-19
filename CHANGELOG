@@ -1,3 +1,8 @@
+Version 0.17.1 (2023-10-20)
+---------------------------
+Add -y flag to Go compiler installation command (#390)
+Use pip2 (#389)
+
 Version 0.17.0 (2023-07-04)
 ---------------------------
 Use Ubuntu 22.04 as base image and in Github Actions (#381)
