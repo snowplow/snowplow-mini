@@ -1,4 +1,4 @@
-Version 0.17.1 (2023-10-20)
+Version 0.17.1-rc3 (2023-10-20)
 ---------------------------
 Add -y flag to Go compiler installation command (#390)
 Use pip2 (#389)
