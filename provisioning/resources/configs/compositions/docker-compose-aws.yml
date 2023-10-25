@@ -157,14 +157,13 @@ services:
       - "JDK_JAVA_OPTIONS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
     mem_limit: ${SP_COLLECTOR_MEM_SIZE}
 
-  stream-enrich:
-    image: snowplow/stream-enrich-nsq:3.8.0-distroless
-    container_name: stream-enrich-nsq
+  enrich:
+    image: snowplow/snowplow-enrich-nsq:3.8.0-distroless
+    container_name: enrich
     command: [
-      "--config", "/snowplow/config/snowplow-stream-enrich.hocon",
-      "--resolver", "file:/snowplow/config/iglu-resolver.json",
-      "--enrichments", "file:/snowplow/config/enrichments",
-      "--force-cached-files-download"
+      "--config", "/snowplow/config/snowplow-enrich.hocon",
+      "--iglu-config", "/snowplow/config/iglu-resolver.json",
+      "--enrichments", "/snowplow/config/enrichments"
     ]
     restart: always
     depends_on:
@@ -175,7 +174,7 @@ services:
       driver: awslogs
       options:
         awslogs-group: "${AWS_LOGS_GROUP}"
-        awslogs-stream: "stream-enrich"
+        awslogs-stream: "enrich"
     environment:
       - "JDK_JAVA_OPTIONS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
     mem_limit: ${SP_ENRICH_MEM_SIZE}

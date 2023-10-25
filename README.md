@@ -88,7 +88,7 @@ Snowplow Mini runs several distinct applications on the same box which are all l
   * Starts server listening on `http://< sp mini public ip>/` which events can be sent to.
   * Sends "good" events to the `RawEvents` NSQ topic
   * Sends "bad" events to the `BadEvents` NSQ topic
-* Stream Enrich:
+* Enrich:
   * Reads events in from the `RawEvents` NSQ topic
   * Sends events which passed the enrichment process to the `EnrichedEvents` NSQ topic
   * Sends events which failed the enrichment process to the `BadEvents` NSQ topic
@@ -107,7 +107,7 @@ These events can then be viewed in Kibana at `http://< sp mini public ip>/kibana
 
 ## Copyright and license
 
-Snowplow Mini is copyright 2016-2022 Snowplow Analytics Ltd.
+Snowplow Mini is copyright 2016-2023 Snowplow Analytics Ltd.
 
 Licensed under the **[Apache License, Version 2.0][license]** (the "License");
 you may not use this software except in compliance with the License.
