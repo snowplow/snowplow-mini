@@ -34,7 +34,7 @@ collector {
   doNotTrackCookie {
     enabled = false
     name = dnt
-    value = 1
+    value = hello
   }
 
   rootResponse {
