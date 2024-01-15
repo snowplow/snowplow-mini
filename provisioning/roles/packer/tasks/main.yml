@@ -7,3 +7,12 @@
 
 - name : Install packer
   shell: 'sudo apt-get update && sudo apt-get install packer'
+
+- name : Install packer amazon plugin
+  shell: 'packer plugins install github.com/hashicorp/amazon'
+
+- name : Install packer google plugin
+  shell: 'packer plugins install github.com/hashicorp/googlecompute'
+
+- name : Install packer ansible plugin
+  shell: 'packer plugins install github.com/hashicorp/ansible'

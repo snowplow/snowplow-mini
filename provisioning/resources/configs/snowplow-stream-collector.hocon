@@ -1,5 +1,8 @@
 # 'collector' contains configuration options for the main Scala collector.
 collector {
+  license {
+    accept = true
+  }
   interface = "0.0.0.0"
   port = 8080
 
