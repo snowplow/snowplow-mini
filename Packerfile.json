@@ -1,4 +1,12 @@
 {
+  "packer": {
+    "required_plugins": {
+       "amazon": {
+         "version": "~> 1",
+         "source": "github.com/hashicorp/amazon"
+      }
+    }
+  },
   "builders": [
     {
       "ami_description": "Snowplow Mini - The Snowplow Pipeline in a box",
