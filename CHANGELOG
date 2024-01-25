@@ -1,3 +1,9 @@
+Version 0.18.0 (2024-01-25)
+---------------------------
+Bump collector to 3.0.1 (#392)
+Use snowplow/snowplow-enrich-nsq (#386)
+Add Snowplow Limited Use License (#392)
+
 Version 0.17.1 (2023-10-20)
 ---------------------------
 Add -y flag to Go compiler installation command (#390)
