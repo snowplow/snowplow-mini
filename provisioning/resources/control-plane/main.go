@@ -47,6 +47,7 @@ func main() {
 	http.HandleFunc("/version", getSpminiVersion)
 	http.HandleFunc("/telemetry", manageTelemetry)
 	http.HandleFunc("/reset-service", resetService)
+	http.HandleFunc("/add-hsts", addHsts)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
@@ -128,6 +129,26 @@ func resetService(resp http.ResponseWriter, req *http.Request) {
 	} else {
 		http.Error(resp, "Only POST is supported", 400)
 		return
+	}
+}
+
+func addHsts(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "PUT" {
+		err := addHstsHeader(config.ConfigNames.Caddy)
+		if err != nil {
+			http.Error(resp, err.Error(), 500)
+			return
+		}
+		err, status := restartSPService("caddy")
+		if err != nil {
+			http.Error(resp, err.Error(), status)
+			return
+		}
+		resp.WriteHeader(http.StatusOK)
+		io.WriteString(resp, "OK")
+	} else {
+		// Return 404 for other methods
+		http.Error(resp, "", 404)
 	}
 }
 

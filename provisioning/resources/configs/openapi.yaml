@@ -221,9 +221,18 @@ paths:
           description: "Telemetry has been reconfigured"
         "401":
           description: "Unauthorized"
-      
-      
-      
+  /add-hsts:
+    put:
+      tags:
+      - "configuration"
+      summary: "Add HSTS header"
+      description: "Adds HSTS header to underlying caddy configuration. When added, 'Strict-Transport-Security' header is returned for each HTTPS response"
+      operationId: "addHsts"
+      responses:
+        "200":
+          description: "HSTS header has been added"
+        "401":
+          description: "Unauthorized"
       
   /restart-services:
     put:
