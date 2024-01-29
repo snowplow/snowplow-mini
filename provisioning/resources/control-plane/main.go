@@ -137,10 +137,15 @@ func addHsts(resp http.ResponseWriter, req *http.Request) {
 		err := addHstsHeader(config.ConfigNames.Caddy)
 		if err != nil {
 			http.Error(resp, err.Error(), 500)
-		} else {
-			resp.WriteHeader(http.StatusOK)
-			io.WriteString(resp, "OK")
+			return
 		}
+		err, status := restartSPService("caddy")
+		if err != nil {
+			http.Error(resp, err.Error(), status)
+			return
+		}
+		resp.WriteHeader(http.StatusOK)
+		io.WriteString(resp, "OK")
 	} else {
 		// Return 404 for other methods
 		http.Error(resp, "", 404)
