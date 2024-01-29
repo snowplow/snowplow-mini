@@ -132,9 +132,9 @@ func resetService(resp http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func addHsts (resp http.ResponseWriter, req *http.Request) {
-  if req.Method == "PUT" {
-		err := addHstsHeader(config.Dirs.Config+"/"+config.ConfigNames.Caddy)
+func addHsts(resp http.ResponseWriter, req *http.Request) {
+	if req.Method == "PUT" {
+		err := addHstsHeader(config.ConfigNames.Caddy)
 		if err != nil {
 			http.Error(resp, err.Error(), 500)
 		} else {

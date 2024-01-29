@@ -12,28 +12,28 @@ package main
 
 import (
 	"io/ioutil"
-  "strings"
+	"strings"
 )
 
 func addHstsHeader(configPath string) error {
-  currentConfig, err := ioutil.ReadFile(configPath)
+	currentConfig, err := ioutil.ReadFile(configPath)
 
-  if err != nil {
+	if err != nil {
 		return err
 	}
-  toReplacePattern :=
-`
+	toReplacePattern :=
+		`
       handle @isHttps {
         import handleProtectedPaths
       }
 `
-  replaceWithHsts :=
-`
+	replaceWithHsts :=
+		`
       handle @isHttps {
         import handleProtectedPaths
         header Strict-Transport-Security max-age=31536000; includeSubDomains
       }
 `
-  newCaddyConfig := strings.Replace(string(currentConfig), toReplacePattern, replaceWithHsts, 1)
+	newCaddyConfig := strings.Replace(string(currentConfig), toReplacePattern, replaceWithHsts, 1)
 	return ioutil.WriteFile(configPath, []byte(newCaddyConfig), 0644)
 }
