@@ -31,7 +31,7 @@ func addHstsHeader(configPath string) error {
 		`
       handle @isHttps {
         import handleProtectedPaths
-        header Strict-Transport-Security max-age=31536000; includeSubDomains
+        header Strict-Transport-Security "max-age=31536000; includeSubDomains"
       }
 `
 	newCaddyConfig := strings.Replace(string(currentConfig), toReplacePattern, replaceWithHsts, 1)
