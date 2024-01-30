@@ -1,3 +1,7 @@
+Version 0.19.0 (2024-01-30)
+---------------------------
+Add HSTS to caddy configuration (#395)
+
 Version 0.18.0 (2024-01-25)
 ---------------------------
 Bump collector to 3.0.1 (#392)
