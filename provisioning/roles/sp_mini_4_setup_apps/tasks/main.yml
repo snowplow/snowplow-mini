@@ -38,3 +38,15 @@
 - name: Set owner of the main directory
   become: yes
   shell: "chown -R ubuntu:ubuntu {{home_dir}} && chmod 755 -R {{home_dir}}"
+
+- name: Create empty env files
+  become: yes
+  file:
+    state: touch
+    path: "{{ envs_dir }}/{{ item }}"
+  loop:
+    - es-loader-good.env
+    - es-loader-bad.env
+    - enrich.env
+    - collector.env
+
