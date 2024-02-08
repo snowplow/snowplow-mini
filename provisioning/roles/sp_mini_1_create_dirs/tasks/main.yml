@@ -21,6 +21,7 @@
     - "{{init_dir}}"
     - "{{ui_dir}}"
     - "{{nsq_data_dir}}"
+    - "{{envs_dir}}"
 
 #playbook_dir is ansible defined variable which stores top level ansible-playbook directory
 - name: Copy folders to the /home/ubuntu/snowplow

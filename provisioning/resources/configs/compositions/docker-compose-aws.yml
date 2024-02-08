@@ -67,6 +67,7 @@ services:
         awslogs-stream: "elasticsearch-loader-good"
     environment:
       - "JDK_JAVA_OPTIONS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
+    env_file: /home/ubuntu/snowplow/envs/es-loader-good.env
     mem_limit: ${SP_ES_LOADER_MEM_SIZE}
 
   elasticsearch-loader-bad:
@@ -85,6 +86,7 @@ services:
         awslogs-stream: "elasticsearch-loader-bad"
     environment:
       - "JDK_JAVA_OPTIONS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
+    env_file: /home/ubuntu/snowplow/envs/es-loader-bad.env
     mem_limit: ${SP_ES_LOADER_MEM_SIZE}
 
   nsqlookupd:
@@ -155,6 +157,7 @@ services:
         awslogs-stream: "scala-stream-collector"
     environment:
       - "JDK_JAVA_OPTIONS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
+    env_file: /home/ubuntu/snowplow/envs/collector.env
     mem_limit: ${SP_COLLECTOR_MEM_SIZE}
 
   enrich:
@@ -177,6 +180,7 @@ services:
         awslogs-stream: "enrich"
     environment:
       - "JDK_JAVA_OPTIONS=-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=75 -Dlog4j2.formatMsgNoLookups=true"
+    env_file: /home/ubuntu/snowplow/envs/enrich.env
     mem_limit: ${SP_ENRICH_MEM_SIZE}
 
   postgres:
