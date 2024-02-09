@@ -3,7 +3,7 @@ info:
   title: "Snowplow Mini"
   description: |
     Snowplow Mini is a small, single instance version of Snowplow that primarily serves as a development sandbox which gives you a quick way to debug tracker updates and changes to your schema and pipeline configuration.
-  version: "0.19.0"
+  version: "0.19.1"
   license:
     name: "Snowplow Limited Use License"
     url: "https://docs.snowplow.io/limited-use-license-1.0/"
