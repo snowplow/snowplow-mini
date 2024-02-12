@@ -1,0 +1,17 @@
+[Unit]
+Description=Runs Snowplow Report service sending mini status metrics
+Wants=snowplow-report.timer
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker compose -f /home/ubuntu/snowplow/docker-compose.yml ps
+# FIXME
+# Inspect docker compose for services
+# Report restarts
+# Report errors
+# Check OpenSearch for number of events both good and bad
+# Check whether collector is accessible
+# Report via statsd
+
+[Install]
+WantedBy=multi-user.target
