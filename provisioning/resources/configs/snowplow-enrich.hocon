@@ -1,4 +1,8 @@
 {
+  "license": {
+    "accept": true
+  }
+  
   "input": {
     "topic": "RawEvents"
     "lookupHost": "nsqlookupd"
