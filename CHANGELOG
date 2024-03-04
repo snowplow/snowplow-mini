@@ -1,3 +1,8 @@
+Version 0.20.0 (2024-03-04)
+---------------------------
+Bump enrich to 4.1.0
+Bump collector to 3.1.2
+
 Version 0.19.2 (2024-02-09)
 ---------------------------
 Snowplow docker containers should take custom environment variables from an optional file (#398)
