@@ -10,7 +10,10 @@
 # configuration options for Stream Enrich.
 
 enrich {
-
+  "license": {
+    "accept": true
+  }
+  
   streams {
 
     in {
