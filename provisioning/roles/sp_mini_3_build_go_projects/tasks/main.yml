@@ -9,17 +9,13 @@
   become: yes
   command: sudo add-apt-repository -y ppa:longsleep/golang-backports
 
-- name: Install Go 1.15
+- name: Install Go 1.22
   become: yes
-  command: sudo apt -y install golang-1.15-go
-
-- name: Init Go module
-  become: yes
-  command: /usr/lib/go-1.15/bin/go mod init control-plane
+  command: sudo apt -y install golang-1.22-go
 
 - name: Build Control Plane API
   become: yes
-  shell: "/usr/lib/go-1.15/bin/go build -o {{control_plane_dir}}/snowplow-mini-control-plane-api {{control_plane_dir}}/*.go"
+  shell: "cd {{control_plane_dir}} && /usr/lib/go-1.22/bin/go build -o snowplow-mini-control-plane-api *.go"
 
 - name: Copy Control Plane API to executables dir
   become: yes
