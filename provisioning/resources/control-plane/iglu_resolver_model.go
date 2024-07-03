@@ -23,6 +23,7 @@ type RepoConf struct {
 
 type DataConf struct {
 	CacheSize int        `json:"cacheSize"`
+	CacheTtl  int        `json:"cacheTtl"`
 	Repos     []RepoConf `json:"repositories"`
 }
 

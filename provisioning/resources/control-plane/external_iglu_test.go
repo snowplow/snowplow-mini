@@ -27,6 +27,7 @@ func TestAddExternalIgluServer(t *testing.T) {
   "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-1",
   "data": {
     "cacheSize": 500,
+    "cacheTtl": 1,
     "repositories": [
       {
         "name": "Iglu Server",
@@ -51,6 +52,7 @@ func TestAddExternalIgluServer(t *testing.T) {
   "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-1",
   "data": {
     "cacheSize": 500,
+    "cacheTtl": 1,
     "repositories": [
       {
         "name": "Iglu Server",
@@ -108,7 +110,7 @@ func TestAddExternalIgluServer(t *testing.T) {
 	afterInsert, err := ioutil.ReadFile(tmpfn)
 	assert.Nil(err)
 
-	assert.True(string(afterInsert) == expectedIgluConfigAfter)
+	assert.JSONEq(string(afterInsert), expectedIgluConfigAfter)
 }
 
 func TestAddExternalIgluServerWithoutApiKey(t *testing.T) {
@@ -119,6 +121,7 @@ func TestAddExternalIgluServerWithoutApiKey(t *testing.T) {
   "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-1",
   "data": {
     "cacheSize": 500,
+    "cacheTtl": 1,
     "repositories": [
       {
         "name": "Iglu Server",
@@ -143,6 +146,7 @@ func TestAddExternalIgluServerWithoutApiKey(t *testing.T) {
   "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-1",
   "data": {
     "cacheSize": 500,
+    "cacheTtl": 1,
     "repositories": [
       {
         "name": "Iglu Server",
@@ -199,5 +203,5 @@ func TestAddExternalIgluServerWithoutApiKey(t *testing.T) {
 	afterInsert, err := ioutil.ReadFile(tmpfn)
 	assert.Nil(err)
 
-	assert.True(string(afterInsert) == expectedIgluConfigAfter)
+	assert.JSONEq(string(afterInsert), expectedIgluConfigAfter)
 }

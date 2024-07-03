@@ -11,11 +11,12 @@
 package main
 
 import (
-	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAddApiKeyToConfig(t *testing.T) {
@@ -26,6 +27,7 @@ func TestAddApiKeyToConfig(t *testing.T) {
   "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-1",
   "data": {
     "cacheSize": 500,
+    "cacheTtl": 1,
     "repositories": [
       {
         "name": "Iglu Server",
@@ -35,7 +37,7 @@ func TestAddApiKeyToConfig(t *testing.T) {
         ],
         "connection": {
           "http": {
-            "uri": "http://localhost:8081/api",
+            "uri": "http://iglu-server:8081/api",
             "apikey": "PLACEHOLDER"
           }
         }
@@ -48,6 +50,7 @@ func TestAddApiKeyToConfig(t *testing.T) {
   "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-1",
   "data": {
     "cacheSize": 500,
+    "cacheTtl": 1,
     "repositories": [
       {
         "name": "Iglu Server",
@@ -57,7 +60,7 @@ func TestAddApiKeyToConfig(t *testing.T) {
         ],
         "connection": {
           "http": {
-            "uri": "http://localhost:8081/api",
+            "uri": "http://iglu-server:8081/api",
             "apikey": "iglu_apikey"
           }
         }
@@ -71,6 +74,7 @@ func TestAddApiKeyToConfig(t *testing.T) {
   "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-1",
   "data": {
     "cacheSize": 500,
+    "cacheTtl": 1,
     "repositories": [
       {
         "name": "Iglu Server",
@@ -80,7 +84,7 @@ func TestAddApiKeyToConfig(t *testing.T) {
         ],
         "connection": {
           "http": {
-            "uri": "http://localhost:8081/api"
+            "uri": "http://iglu-server:8081/api"
           }
         }
       }
@@ -93,6 +97,7 @@ func TestAddApiKeyToConfig(t *testing.T) {
   "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-1",
   "data": {
     "cacheSize": 500,
+    "cacheTtl": 1,
     "repositories": [
       {
         "name": "Iglu Server",
@@ -102,7 +107,7 @@ func TestAddApiKeyToConfig(t *testing.T) {
         ],
         "connection": {
           "http": {
-            "uri": "http://localhost:8081/api",
+            "uri": "http://iglu-server:8081/api",
             "apikey": "iglu_apikey"
           }
         }
@@ -132,8 +137,7 @@ func TestAddApiKeyToConfig(t *testing.T) {
 
 	afterInsert, err := ioutil.ReadFile(tmpfn)
 	assert.Nil(err)
-
-	assert.True(string(afterInsert) == expectedIgluConfigOne)
+	assert.JSONEq(string(afterInsert), expectedIgluConfigOne)
 
 	err = ioutil.WriteFile(tmpfn, []byte(igluConfigTwo), 0666)
 	assert.Nil(err)
@@ -144,5 +148,5 @@ func TestAddApiKeyToConfig(t *testing.T) {
 	afterInsert, err = ioutil.ReadFile(tmpfn)
 	assert.Nil(err)
 
-	assert.True(string(afterInsert) == expectedIgluConfigTwo)
+	assert.JSONEq(string(afterInsert), expectedIgluConfigTwo)
 }
