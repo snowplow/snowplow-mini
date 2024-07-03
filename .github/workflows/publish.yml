@@ -11,6 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.22'
+          check-latest: true
+
+      - name: Run control-plane-api tests
+        run: |
+          cd $GITHUB_WORKSPACE/provisioning/resources/control-plane
+          go test *.go
+
       - name: Provision a local Mini instance
         run: ansible-playbook -i $GITHUB_WORKSPACE/provisioning/inventory $GITHUB_WORKSPACE/provisioning/local_setup.yml --connection=local --become
 
