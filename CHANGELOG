@@ -1,3 +1,10 @@
+Version 0.20.1 (2024-07-16)
+---------------------------
+Add CacheTtl to DataConf struct in iglu_resolver_model (#403)
+Bump Go to 1.22 (#403)
+Run control-plane-api unit tests in Github Actions (#403)
+Increase Iglu resolver's cacheTtl to 600 seconds (#403)
+
 Version 0.20.0 (2024-03-04)
 ---------------------------
 Bump enrich to 4.1.0
