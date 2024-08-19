@@ -52,7 +52,7 @@ services:
     mem_limit: ${KIBANA_MEM_SIZE}
 
   elasticsearch-loader-good:
-    image: snowplow/elasticsearch-loader:2.1.0-distroless
+    image: snowplow/elasticsearch-loader:2.1.2-distroless
     container_name: elasticsearch-loader-good
     command: [ "--config", "/snowplow/config/snowplow-es-loader-good.hocon" ]
     restart: always
@@ -71,7 +71,7 @@ services:
     mem_limit: ${SP_ES_LOADER_MEM_SIZE}
 
   elasticsearch-loader-bad:
-    image: snowplow/elasticsearch-loader:2.1.0-distroless
+    image: snowplow/elasticsearch-loader:2.1.2-distroless
     container_name: elasticsearch-loader-bad
     command: [ "--config", "/snowplow/config/snowplow-es-loader-bad.hocon" ]
     restart: always
@@ -90,7 +90,7 @@ services:
     mem_limit: ${SP_ES_LOADER_MEM_SIZE}
 
   nsqlookupd:
-    image: nsqio/nsq:v1.2.1
+    image: nsqio/nsq:v1.3.0
     container_name: nsqlookupd
     command: /nsqlookupd --broadcast-address=nsqlookupd
     restart: always
@@ -105,7 +105,7 @@ services:
     mem_limit: 64m
 
   nsqd:
-    image: nsqio/nsq:v1.2.1
+    image: nsqio/nsq:v1.3.0
     container_name: nsqd
     command: /nsqd --broadcast-address=nsqd --lookupd-tcp-address=nsqlookupd:4160 --data-path=/home/ubuntu/snowplow/nsq-data
     restart: always
@@ -124,7 +124,7 @@ services:
     mem_limit: ${NSQD_MEM_SIZE}
 
   nsqadmin:
-    image: nsqio/nsq:v1.2.1
+    image: nsqio/nsq:v1.3.0
     container_name: nsqadmin
     command: /nsqadmin --lookupd-http-address=nsqlookupd:4161 --base-path=/nsqadmin
     restart: always
@@ -140,7 +140,7 @@ services:
     mem_limit: 64m
 
   scala-stream-collector:
-    image: snowplow/scala-stream-collector-nsq:3.1.2-distroless
+    image: snowplow/scala-stream-collector-nsq:3.2.0-distroless
     container_name: scala-stream-collector-nsq
     command: [ "--config", "/snowplow/config/snowplow-stream-collector.hocon" ]
     restart: always
@@ -161,7 +161,7 @@ services:
     mem_limit: ${SP_COLLECTOR_MEM_SIZE}
 
   enrich:
-    image: snowplow/snowplow-enrich-nsq:4.1.0-distroless
+    image: snowplow/snowplow-enrich-nsq:5.1.1-distroless
     container_name: enrich
     command: [
       "--config", "/snowplow/config/snowplow-enrich.hocon",
@@ -202,7 +202,7 @@ services:
     mem_limit: 128m
 
   iglu-server:
-    image: snowplow/iglu-server:0.10.0-distroless
+    image: snowplow/iglu-server:0.13.0-distroless
     container_name: iglu-server
     command: ["--config", "/snowplow/config/iglu-server.conf"]
     restart: always
@@ -222,7 +222,7 @@ services:
     mem_limit: ${SP_IGLU_SERVER_MEM_SIZE}
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.43.0
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
     container_name: cadvisor
     restart: always
     privileged: true
@@ -245,7 +245,7 @@ services:
     mem_limit: ${CA_ADVISOR_MEM_SIZE}
 
   swagger:
-    image: swaggerapi/swagger-ui:v4.5.2
+    image: swaggerapi/swagger-ui:v5.17.14
     container_name: swagger-ui
     restart: always
     ports:
