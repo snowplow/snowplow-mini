@@ -1,3 +1,7 @@
+Version 0.21.0 (2024-09-02)
+---------------------------
+Upgrade components
+
 Version 0.20.1 (2024-07-16)
 ---------------------------
 Add CacheTtl to DataConf struct in iglu_resolver_model (#403)
