@@ -34,7 +34,8 @@ opensearch.hosts: ["http://elasticsearch:9200"]
 
 # Kibana uses an index in Elasticsearch to store saved searches, visualizations and
 # dashboards. Kibana creates a new index if the index doesn't already exist.
-opensearchDashboards.index: ".opensearch_dashboards"
+# Reporting is broken if using different index than '.kibana'. See https://github.com/opensearch-project/dashboards-reporting/issues/55
+opensearchDashboards.index: ".kibana"
 
 # The default application to load.
 opensearchDashboards.defaultAppId: "discover"
