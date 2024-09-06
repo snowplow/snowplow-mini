@@ -1,3 +1,7 @@
+Version 0.21.1 (2024-09-06)
+---------------------------
+Use `.kibana` as opensearch dashboards index
+
 Version 0.21.0 (2024-09-02)
 ---------------------------
 Upgrade components
