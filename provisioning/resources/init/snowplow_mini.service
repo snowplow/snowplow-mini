@@ -7,9 +7,9 @@ Type=oneshot
 RemainAfterExit=true
 WorkingDirectory=/home/ubuntu/snowplow
 ExecStartPre=/usr/sbin/service docker restart
-ExecStartPre=docker-compose down
-ExecStart=docker-compose up -d
-ExecStop=docker-compose down
+ExecStartPre=docker compose down
+ExecStart=docker compose up -d
+ExecStop=docker compose down
 
 [Install]
 WantedBy=multi-user.target

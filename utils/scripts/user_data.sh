@@ -8,7 +8,7 @@ password='password'
 iglu_server_super_uid='deadbeef-dead-beef-dead-beefdeadbeef'
 
 # DO NOT ALTER BELOW #
-docker-compose -f /home/ubuntu/snowplow/docker-compose.yml restart iglu-server
+docker compose -f /home/ubuntu/snowplow/docker-compose.yml restart iglu-server
 sudo service snowplow_mini_control_plane_api restart
 
 sleep 10

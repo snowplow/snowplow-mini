@@ -40,12 +40,11 @@
   "post-processors": [
     [
       {
-        "type": "googlecompute-export",
+        "type": "shell-local",
         "only": ["googlecompute"],
-        "paths": [
-          "gs://snowplow-mini/{{user `gcp_image_name`}}.tar.gz"
-        ],
-        "keep_input_artifact": true
+        "inline": [
+          "gcloud compute images export --destination-uri gs://snowplow-mini/{{user `gcp_image_name`}}.tar.gz --image {{user `gcp_image_name`}} --image-project snowplow-images"
+        ]
       },
       {
         "type": "shell-local",

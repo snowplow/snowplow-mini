@@ -25,7 +25,7 @@ else
 
 	if [ "$SP_MINI_SIZE" == "large" ]
 	then
-		# prepare env vars for docker-compose
+		# prepare env vars for docker compose
 		echo -n > provisioning/roles/docker/files/.env
 		echo "ELASTICSEARCH_MEM_SIZE=2560m" >> provisioning/roles/docker/files/.env
 		echo "ELASTICSEARCH_HEAP_SIZE=1280m" >> provisioning/roles/docker/files/.env
@@ -47,7 +47,7 @@ else
 		fi
 	elif [ "$SP_MINI_SIZE" == "xlarge" ]
 	then
-		# prepare env vars for docker-compose
+		# prepare env vars for docker compose
 		echo -n > provisioning/roles/docker/files/.env
 		echo "ELASTICSEARCH_MEM_SIZE=5g" >> provisioning/roles/docker/files/.env
 		echo "ELASTICSEARCH_HEAP_SIZE=2560m" >> provisioning/roles/docker/files/.env
@@ -69,7 +69,7 @@ else
 		fi
 	elif [ "$SP_MINI_SIZE" == "xxlarge" ]
 	then
-		# prepare env vars for docker-compose
+		# prepare env vars for docker compose
 		echo -n > provisioning/roles/docker/files/.env
 		echo "ELASTICSEARCH_MEM_SIZE=10g" >> provisioning/roles/docker/files/.env
 		echo "ELASTICSEARCH_HEAP_SIZE=5g" >> provisioning/roles/docker/files/.env
