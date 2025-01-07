@@ -6,7 +6,7 @@ info:
   version: "0.21.1"
   license:
     name: "Snowplow Limited Use License"
-    url: "https://docs.snowplow.io/limited-use-license-1.0/"
+    url: "https://docs.snowplow.io/limited-use-license-1.1/"
 tags:
 - name: "configuration"
   description: "Configure the services running on your Mini"

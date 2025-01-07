@@ -128,7 +128,7 @@ limitations under the License.
 [release-image]: https://img.shields.io/github/v/release/snowplow/snowplow-mini?sort=semver&style=flat
 [releases]: https://github.com/snowplow/snowplow-mini/releases
 
-[license]: https://docs.snowplow.io/limited-use-license-1.0
+[license]: https://docs.snowplow.io/limited-use-license-1.1
 [license-image]: https://img.shields.io/badge/license-Snowplow--Limited-Use-blue.svg?style=flat
 [faq]: https://docs.snowplow.io/docs/contributing/limited-use-license-faq/
 
