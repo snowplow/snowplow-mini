@@ -50,8 +50,8 @@ export class Overview extends React.Component<{}, {}> {
         <h3>The software stack installed: </h3>
         <ul>
         <li><b>Snowplow Mini 0.21.1</b></li>
-          <li>Snowplow Stream Collector NSQ 3.2.0</li>
-          <li>Snowplow Stream Enrich NSQ 5.1.1</li>
+          <li>Snowplow Collector NSQ 3.3.0</li>
+          <li>Snowplow Enrich NSQ 5.2.0</li>
           <li>Snowplow Elasticsearch Loader 2.1.2</li>
           <li>Snowplow Iglu Server 0.13.0</li>
           <li>Postgres 15.1</li>
