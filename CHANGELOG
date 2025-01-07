@@ -1,3 +1,9 @@
+Version 0.22.0 (2025-01-07)
+---------------------------
+Change SLULA license from 1.0 to 1.1
+Upgrade components
+Use docker compose v2
+
 Version 0.21.1 (2024-09-06)
 ---------------------------
 Use `.kibana` as opensearch dashboards index
