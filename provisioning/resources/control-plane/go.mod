@@ -6,7 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.4.0
 	github.com/stretchr/testify v1.9.0
 	github.com/trustelem/zxcvbn v1.0.1
-	golang.org/x/crypto v0.24.0
+	golang.org/x/crypto v0.31.0
 	gopkg.in/pg.v5 v5.3.3
 )
 
