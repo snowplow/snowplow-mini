@@ -50,15 +50,15 @@ export class Overview extends React.Component<{}, {}> {
         <h3>The software stack installed: </h3>
         <ul>
         <li><b>Snowplow Mini 0.22.0</b></li>
-          <li>Snowplow Collector NSQ 3.3.0</li>
+          <li>Snowplow Collector NSQ 3.4.0</li>
           <li>Snowplow Enrich NSQ 5.2.0</li>
-          <li>Snowplow Elasticsearch Loader 2.1.2</li>
-          <li>Snowplow Iglu Server 0.13.0</li>
+          <li>Snowplow Elasticsearch Loader 2.1.3</li>
+          <li>Snowplow Iglu Server 0.14.0</li>
           <li>Postgres 15.1</li>
           <li>NSQ v1.3.0</li>
-          <li>Opensearch 2.4.0</li>
-          <li>Opensearch Dashboards 2.4.0</li>
-          <li>cAdvisor 0.49.1</li>
+          <li>Opensearch 2.19.1</li>
+          <li>Opensearch Dashboards 2.19.1</li>
+          <li>cAdvisor 0.52.1</li>
         </ul>
         <h3>Stack topology: </h3>
         <div>
