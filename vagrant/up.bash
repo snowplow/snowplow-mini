@@ -4,16 +4,15 @@
 #echo "INSTALLING ANSIBLE DEPENDENCIES"
 #echo "-------------------------------"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update
-apt-get install -y language-pack-en libffi-dev libssl-dev python3-dev python3-pip
-sudo pip install --upgrade pip
-sudo pip install --upgrade cryptography
+apt update && apt upgrade -y
 sudo sh -c 'echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers' # see https://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password
 
 #echo "=================="
 #echo "INSTALLING ANSIBLE"
 #echo "------------------"
-sudo pip install ansible==2.8.1
+sudo apt install software-properties-common -y
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible=11.5.0-1ppa~noble -y
 
 #echo "=========================================="
 #echo "RUNNING PLAYBOOKS WITH ANSIBLE*"
