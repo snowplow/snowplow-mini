@@ -1,3 +1,0 @@
----
-- name: Install Go
-  apt: name=golang-go state=latest

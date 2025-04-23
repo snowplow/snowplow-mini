@@ -10,14 +10,14 @@
   with_items:
     - curl
     - unzip
-    - resolvconf
+    - systemd-resolved
 
 - name: Add Google DNS nameserver
   lineinfile:
-    dest="/etc/resolvconf/resolv.conf.d/head"
-    line="nameserver 8.8.8.8"
+    dest="/etc/systemd/resolved.conf"
+    line="DNS=8.8.8.8"
   become: yes
 
-- name: Restart resolveconf service
+- name: Restart systemd-resolved service
   become: yes
-  shell: service resolvconf restart
+  shell: service systemd-resolved restart

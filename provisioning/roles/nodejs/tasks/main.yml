@@ -1,6 +1,6 @@
 ---
 - name: Setup NodeJS repo
-  shell: 'curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash -'
+  shell: 'curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -'
 
 - name: Install NodeJS
-  apt: name=nodejs state=latest
+  shell: sudo apt-get install -y nodejs npm

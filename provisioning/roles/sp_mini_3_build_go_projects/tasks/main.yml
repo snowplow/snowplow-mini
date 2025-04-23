@@ -5,17 +5,13 @@
   set_fact:
     control_plane_dir: '{{playbook_dir}}/resources/control-plane'
 
-- name: Add Go backports for old versions
+- name: Install Go 1.23
   become: yes
-  command: sudo add-apt-repository -y ppa:longsleep/golang-backports
-
-- name: Install Go 1.22
-  become: yes
-  command: sudo apt -y install golang-1.22-go
+  command: sudo apt -y install golang-1.23-go
 
 - name: Build Control Plane API
   become: yes
-  shell: "cd {{control_plane_dir}} && /usr/lib/go-1.22/bin/go build -o snowplow-mini-control-plane-api *.go"
+  shell: "cd {{control_plane_dir}} && /usr/lib/go-1.23/bin/go build -o snowplow-mini-control-plane-api *.go"
 
 - name: Copy Control Plane API to executables dir
   become: yes
