@@ -21,6 +21,30 @@
   become: yes
   shell: echo "vm.max_map_count=262144" >> /etc/sysctl.conf && service procps restart
 
+- name: Remove cache to open space for docker
+  become: yes
+  shell: rm -rf /var/cache/*
+
+- name: remove some unused packages to open space for docker
+  become: yes
+  apt:
+    name:
+      - git
+      - libllvm18
+      - python3-botocore
+      - python-babel-localedata
+      - python3-twisted
+      - perl-modules-5.38
+      - libperl5.38t64
+      - libicu74
+      - libclang1-18
+      - libclang-cpp18
+    state: absent
+
+- name: apt autoremove to open space for docker
+  become: yes
+  shell: apt autoremove -y
+
 - name: Start snowplow mini (docker compose up)
   become: yes
   shell: cd {{main_dir}} && docker compose up -d && sleep 20

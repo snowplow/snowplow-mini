@@ -1,5 +1,3 @@
-version: "2"
-
 services:
   elasticsearch:
     image: opensearchproject/opensearch:2.19.1
