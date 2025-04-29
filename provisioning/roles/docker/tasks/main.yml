@@ -21,6 +21,10 @@
   become: yes
   shell: echo "vm.max_map_count=262144" >> /etc/sysctl.conf && service procps restart
 
+- name: Remove cache to open space for docker
+  become: yes
+  shell: rm -rf /var/cache/*
+
 - name: Start snowplow mini (docker compose up)
   become: yes
   shell: cd {{main_dir}} && docker compose up -d && sleep 20
