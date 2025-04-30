@@ -27,20 +27,44 @@
 
 - debug: var=out.stdout_lines
 
+- name: Run dpkg-query
+  become: yes
+  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | tail -100
+  register: dq
+
+- debug: var=dq.stdout_lines
+
 - name: Remove cache to open space for docker
   become: yes
   shell: rm -rf /var/cache/*
 
+- name: remove some unused packages to open space for docker
+  become: yes
+  apt:
+    name:
+      - vim
+      - git
+      - libllvm18
+      - python3-botocore
+      - python-babel-localedata
+      - python3-twisted
+      - perl-modules-5.38
+      - libperl5.38t64
+      - libicu74
+      - libclang1-18
+      - libclang-cpp18
+    state: absent
+
 - name: apt autoremove to open space for docker
   become: yes
-  shell: apt autoremove
+  shell: apt autoremove -y
 
-- name: Run dpkg-query
+- name: Run dpkg-query again
   become: yes
-  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
-  register: dq
+  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | tail -100
+  register: dq2
 
-- debug: var=dq.stdout_lines
+- debug: var=dq2.stdout_lines
 
 - name: Run df after cache cleanup and output
   shell: df -h
