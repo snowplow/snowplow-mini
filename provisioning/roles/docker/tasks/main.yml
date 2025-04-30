@@ -31,6 +31,17 @@
   become: yes
   shell: rm -rf /var/cache/*
 
+- name: apt autoremove to open space for docker
+  become: yes
+  shell: apt autoremove
+
+- name: Run dpkg-query
+  become: yes
+  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
+  register: dq
+
+- debug: var=dq.stdout_lines
+
 - name: Run df after cache cleanup and output
   shell: df -h
   register: out3
