@@ -1,3 +1,10 @@
+Version 0.23.0 (2025-05-05)
+---------------------------
+Upgrade to Ubuntu 24.04
+Bump golang.org/x/crypto to 0.35.0 (#412)
+Migrate vm setup to Python 3
+Upgrade components
+
 Version 0.22.0 (2025-01-07)
 ---------------------------
 Change SLULA license from 1.0 to 1.1
