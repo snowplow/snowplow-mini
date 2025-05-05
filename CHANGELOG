@@ -1,3 +1,8 @@
+Version 0.23.1 (2025-05-05)
+---------------------------
+Bump ua-parser-js from 0.7.31 to 0.7.40 in /provisioning/resources/ui (#414)
+Bump node-fetch, react and react-dom in /provisioning/resources/ui (#415)
+
 Version 0.23.0 (2025-05-05)
 ---------------------------
 Upgrade to Ubuntu 24.04
