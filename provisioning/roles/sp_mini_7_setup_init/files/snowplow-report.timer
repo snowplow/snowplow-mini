@@ -1,0 +1,10 @@
+[Unit]
+Description=Starts Snowplow Report timer sending mini status metrics
+Requires=snowlow-report.service
+
+[Timer]
+Unit=snowlow-report.service
+OnCalendar=*:0/01:00
+
+[Install]
+WantedBy=timers.target

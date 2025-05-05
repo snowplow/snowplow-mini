@@ -1,6 +1,27 @@
 ---
 - include_vars: ../../common_vars.yml
 
+
+- name: Create Snowplow Report service
+  copy:
+    src: ../files/snowplow-report.service
+    dest: /etc/systemd/system/snowplow-report.service
+  become: yes
+
+- name: Create Report Snowplow timer
+  copy:
+    src: ../files/snowplow-report.timer
+    dest: /etc/systemd/system/snowplow-report.timer
+  become: yes
+
+- name: Start Snowplow Report timer service
+  systemd:
+    name: snowplow-report.timer
+    state: started
+    enabled: yes
+    daemon_reload: yes
+    become: yes
+
 - name: Copy SysVinit scripts to /etc/init.d
   become: yes
   copy:
