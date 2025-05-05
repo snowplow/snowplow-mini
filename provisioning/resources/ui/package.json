@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "director": "1.2.0",
-    "react": "15.6.1",
-    "react-dom": "15.6.1",
+    "react": "16.5.0",
+    "react-dom": "16.5.0",
     "react-simpletabs": "^0.7.0"
   },
   "contributors": [
