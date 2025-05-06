@@ -114,7 +114,7 @@ then
 	echo $GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64 | base64 --decode > $GITHUB_WORKSPACE/BIN
 	export GOOGLE_APPLICATION_CREDENTIALS=$GITHUB_WORKSPACE/BIN
 	export GCP_SP_MINI_VERSION=`echo $SP_MINI_VERSION | tr . -`
-	packer build -only=googlecompute Packerfile.json
+	PACKER_LOG=1 packer build -only=googlecompute Packerfile.json
 else
 	echo "Unrecognized platform. Aborted."
 	exit 1

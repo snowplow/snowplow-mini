@@ -32,9 +32,12 @@
       "image_name": "{{user `gcp_image_name`}}",
       "machine_type": "{{user `gcp_machine_type`}}",
       "project_id": "snowplow-images",
-      "source_image_family": "ubuntu-2404-lts",
+      "source_image_family": "ubuntu-2404-lts-amd64",
       "ssh_username": "ubuntu",
-      "zone": "us-central1-a"
+      "source_image_project_id": "ubuntu-os-cloud",
+      "zone": "us-central1-a",
+      "ssh_timeout": "10m",
+      "enable_serial_port_logging": true
     }
   ],
   "post-processors": [
