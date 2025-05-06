@@ -32,9 +32,17 @@
       "image_name": "{{user `gcp_image_name`}}",
       "machine_type": "{{user `gcp_machine_type`}}",
       "project_id": "snowplow-images",
-      "source_image_family": "ubuntu-2404-lts",
+      "source_image_family": "ubuntu-2404-lts-amd64",
       "ssh_username": "ubuntu",
-      "zone": "us-central1-a"
+      "source_image_project_id": "ubuntu-os-cloud",
+      "zone": "us-central1-a",
+      "ssh_timeout": "10m",
+      "metadata": {
+        "startup-script": "apt-get update -y && apt-get install -y openssh-server && systemctl enable ssh && systemctl restart ssh && echo '[startup] Checking SSH status...' && systemctl status ssh || true && echo '[startup] Checking ports...' && ss -tuln | grep :22 || echo 'Port 22 NOT listening'",
+        "enable-oslogin": "FALSE"
+      },
+      "wrap_startup_script": "false",
+      "tags": ["{{user `gcp_ssh_tag`}}"]
     }
   ],
   "post-processors": [
@@ -70,6 +78,7 @@
     "gcp_image_name": "snowplow-mini-{{user `gcp_version`}}-{{user `sp_mini_size`}}-{{timestamp}}",
     "gcp_machine_type": "{{env `GCP_MACHINE_TYPE`}}",
     "aws_instance_type": "{{env `AWS_INSTANCE_TYPE`}}",
-    "sp_mini_size": "{{env `SP_MINI_SIZE`}}"
+    "sp_mini_size": "{{env `SP_MINI_SIZE`}}",
+    "gcp_ssh_tag": "{{env `GCP_SSH_TAG`}}"
   }
 }
