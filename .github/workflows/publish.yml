@@ -36,7 +36,20 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: 'google-github-actions/setup-gcloud@v2'
 
+      - name: Generate unique ssh tag for Packer build of GCP tags
+        if: startsWith(github.ref, 'refs/tags/')
+        run: echo "GCP_SSH_TAG=packer-$(date +%s)-$(uuidgen | cut -c1-8)" >> $GITHUB_ENV
+
+      - name: Create firewall rule to publish GCP targets
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          gcloud compute firewall-rules create allow-ssh-from-github \
+            --allow tcp:22 \
+            --target-tags=${{ env.GCP_SSH_TAG }} \
+            --description="Temporary rule to allow SSH from GitHub Actions"
+
       - name: SSH config for Ansible
+        if: startsWith(github.ref, 'refs/tags/')
         run: mkdir ~/.ssh && echo -e "Host 127.0.0.1\nHostKeyAlgorithms +ssh-rsa\nPubkeyAcceptedKeyTypes +ssh-rsa" >> ~/.ssh/config
 
       - name: Publish artifact based on cloud and size
@@ -45,4 +58,11 @@ jobs:
           AWS_DEPLOY_ACCESS_KEY: ${{ secrets.AWS_DEPLOY_ACCESS_KEY }}
           AWS_DEPLOY_SECRET_KEY: ${{ secrets.AWS_DEPLOY_SECRET_KEY }}
           GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64 }}
+          GCP_SSH_TAG: ${{ env.GCP_SSH_TAG }}
         run: $GITHUB_WORKSPACE/.github/workflows/deploy.sh ${{ github.ref_name }}
+      
+      - name: Remove SSH firewall rule
+        if: always()
+        continue-on-error: true
+        run: |
+          gcloud compute firewall-rules delete allow-ssh-from-github --quiet
