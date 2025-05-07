@@ -36,7 +36,11 @@
       "ssh_username": "ubuntu",
       "source_image_project_id": "ubuntu-os-cloud",
       "zone": "us-central1-a",
-      "ssh_timeout": "10m"
+      "ssh_timeout": "10m",
+      "metadata": {
+        "startup-script": "apt-get update -y && apt-get install -y openssh-server && systemctl enable ssh && systemctl restart ssh && echo '[startup] Checking SSH status...' && systemctl status ssh || true && echo '[startup] Checking ports...' && ss -tuln | grep :22 || echo 'Port 22 NOT listening'",
+        "enable-oslogin": "FALSE"
+      }
     }
   ],
   "post-processors": [
