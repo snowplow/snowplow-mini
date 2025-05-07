@@ -36,8 +36,7 @@
       "ssh_username": "ubuntu",
       "source_image_project_id": "ubuntu-os-cloud",
       "zone": "us-central1-a",
-      "ssh_timeout": "10m",
-      "enable_serial_port_logging": true
+      "ssh_timeout": "10m"
     }
   ],
   "post-processors": [
