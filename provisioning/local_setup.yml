@@ -3,7 +3,7 @@
   hosts: all
 
   roles:
-    - nodejs
+    # - nodejs
     - typescript
     - packer
     - sp_mini_1_create_dirs
