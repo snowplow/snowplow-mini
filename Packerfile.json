@@ -41,6 +41,7 @@
         "startup-script": "apt-get update -y && apt-get install -y openssh-server && systemctl enable ssh && systemctl restart ssh && echo '[startup] Checking SSH status...' && systemctl status ssh || true && echo '[startup] Checking ports...' && ss -tuln | grep :22 || echo 'Port 22 NOT listening'",
         "enable-oslogin": "FALSE"
       },
+      "wrap_startup_script": "false",
       "tags": ["{{user `gcp_ssh_tag`}}"]
     }
   ],

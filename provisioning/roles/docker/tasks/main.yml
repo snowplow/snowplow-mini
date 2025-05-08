@@ -32,19 +32,17 @@
 
 - debug: var=dq.stdout_lines
 
+- name: df -h
+  become: yes
+  shell: df -h
+  register: df2
+
+- debug: var=df2.stdout_lines
+
 - name: remove some unused packages to open space for docker
   become: yes
-  shell: >
-    apt-get remove -f 
-    'git' 
-    'libllvm18' 
-    'python3-botocore' 
-    'python-babel-localedata' 
-    'python3-twisted'
-    'libclang-cpp18'
-  register: ro
+  shell: apt-get remove libllvm18 python3-botocore libclang-cpp18 vim-runtime git python3-twisted python-babel-localedata python3-pygments -y
 
-- debug: var=ro.stdout_lines
 
 - name: apt autoremove to open space for docker
   become: yes
