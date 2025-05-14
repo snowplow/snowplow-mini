@@ -1,0 +1,16 @@
+[Unit]
+Description=Snowplow Mini Control Plane API
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ubuntu/snowplow
+ExecStart=/home/ubuntu/snowplow/bin/snowplow-mini-control-plane-api -config=/home/ubuntu/snowplow/configs/control-plane-api.toml
+Restart=on-failure
+RestartSec=5s
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

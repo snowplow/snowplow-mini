@@ -1,77 +1,6 @@
 ---
 - include_vars: ../../common_vars.yml
 
-- name: Remove containerd
-  apt: name=containerd.io state=absent
-
-- name: Install docker compose v2
-  apt: name=docker-compose-v2 state=latest
-
-- name: Copy docker-compose.yml and its environment file
-  copy: src={{ item.src }} dest={{ item.dest }} owner=ubuntu group=ubuntu mode=0644
-  with_items:
-    - { src: '../files/docker-compose.yml', dest: '/home/ubuntu/snowplow/' }
-    - { src: '../files/.env', dest: '/home/ubuntu/snowplow/' }
-
-- name: Create & set permissions of elasticsearch data directory
-  become: yes
-  shell: rm -rf {{main_dir}}/elasticsearch/data && mkdir {{main_dir}}/elasticsearch/data && chown -R 1000:1000 {{main_dir}}/elasticsearch/data
-
-- name: Increase mmap count to recommended 262144 for Elasticsearch
-  become: yes
-  shell: echo "vm.max_map_count=262144" >> /etc/sysctl.conf && service procps restart
-
-- name: Remove cache to open space for docker
-  become: yes
-  shell: rm -rf /var/cache/*
-
-- name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
-  become: yes
-  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | tail -50
-  register: dq
-
-- debug: var=dq.stdout_lines
-
-- name: df -h
-  become: yes
-  shell: df -h
-  register: df2
-
-- debug: var=df2.stdout_lines
-
-- name: remove some unused packages to open space for docker
-  become: yes
-  shell: apt-get remove iso-codes ieee-data libllvm18 python3-botocore libclang-cpp18 vim-runtime git python3-twisted python-babel-localedata python3-pygments -y
-
-- name: apt autoremove to open space for docker
-  become: yes
-  shell: apt autoremove -y
-
-- name: df -h
-  become: yes
-  shell: df -h
-  register: df
-
-- debug: var=df.stdout_lines
-
-- name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
-  become: yes
-  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | tail -50
-  register: dq2
-
-- debug: var=dq2.stdout_lines
-
-- name: Start snowplow mini (docker compose up)
-  become: yes
-  shell: cd {{main_dir}} && docker compose up -d && sleep 20
-
-- name: df -h
-  become: yes
-  shell: df -h
-  register: df
-
-- debug: var=df.stdout_lines
-
 - name: Wait for Elasticsearch port 9200 to become open on the host, don't start checking for 10 seconds
   wait_for:
     port: 9200
@@ -102,6 +31,35 @@
     curl -X POST localhost:4151/topic/create?topic=EnrichedEvents
     curl -X POST localhost:4151/topic/create?topic=BadEnrichedEvents
     curl -X POST localhost:4151/topic/create?topic=PiiEvents
+
+# Cronjob: Clean old docs from 'good' index
+- name: Add cronjob to clean old ES 'good' index documents
+  cron:
+    name: "Crop ES 'good' index older than a week"
+    special_time: weekly
+    job: >
+      /usr/bin/curl -s -X POST http://localhost:9200/good/_delete_by_query
+      -H 'Content-Type:application/json'
+      -d '{ "query" :{ "range" :{ "collector_tstamp" :{ "lt" :"now-1w/d" } } } }'
+      >> /home/ubuntu/snowplow/good_cron.out 2>> /home/ubuntu/snowplow/good_cron.err
+
+# Cronjob: Clean old docs from 'bad' index
+- name: Add cronjob to clean old ES 'bad' index documents
+  cron:
+    name: "Crop ES 'bad' index older than a week"
+    special_time: weekly
+    job: >
+      /usr/bin/curl -s -X POST http://localhost:9200/bad/_delete_by_query
+      -H 'Content-Type:application/json'
+      -d '{ "query" :{ "range" :{ "data.failure.timestamp" :{ "lt" :"now-1w/d" } } } }'
+      >> /home/ubuntu/snowplow/bad_cron.out 2>> /home/ubuntu/snowplow/bad_cron.err
+
+# Cronjob: Clean NSQ data
+- name: Add cronjob to clean NSQ data
+  cron:
+    name: "Crop NSQ data"
+    special_time: weekly
+    job: /bin/rm -rf /home/ubuntu/snowplow/nsq-data/*
 
 - name: Replace docker-compose.yml based on the platform
   become: yes
