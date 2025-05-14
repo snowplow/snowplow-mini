@@ -10,4 +10,5 @@
     - sp_mini_4_setup_apps
     - sp_mini_6_copy_ui_folders
     - sp_mini_7_setup_init
+    - cleanup
     - docker
