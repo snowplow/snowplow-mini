@@ -21,46 +21,6 @@
   become: yes
   shell: echo "vm.max_map_count=262144" >> /etc/sysctl.conf && service procps restart
 
-- name: Remove cache to open space for docker
-  become: yes
-  shell: rm -rf /var/cache/*
-
-- name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
-  become: yes
-  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | tail -50
-  register: dq
-
-- debug: var=dq.stdout_lines
-
-- name: df -h
-  become: yes
-  shell: df -h
-  register: df2
-
-- debug: var=df2.stdout_lines
-
-- name: remove some unused packages to open space for docker
-  become: yes
-  shell: apt-get remove iso-codes ieee-data libllvm18 python3-botocore libclang-cpp18 vim-runtime git python3-twisted python-babel-localedata python3-pygments -y
-
-- name: apt autoremove to open space for docker
-  become: yes
-  shell: apt autoremove -y
-
-- name: df -h
-  become: yes
-  shell: df -h
-  register: df
-
-- debug: var=df.stdout_lines
-
-- name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
-  become: yes
-  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | tail -50
-  register: dq2
-
-- debug: var=dq2.stdout_lines
-
 - name: Start snowplow mini (docker compose up)
   become: yes
   shell: cd {{main_dir}} && docker compose up -d && sleep 20
@@ -68,9 +28,9 @@
 - name: df -h
   become: yes
   shell: df -h
-  register: df
+  register: df3
 
-- debug: var=df.stdout_lines
+- debug: var=df3.stdout_lines
 
 - name: Wait for Elasticsearch port 9200 to become open on the host, don't start checking for 10 seconds
   wait_for:
