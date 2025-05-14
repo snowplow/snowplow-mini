@@ -43,7 +43,14 @@ jobs:
       - name: Create firewall rule to publish GCP targets
         if: contains(github.ref_name, 'gcp')
         run: |
-          SUFFIX=$(echo ${{ github.ref_name }} | tr "/" "-") &&
+          # DNS-1123 compliant
+          SUFFIX=$(echo "${{ github.ref_name }}" \
+            | tr '[:upper:]' '[:lower:]' \
+            | tr './' '--' \
+            | sed 's/[^a-z0-9-]//g' \
+            | sed 's/^[^a-z]*/a/' \
+            | sed 's/[^a-z0-9]$//' \
+            | cut -c1-63)
           gcloud compute firewall-rules create allow-ssh-$SUFFIX \
             --allow tcp:22 \
             --target-tags=${{ env.GCP_SSH_TAG }} \

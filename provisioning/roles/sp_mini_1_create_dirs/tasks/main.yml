@@ -1,6 +1,10 @@
 ---
 - include_vars: ../../common_vars.yml
 
+- name: Refresh packages
+  become: yes
+  shell: apt update && apt upgrade -y && apt autoremove -y
+
 - name: Set nsq data directory
   set_fact:
     nsq_data_dir: "{{main_dir}}/nsq-data"
