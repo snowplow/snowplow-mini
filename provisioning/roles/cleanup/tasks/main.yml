@@ -39,13 +39,7 @@
       locales \
       intel-microcode \
       libpython3.12t64 \
-      libmagic-mgc \
-      libclang1-18 \
-      libc6 \
-      linux-aws-headers-6.8.0-1028 \
-      linux-modules-6.8.0-1028-aws \
-      linux-headers-6.8.0-1028-aws \
-      linux-image-6.8.0-1028-aws
+      libmagic-mgc
 
 - name: apt autoremove to open space for docker
   become: yes
