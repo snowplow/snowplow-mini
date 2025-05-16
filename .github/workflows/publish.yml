@@ -52,6 +52,7 @@ jobs:
       - name: Create firewall rule to publish GCP targets
         if: contains(github.ref_name, 'gcp')
         run: |
+          gcloud compute firewall-rules delete allow-ssh-$GCP_RULE_SUFFIX --quiet
           gcloud compute firewall-rules create allow-ssh-$GCP_RULE_SUFFIX \
             --allow tcp:22 \
             --target-tags=${{ env.GCP_SSH_TAG }} \
