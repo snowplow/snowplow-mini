@@ -40,14 +40,14 @@ jobs:
         if: contains(github.ref_name, 'gcp')
         run: |
           # DNS-1123 compliant
-          GCP_RULE_SUFFIX=$(echo "${{ github.ref_name }}" \
+          SUFFIX=$(echo "${{ github.ref_name }}" \
             | tr '[:upper:]' '[:lower:]' \
             | tr './' '--' \
             | sed 's/[^a-z0-9-]//g' \
             | sed 's/^[^a-z]*/a/' \
             | sed 's/[^a-z0-9]$//' \
             | cut -c1-63)
-          echo $GCP_RULE_SUFFIX >> $GITHUB_ENV
+          echo "GCP_RULE_SUFFIX=$SUFFIX" >> $GITHUB_ENV
 
       - name: Create firewall rule to publish GCP targets
         if: contains(github.ref_name, 'gcp')
