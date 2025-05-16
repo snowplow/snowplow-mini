@@ -3,7 +3,7 @@
 
 - name: Refresh packages
   become: yes
-  shell: apt update && apt upgrade -y
+  shell: apt-get update && apt-get upgrade -y && apt-get autoremove -y
 
 - name: Set nsq data directory
   set_fact:
