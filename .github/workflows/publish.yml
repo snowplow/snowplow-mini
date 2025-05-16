@@ -22,10 +22,6 @@ jobs:
           cd $GITHUB_WORKSPACE/provisioning/resources/control-plane
           go test *.go
 
-
-      - name: Provision a local Mini instance
-        run: ansible-playbook -i $GITHUB_WORKSPACE/provisioning/inventory $GITHUB_WORKSPACE/provisioning/local_setup.yml --connection=local --become
-
       - id: 'auth'
         if: contains(github.ref_name, 'gcp')
         uses: 'google-github-actions/auth@v2'
@@ -39,22 +35,30 @@ jobs:
       - name: Generate unique ssh tag for Packer build of GCP tags
         if: contains(github.ref_name, 'gcp')
         run: echo "GCP_SSH_TAG=packer-$(date +%s)-$(uuidgen | cut -c1-8)" >> $GITHUB_ENV
-
-      - name: Create firewall rule to publish GCP targets
+      
+      - name: Generate gcp firewall rule suffix
         if: contains(github.ref_name, 'gcp')
         run: |
           # DNS-1123 compliant
-          SUFFIX=$(echo "${{ github.ref_name }}" \
+          GCP_RULE_SUFFIX=$(echo "${{ github.ref_name }}" \
             | tr '[:upper:]' '[:lower:]' \
             | tr './' '--' \
             | sed 's/[^a-z0-9-]//g' \
             | sed 's/^[^a-z]*/a/' \
             | sed 's/[^a-z0-9]$//' \
             | cut -c1-63)
-          gcloud compute firewall-rules create allow-ssh-$SUFFIX \
+          echo $GCP_RULE_SUFFIX >> $GITHUB_ENV
+
+      - name: Create firewall rule to publish GCP targets
+        if: contains(github.ref_name, 'gcp')
+        run: |
+          gcloud compute firewall-rules create allow-ssh-$GCP_RULE_SUFFIX \
             --allow tcp:22 \
             --target-tags=${{ env.GCP_SSH_TAG }} \
             --description="Temporary rule to allow SSH from GitHub Actions"
+
+      - name: Provision a local Mini instance
+        run: ansible-playbook -i $GITHUB_WORKSPACE/provisioning/inventory $GITHUB_WORKSPACE/provisioning/local_setup.yml --connection=local --become
 
       - name: SSH config for Ansible
         if: startsWith(github.ref, 'refs/tags/')
@@ -73,4 +77,4 @@ jobs:
         if: contains(github.ref_name, 'gcp')
         continue-on-error: true
         run: |
-          gcloud compute firewall-rules delete allow-ssh-from-github --quiet
+          gcloud compute firewall-rules delete allow-ssh-$GCP_RULE_SUFFIX --quiet
