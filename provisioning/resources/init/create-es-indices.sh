@@ -2,7 +2,7 @@
 
 ES_HOST="localhost:9200"
 MAPPINGS_DIR="/home/ubuntu/snowplow/elasticsearch/mapping"
-MAX_RETRIES=12      # Total wait time = MAX_RETRIES * SLEEP_INTERVAL
+MAX_RETRIES=24      # Total wait time = MAX_RETRIES * SLEEP_INTERVAL
 SLEEP_INTERVAL=5    # in seconds
 
 log() {
