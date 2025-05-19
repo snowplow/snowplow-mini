@@ -9,6 +9,7 @@
     rm -rf /var/log/*
     rm -rf /usr/share/doc/*
     rm -rf /usr/share/locale/*
+    rm -rf /tmp/*
 
 - name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
   become: yes

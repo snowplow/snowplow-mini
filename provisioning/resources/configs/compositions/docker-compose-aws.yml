@@ -1,6 +1,6 @@
 services:
   elasticsearch:
-    image: opensearchproject/opensearch:2.19.1
+    image: opensearch-slim:2.19.1
     container_name: elasticsearch
     restart: always
     environment:
