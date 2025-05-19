@@ -28,6 +28,10 @@
 
 - debug: var=df4.stdout_lines
 
+- name: Build opensearch-slim
+  become: yes
+  shell: cd {{main_dir}}/dockerfiles/opensearch && docker build -f Dockerfile.opensearch-slim -t opensearch-slim:2.19.1 .
+
 - name: Start snowplow mini (docker compose up)
   become: yes
   shell: cd {{main_dir}} && docker compose up -d && sleep 20
