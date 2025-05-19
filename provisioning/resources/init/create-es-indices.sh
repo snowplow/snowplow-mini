@@ -21,7 +21,7 @@ create_index() {
 
   log "Attempting to create index: $index_name"
 
-  until curl --output /dev/null --silent --fail \
+  until curl --show-error --silent --fail \
     -H 'Content-Type: application/json' \
     -X PUT "$ES_HOST/$index_name" \
     -d @"$mapping_file"; do
