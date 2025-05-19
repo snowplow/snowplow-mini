@@ -1,21 +1,10 @@
 ---
 - include_vars: ../../common_vars.yml
 
-- name: Forcefully remove node_modules and package-lock.json
+- name: Install npm packages based on package.json.
   become: yes
-  args:
-    chdir: "{{ playbook_dir }}/resources/ui"
-  shell: |
-    find node_modules -type d -exec chmod 755 {} \;
-    find node_modules -type f -exec chmod 644 {} \;
-    rm -rf node_modules package-lock.json
-    npm install --force
+  shell: "cd {{playbook_dir}}/resources/ui && npm install --legacy-peer-deps"
 
-- name: Build UI dist files
+- name: Create dist files
   become: yes
-  args:
-    chdir: "{{ playbook_dir }}/resources/ui"
-  shell: |
-    npx tsc -p js --outDir dist/
-    npx browserify dist/SnowplowMiniApp.js -o dist/bundle.js
-    npx uglify-js dist/bundle.js -o dist/snowplow-mini.js
+  shell: "cd {{playbook_dir}}/resources/ui; tsc -p js --outDir dist/ && browserify dist/SnowplowMiniApp.js -o dist/bundle.js && uglifyjs dist/bundle.js > dist/snowplow-mini.js"

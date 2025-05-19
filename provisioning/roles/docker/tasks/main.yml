@@ -60,6 +60,9 @@
 - name: Create ES indexes
   become: yes
   shell: sh {{init_dir}}/create-es-indices.sh
+  register: es
+
+- debug: var=es.stdout_lines
 
 - name: Create Kibana index patterns
   become: yes
