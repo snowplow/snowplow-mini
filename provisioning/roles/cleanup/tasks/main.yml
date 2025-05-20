@@ -44,7 +44,38 @@
       locales \
       intel-microcode \
       libpython3.12t64 \
-      libmagic-mgc
+      libmagic-mgc \
+      python3-launchpadlib \
+      python3-netaddr \
+      python3-chardet \
+      python3-rich \
+      python3-boto3 \
+      python3-zope.interface \
+      python3-gi \
+      python3-pyasn1-modules \
+      python3-oauthlib \
+      python3-jinja2 \
+      python3-yaml \
+      python3-jsonschema \
+      python3-apport \
+      python3-serial \
+      python3-urllib3 \
+      python3-babel
+
+- name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | grep  'python3-*'
+  become: yes
+  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | grep  'python3-*'
+  register: p3
+
+- debug: var=p3.stdout_lines
+
+- name: dpkg-query -W -f='${Package}\n' | sort -n | grep  'python3-*' | xargs apt-get remove -y
+  become: yes
+  shell: dpkg-query -W -f='${Package}\n' | sort -n | grep  'python3-*' | xargs apt-get remove -y
+  register: pr
+  ignore_errors: true
+
+- debug: var=pr.stdout_lines
 
 - name: see unused kernel packages
   become: yes
@@ -61,6 +92,13 @@
     dpkg -l 'linux-*' | \
     sed '/^ii/!d;/'"$(uname -r | sed 's/\(.*\)-\([^0-9]\+\)/\1/')"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | \
     xargs -r sudo apt remove --purge -y
+
+- name: journalctl --flush --rotate --vacuum-time=1s
+  become: yes
+  shell: journalctl --flush --rotate --vacuum-time=1s
+  register: jc
+
+- debug: var=jc.stdout_lines
 
 - name: apt autoremove to open space for docker
   become: yes

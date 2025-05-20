@@ -1,12 +1,6 @@
 ---
 - include_vars: ../../common_vars.yml
 
-- name: Remove containerd
-  apt: name=containerd.io state=absent
-
-- name: Install docker compose v2
-  apt: name=docker-compose-v2 state=latest
-
 - name: Copy docker-compose.yml and its environment file
   copy: src={{ item.src }} dest={{ item.dest }} owner=ubuntu group=ubuntu mode=0644
   with_items:

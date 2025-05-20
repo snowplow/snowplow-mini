@@ -7,6 +7,8 @@
     apt-get update
     apt-get upgrade -y
     apt-get autoremove -y
+    apt-get clean
+    apt-get autoclean
 
 - name: Set nsq data directory
   set_fact:
