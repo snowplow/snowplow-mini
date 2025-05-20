@@ -79,22 +79,6 @@
       python3-urllib3 \
       python3-babel
 
-- name: see unused kernel packages
-  become: yes
-  shell: |
-    dpkg -l 'linux-*' | \
-    sed '/^ii/!d;/'"$(uname -r | sed 's/\(.*\)-\([^0-9]\+\)/\1/')"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d'
-  register: uk
-
-- debug: var=uk.stdout_lines
-
-- name: remove unused kernel packages
-  become: yes
-  shell: |
-    dpkg -l 'linux-*' | \
-    sed '/^ii/!d;/'"$(uname -r | sed 's/\(.*\)-\([^0-9]\+\)/\1/')"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | \
-    xargs -r sudo apt remove --purge -y
-
 - name: Autoremove orphaned packages
   become: yes
   shell: apt-get autoremove --purge -y
