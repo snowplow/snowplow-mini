@@ -76,13 +76,6 @@
   become: yes
   shell: journalctl --flush --rotate --vacuum-time=1s
 
-- name: Final disk usage
-  become: yes
-  shell: df -h /
-  register: df_final
-
-- debug: var=df_final.stdout_lines
-
 ## ubuntu 24 specific steps below
 
 - name: Disable snapd services
@@ -105,3 +98,12 @@
     name: systemd-networkd-wait-online.service
     enabled: false
     masked: true
+
+##################
+
+- name: Final disk usage
+  become: yes
+  shell: df -h /
+  register: df_final
+
+- debug: var=df_final.stdout_lines

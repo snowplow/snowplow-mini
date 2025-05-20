@@ -17,6 +17,24 @@
     dest: /etc/systemd/system/snowplow_mini.service
     mode: '0644'
 
+- name: Copy docker-compose.yml and its environment file
+  copy: src={{ item.src }} dest={{ item.dest }} owner=ubuntu group=ubuntu mode=0644
+  with_items:
+    - { src: '../../docker/files/docker-compose.yml', dest: '/home/ubuntu/snowplow/' }
+    - { src: '../../docker/files/.env', dest: '/home/ubuntu/snowplow/' }
+
+- name: Create & set permissions of elasticsearch data directory
+  become: yes
+  shell: rm -rf {{main_dir}}/elasticsearch/data && mkdir {{main_dir}}/elasticsearch/data && chown -R 1000:1000 {{main_dir}}/elasticsearch/data
+
+- name: Set vm.max_map_count to 262144
+  become: yes
+  sysctl:
+    name: vm.max_map_count
+    value: '262144'
+    state: present
+    reload: yes
+
 # Reload systemd and enable + start services
 - name: Reload systemd and enable/start services
   become: yes
@@ -29,35 +47,6 @@
     - snowplow_mini
     - snowplow_mini_control_plane_api
 
-# Cronjob: Clean old docs from 'good' index
-- name: Add cronjob to clean old ES 'good' index documents
-  cron:
-    name: "Crop ES 'good' index older than a week"
-    special_time: weekly
-    job: >
-      /usr/bin/curl -s -X POST http://localhost:9200/good/_delete_by_query
-      -H 'Content-Type:application/json'
-      -d '{ "query" :{ "range" :{ "collector_tstamp" :{ "lt" :"now-1w/d" } } } }'
-      >> /home/ubuntu/snowplow/good_cron.out 2>> /home/ubuntu/snowplow/good_cron.err
-
-# Cronjob: Clean old docs from 'bad' index
-- name: Add cronjob to clean old ES 'bad' index documents
-  cron:
-    name: "Crop ES 'bad' index older than a week"
-    special_time: weekly
-    job: >
-      /usr/bin/curl -s -X POST http://localhost:9200/bad/_delete_by_query
-      -H 'Content-Type:application/json'
-      -d '{ "query" :{ "range" :{ "data.failure.timestamp" :{ "lt" :"now-1w/d" } } } }'
-      >> /home/ubuntu/snowplow/bad_cron.out 2>> /home/ubuntu/snowplow/bad_cron.err
-
-# Cronjob: Clean NSQ data
-- name: Add cronjob to clean NSQ data
-  cron:
-    name: "Crop NSQ data"
-    special_time: weekly
-    job: /bin/rm -rf /home/ubuntu/snowplow/nsq-data/*
-
 # Ensure policykit-1 is up to date
 - name: Upgrade policykit-1 to latest
   become: yes
@@ -65,3 +54,10 @@
     name: policykit-1
     state: latest
     update_cache: yes
+
+- name: See disk usage
+  become: yes
+  shell: df -h /
+  register: df
+
+- debug: var=df.stdout_lines

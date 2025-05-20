@@ -5,10 +5,11 @@ After=network-online.target docker.service
 Wants=network-online.target
 
 [Service]
-Type=simple
+Type=oneshot
 WorkingDirectory=/home/ubuntu/snowplow
 ExecStartPre=/usr/bin/docker compose down
 ExecStart=/usr/bin/docker compose up --remove-orphans --detach
+RemainAfterExit=true
 ExecStop=/usr/bin/docker compose down
 Restart=on-failure
 RestartSec=10s
