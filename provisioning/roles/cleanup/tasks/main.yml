@@ -17,6 +17,17 @@
     rm -rf /root/.cache/*
     rm -rf /home/*/.cache/*
 
+- name: list non-core python3-* packages
+  become: yes
+  shell: |
+    dpkg-query -W -f='${Package}\n' | \
+    grep '^python3-' | \
+    grep -vE '^(python3$|python3-minimal$|python3\.[0-9]+$|python3\.[0-9]+-minimal$)'
+  ignore_errors: true
+  register: agg
+
+- debug: var=agg.stdout_lines
+
 - name: Aggressively purge non-core python3-* packages
   become: yes
   shell: |
