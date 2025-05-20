@@ -1,14 +1,43 @@
 ---
 - include_vars: ../../common_vars.yml
 
-- name: Remove some directories to open space for docker
+- name: Pre cleanup disk usage
+  become: yes
+  shell: df -h
+  register: dfpre
+
+- debug: var=dfpre.stdout_lines
+
+- name: Clear apt and package manager caches
   become: yes
   shell: |
-    rm -rf /var/cache/*
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+
+- name: Remove man pages, locales, docs, cache
+  become: yes
+  shell: |
     rm -rf /usr/share/man/*
-    rm -rf /var/log/*
     rm -rf /usr/share/doc/*
-    rm -rf /usr/share/locale/*
+    rm -rf /usr/share/info/*
+    rm -rf /var/cache/man /var/cache/fonts
+    rm -rf /root/.cache/*
+    rm -rf /home/*/.cache/*
+
+- name: remove some unused packages to open space for docker
+  become: yes
+  ignore_errors: true
+  shell: |
+    apt-get remove --yes --fix-broken --quiet --purge \
+      iso-codes \
+      ieee-data \
+      libllvm18 \
+      libclang-cpp18 \
+      vim-runtime \
+      git \
+      python-babel-localedata \
+      libicu74 \
+      locales
 
 - name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
   become: yes
@@ -17,65 +46,35 @@
 
 - debug: var=dq.stdout_lines
 
-- name: df -h
+- name: Clean journal logs
   become: yes
-  shell: df -h
-  register: df2
+  shell: journalctl --flush --rotate --vacuum-time=1s
 
-- debug: var=df2.stdout_lines
+## ubuntu 24 specific steps below
 
-- name: remove some unused packages to open space for docker
-  become: yes
+- name: Disable snapd services
+  become: true
   shell: |
-    apt-get remove --yes --fix-broken --quiet --purge \
-      iso-codes \
-      ieee-data \
-      libllvm18 \
-      python3-botocore \
-      libclang-cpp18 \
-      vim-runtime \
-      git \
-      python3-twisted \
-      python-babel-localedata \
-      python3-pygments \
-      python3-cryptography \
-      python3-setuptools \
-      libicu74 \
-      locales \
-      intel-microcode \
-      libpython3.12t64 \
-      libmagic-mgc
+    systemctl disable snapd.service snapd.socket snapd.seeded.service || true
+    apt-get purge -y snapd || true
+  ignore_errors: true
 
-- name: see unused kernel packages
+- name: Mask hibinit-agent to avoid boot hang
+  become: true
+  systemd:
+    name: hibinit-agent.service
+    enabled: false
+    masked: true
+
+##################
+
+- name: Autoremove orphaned packages
   become: yes
-  shell: |
-    dpkg -l 'linux-*' | \
-    sed '/^ii/!d;/'"$(uname -r | sed 's/\(.*\)-\([^0-9]\+\)/\1/')"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d'
-  register: uk
+  shell: apt-get autoremove --purge -y
 
-- debug: var=uk.stdout_lines
-
-- name: remove unused kernel packages
+- name: Post cleanup disk usage
   become: yes
-  shell: |
-    dpkg -l 'linux-*' | \
-    sed '/^ii/!d;/'"$(uname -r | sed 's/\(.*\)-\([^0-9]\+\)/\1/')"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | \
-    xargs -r sudo apt remove --purge -y
+  shell: df -h /
+  register: dfpost
 
-- name: apt autoremove to open space for docker
-  become: yes
-  shell: apt autoremove -y
-
-- name: df -h
-  become: yes
-  shell: df -h
-  register: df
-
-- debug: var=df.stdout_lines
-
-- name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
-  become: yes
-  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | tail -50
-  register: dq2
-
-- debug: var=dq2.stdout_lines
+- debug: var=dfpost.stdout_lines

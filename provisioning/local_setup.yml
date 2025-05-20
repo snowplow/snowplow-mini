@@ -3,6 +3,7 @@
   hosts: all
 
   roles:
+    - base
     - typescript
     - packer
     - sp_mini_1_create_dirs

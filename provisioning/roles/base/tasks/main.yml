@@ -1,7 +1,13 @@
 ---
-- name: Update apt cache
-  apt: update-cache=yes cache_valid_time=86400
+
+- name: Refresh packages
   become: yes
+  shell: |
+    apt-get update
+    apt-get upgrade -y
+    apt-get autoremove -y
+    apt-get clean
+    apt-get autoclean
 
 - name: install basic packages
   become: yes
