@@ -7,13 +7,30 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 WorkingDirectory=/home/ubuntu/snowplow
+
+# Gracefully clean up any leftover containers first
 ExecStartPre=/usr/bin/docker compose down
+
+# Wait for EC2 IMDS to become available (needed by awslogs driver)
+ExecStartPre=/bin/bash -c '\
+  for i in {1..30}; do \
+    if curl -s --connect-timeout 1 http://169.254.169.254/latest/meta-data/ > /dev/null; then \
+      echo "IMDS is available."; \
+      break; \
+    fi; \
+    echo "Waiting for EC2 IMDS..."; \
+    sleep 1; \
+  done'
+
+# Start Snowplow stack
 ExecStart=/usr/bin/docker compose up --remove-orphans --detach
-RemainAfterExit=true
+
+# Stop containers cleanly
 ExecStop=/usr/bin/docker compose down
+
+RemainAfterExit=true
 Restart=on-failure
 RestartSec=10s
-TimeoutStartSec=0
 StandardOutput=journal
 StandardError=journal
 

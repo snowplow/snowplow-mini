@@ -1,8 +1,7 @@
 [Unit]
 Description=Snowplow Mini Control Plane API
-After=network-online.target docker.service
-Wants=network-online.target
-Requires=docker.service
+After=network.target
+Wants=network.target
 
 [Service]
 Type=simple
