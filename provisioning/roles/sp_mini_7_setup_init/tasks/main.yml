@@ -47,6 +47,26 @@
     - snowplow_mini
     - snowplow_mini_control_plane_api
 
+- name: Check the status of snowplow_mini service
+  command: systemctl status snowplow_mini.service
+  register: systemctl_status
+  failed_when: false  # Prevent failure, so we can still collect logs
+  ignore_errors: true  # Don't stop playbook execution on failure
+
+- name: Print systemctl status for snowplow_mini
+  debug:
+    msg: "{{ systemctl_status.stdout }}"
+
+- name: Check journalctl logs for snowplow_mini service
+  command: journalctl -xeu snowplow_mini.service
+  register: journalctl_logs
+  failed_when: false  # Prevent failure, so we can still collect logs
+  ignore_errors: true  # Don't stop playbook execution on failure
+
+- name: Print journalctl logs for snowplow_mini
+  debug:
+    msg: "{{ journalctl_logs.stdout }}"
+
 # Ensure policykit-1 is up to date
 - name: Upgrade policykit-1 to latest
   become: yes
