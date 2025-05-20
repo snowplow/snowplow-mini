@@ -1,6 +1,13 @@
 ---
 - include_vars: ../../common_vars.yml
 
+- name: Pre cleanup disk usage
+  become: yes
+  shell: df -h
+  register: dfpre
+
+- debug: var=dfpre.stdout_lines
+
 - name: Clear apt and package manager caches
   become: yes
   shell: |
@@ -45,13 +52,6 @@
   register: dq
 
 - debug: var=dq.stdout_lines
-
-- name: df -h
-  become: yes
-  shell: df -h
-  register: df2
-
-- debug: var=df2.stdout_lines
 
 - name: remove some unused packages to open space for docker
   become: yes
@@ -101,9 +101,9 @@
 
 ##################
 
-- name: Final disk usage
+- name: Post cleanup disk usage
   become: yes
   shell: df -h /
-  register: df_final
+  register: dfpost
 
-- debug: var=df_final.stdout_lines
+- debug: var=dfpost.stdout_lines

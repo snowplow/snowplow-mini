@@ -35,6 +35,13 @@
     state: present
     reload: yes
 
+- name: Check disk usage before downloading images and starting containers
+  become: yes
+  shell: df -h /
+  register: df1
+
+- debug: var=df1.stdout_lines
+
 # Reload systemd and enable + start services
 - name: Reload systemd and enable/start services
   become: yes
@@ -75,7 +82,7 @@
     state: latest
     update_cache: yes
 
-- name: See disk usage
+- name: See final disk usage
   become: yes
   shell: df -h /
   register: df
