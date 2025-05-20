@@ -1,18 +1,15 @@
 [Unit]
-Description=Snowplow Mini Docker Services
-Requires=docker.service
+Description=Snowplow Mini Control Plane API
 After=network-online.target docker.service
 Wants=network-online.target
+Requires=docker.service
 
 [Service]
 Type=simple
 WorkingDirectory=/home/ubuntu/snowplow
-ExecStartPre=/usr/bin/docker compose down
-ExecStart=/usr/bin/docker compose up --remove-orphans --detach
-ExecStop=/usr/bin/docker compose down
+ExecStart=/home/ubuntu/snowplow/bin/snowplow-mini-control-plane-api -config=/home/ubuntu/snowplow/configs/control-plane-api.toml
 Restart=on-failure
-RestartSec=10s
-TimeoutStartSec=0
+RestartSec=5s
 StandardOutput=journal
 StandardError=journal
 

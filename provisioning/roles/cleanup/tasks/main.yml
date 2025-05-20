@@ -82,3 +82,26 @@
   register: df_final
 
 - debug: var=df_final.stdout_lines
+
+## ubuntu 24 specific steps below
+
+- name: Disable snapd services
+  become: true
+  shell: |
+    systemctl disable snapd.service snapd.socket snapd.seeded.service || true
+    apt-get purge -y snapd || true
+  ignore_errors: true
+
+- name: Mask hibinit-agent to avoid boot hang
+  become: true
+  systemd:
+    name: hibinit-agent.service
+    enabled: false
+    masked: true
+
+- name: Disable systemd-networkd-wait-online to avoid boot hang
+  become: true
+  systemd:
+    name: systemd-networkd-wait-online.service
+    enabled: false
+    masked: true
