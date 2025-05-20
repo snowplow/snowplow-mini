@@ -26,15 +26,6 @@
     xargs -r apt-get purge -y
   ignore_errors: true
 
-- name: Remove some directories to open space for docker
-  become: yes
-  shell: |
-    rm -rf /var/cache/*
-    rm -rf /usr/share/man/*
-    rm -rf /var/log/*
-    rm -rf /usr/share/doc/*
-    rm -rf /usr/share/locale/*
-
 - name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
   become: yes
   shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | tail -100
