@@ -64,7 +64,9 @@
       libclang-cpp18 \
       vim-runtime \
       git \
-      python-babel-localedata
+      python-babel-localedata \
+      libicu74 \
+      locales
 
 - name: Autoremove orphaned packages
   become: yes
