@@ -50,3 +50,8 @@
     - enrich.env
     - collector.env
 
+- name: Remove containerd
+  apt: name=containerd.io state=absent
+
+- name: Install docker compose v2
+  apt: name=docker-compose-v2 state=latest
