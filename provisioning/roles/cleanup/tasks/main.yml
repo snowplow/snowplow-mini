@@ -57,9 +57,6 @@
       python3-pygments \
       python3-cryptography \
       python3-setuptools \
-      libicu74 \
-      locales \
-      intel-microcode \
       libpython3.12t64 \
       libmagic-mgc \
       python3-launchpadlib \
@@ -67,7 +64,6 @@
       python3-chardet \
       python3-rich \
       python3-boto3 \
-      python3-zope.interface \
       python3-gi \
       python3-pyasn1-modules \
       python3-oauthlib \
