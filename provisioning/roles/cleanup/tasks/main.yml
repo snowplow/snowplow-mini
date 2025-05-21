@@ -65,6 +65,7 @@
     name: hibinit-agent.service
     enabled: false
     masked: true
+  ignore_errors: true
 
 ##################
 
