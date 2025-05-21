@@ -24,35 +24,6 @@
     rm -rf /root/.cache/*
     rm -rf /home/*/.cache/*
 
-- name: list non-core python3-* packages
-  become: yes
-  shell: |
-    dpkg-query -W -f='${Package}\n' | \
-    grep '^python3-' | \
-    grep -vE '^(python3$|python3-minimal$|python3\.[0-9]+$|python3\.[0-9]+-minimal$)' | \
-    grep -vE '^(python3-(botocore|boto3|apt|systemd|dbus|gi|netplan|netifaces|cryptography|openssl|debian|distro|setuptools|pkg-resources|six|requests|urllib3|yaml|idna|dateutil))$'
-  ignore_errors: true
-  register: agg
-
-- debug: var=agg.stdout_lines
-
-- name: Selectively purge non-essential python3-* packages
-  become: yes
-  shell: |
-    dpkg-query -W -f='${Package}\n' | \
-    grep '^python3-' | \
-    grep -vE '^(python3$|python3-minimal$|python3\.[0-9]+$|python3\.[0-9]+-minimal$)' | \
-    grep -vE '^(python3-(apt|systemd|dbus|gi|netplan|netifaces|cryptography|openssl|debian|distro|setuptools|pkg-resources|six|requests|urllib3|yaml|idna|dateutil))$' | \
-    xargs -r apt-get purge -y
-  ignore_errors: true
-
-- name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
-  become: yes
-  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | tail -100
-  register: dq
-
-- debug: var=dq.stdout_lines
-
 - name: remove some unused packages to open space for docker
   become: yes
   ignore_errors: true
@@ -67,6 +38,13 @@
       python-babel-localedata \
       libicu74 \
       locales
+
+- name: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
+  become: yes
+  shell: dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n | tail -100
+  register: dq
+
+- debug: var=dq.stdout_lines
 
 - name: Clean journal logs
   become: yes
