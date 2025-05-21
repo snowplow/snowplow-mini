@@ -1,8 +1,7 @@
 [Unit]
 Description=Snowplow Mini Control Plane API
-Requires=cloud-final.service snowplow_mini.service
-After=network-online.target cloud-final.service snowplow_mini.service
-Wants=network-online.target
+Requires=network-online.target
+After=network-online.target
 
 [Service]
 Type=simple
