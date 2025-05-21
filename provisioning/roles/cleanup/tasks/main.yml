@@ -11,7 +11,8 @@
 - name: Clear apt and package manager caches
   become: yes
   shell: |
-    rm -rf /var/cache/apt/* /var/lib/apt/lists/*
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
 
 - name: Remove man pages, locales, docs, cache
   become: yes
@@ -19,7 +20,6 @@
     rm -rf /usr/share/man/*
     rm -rf /usr/share/doc/*
     rm -rf /usr/share/info/*
-    rm -rf /usr/share/locale/*
     rm -rf /var/cache/man /var/cache/fonts
     rm -rf /root/.cache/*
     rm -rf /home/*/.cache/*
@@ -30,7 +30,7 @@
     dpkg-query -W -f='${Package}\n' | \
     grep '^python3-' | \
     grep -vE '^(python3$|python3-minimal$|python3\.[0-9]+$|python3\.[0-9]+-minimal$)' | \
-    grep -vE '^(python3-(apt|systemd|dbus|gi|netplan|netifaces|cryptography|openssl|debian|distro|setuptools|pkg-resources|six|requests|urllib3|yaml|idna|dateutil))$'
+    grep -vE '^(python3-(botocore|boto3|apt|systemd|dbus|gi|netplan|netifaces|cryptography|openssl|debian|distro|setuptools|pkg-resources|six|requests|urllib3|yaml|idna|dateutil))$'
   ignore_errors: true
   register: agg
 
@@ -68,10 +68,6 @@
       libicu74 \
       locales
 
-- name: Autoremove orphaned packages
-  become: yes
-  shell: apt-get autoremove --purge -y
-
 - name: Clean journal logs
   become: yes
   shell: journalctl --flush --rotate --vacuum-time=1s
@@ -92,14 +88,11 @@
     enabled: false
     masked: true
 
-- name: Disable systemd-networkd-wait-online to avoid boot hang
-  become: true
-  systemd:
-    name: systemd-networkd-wait-online.service
-    enabled: false
-    masked: true
-
 ##################
+
+- name: Autoremove orphaned packages
+  become: yes
+  shell: apt-get autoremove --purge -y
 
 - name: Post cleanup disk usage
   become: yes
