@@ -1,7 +1,7 @@
 [Unit]
 Description=Snowplow Mini Docker Services
-Requires=docker.service
-After=network-online.target docker.service
+Requires=docker.service cloud-final.service
+After=network-online.target docker.service cloud-final.service
 Wants=network-online.target
 
 [Service]
