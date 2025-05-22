@@ -6,8 +6,10 @@
   hosts: all
 
   roles:
+    - base
     - sp_mini_1_create_dirs
     - sp_mini_4_setup_apps
     - sp_mini_6_copy_ui_folders
+    - cleanup
     - sp_mini_7_setup_init
     - docker
