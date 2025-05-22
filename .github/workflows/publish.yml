@@ -22,21 +22,47 @@ jobs:
           cd $GITHUB_WORKSPACE/provisioning/resources/control-plane
           go test *.go
 
-
-      - name: Provision a local Mini instance
-        run: ansible-playbook -i $GITHUB_WORKSPACE/provisioning/inventory $GITHUB_WORKSPACE/provisioning/local_setup.yml --connection=local --become
-
       - id: 'auth'
-        if: startsWith(github.ref, 'refs/tags/')
+        if: contains(github.ref_name, 'gcp')
         uses: 'google-github-actions/auth@v2'
         with:
           credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64 }}'
 
       - name: 'Set up Cloud SDK'
-        if: startsWith(github.ref, 'refs/tags/')
+        if: contains(github.ref_name, 'gcp')
         uses: 'google-github-actions/setup-gcloud@v2'
 
+      - name: Generate unique ssh tag for Packer build of GCP tags
+        if: contains(github.ref_name, 'gcp')
+        run: echo "GCP_SSH_TAG=packer-$(date +%s)-$(uuidgen | cut -c1-8)" >> $GITHUB_ENV
+      
+      - name: Generate gcp firewall rule suffix
+        if: contains(github.ref_name, 'gcp')
+        run: |
+          # DNS-1123 compliant
+          SUFFIX=$(echo "${{ github.ref_name }}" \
+            | tr '[:upper:]' '[:lower:]' \
+            | tr './' '--' \
+            | sed 's/[^a-z0-9-]//g' \
+            | sed 's/^[^a-z]*/a/' \
+            | sed 's/[^a-z0-9]$//' \
+            | cut -c1-63)
+          echo "GCP_RULE_SUFFIX=$SUFFIX" >> $GITHUB_ENV
+
+      - name: Create firewall rule to publish GCP targets
+        if: contains(github.ref_name, 'gcp')
+        run: |
+          gcloud compute firewall-rules delete allow-ssh-$GCP_RULE_SUFFIX --quiet || true
+          gcloud compute firewall-rules create allow-ssh-$GCP_RULE_SUFFIX \
+            --allow tcp:22 \
+            --target-tags=${{ env.GCP_SSH_TAG }} \
+            --description="Temporary rule to allow SSH from GitHub Actions"
+
+      - name: Provision a local Mini instance
+        run: ansible-playbook -i $GITHUB_WORKSPACE/provisioning/inventory $GITHUB_WORKSPACE/provisioning/local_setup.yml --connection=local --become
+
       - name: SSH config for Ansible
+        if: startsWith(github.ref, 'refs/tags/')
         run: mkdir ~/.ssh && echo -e "Host 127.0.0.1\nHostKeyAlgorithms +ssh-rsa\nPubkeyAcceptedKeyTypes +ssh-rsa" >> ~/.ssh/config
 
       - name: Publish artifact based on cloud and size
@@ -45,4 +71,11 @@ jobs:
           AWS_DEPLOY_ACCESS_KEY: ${{ secrets.AWS_DEPLOY_ACCESS_KEY }}
           AWS_DEPLOY_SECRET_KEY: ${{ secrets.AWS_DEPLOY_SECRET_KEY }}
           GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64 }}
+          GCP_SSH_TAG: ${{ env.GCP_SSH_TAG }}
         run: $GITHUB_WORKSPACE/.github/workflows/deploy.sh ${{ github.ref_name }}
+      
+      - name: Remove SSH firewall rule
+        if: contains(github.ref_name, 'gcp')
+        continue-on-error: true
+        run: |
+          gcloud compute firewall-rules delete allow-ssh-$GCP_RULE_SUFFIX --quiet

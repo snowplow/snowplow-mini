@@ -1,15 +1,21 @@
 [Unit]
-Description=Snowplow Mini Services
+Description=Snowplow Mini Docker Services
 Requires=docker.service
+After=network-online.target docker.service
 
 [Service]
 Type=oneshot
 RemainAfterExit=true
 WorkingDirectory=/home/ubuntu/snowplow
-ExecStartPre=/usr/sbin/service docker restart
-ExecStartPre=docker compose down
-ExecStart=docker compose up -d
-ExecStop=docker compose down
+ExecStartPre=/usr/bin/docker compose down
+ExecStart=/usr/bin/docker compose up --remove-orphans --detach
+ExecStop=/usr/bin/docker compose down
+
+Restart=on-failure
+RestartSec=10s
+
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
