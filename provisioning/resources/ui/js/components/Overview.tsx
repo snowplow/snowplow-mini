@@ -51,7 +51,7 @@ export class Overview extends React.Component<{}, {}> {
         <ul>
         <li><b>Snowplow Mini 0.23.1</b></li>
           <li>Snowplow Collector NSQ 3.4.0</li>
-          <li>Snowplow Enrich NSQ 5.2.0</li>
+          <li>Snowplow Enrich NSQ 5.4.0</li>
           <li>Snowplow Elasticsearch Loader 2.1.3</li>
           <li>Snowplow Iglu Server 0.14.0</li>
           <li>Postgres 15.1</li>
