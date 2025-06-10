@@ -151,7 +151,7 @@ services:
     mem_limit: ${SP_COLLECTOR_MEM_SIZE}
 
   enrich:
-    image: snowplow/snowplow-enrich-nsq:5.2.0-distroless
+    image: snowplow/snowplow-enrich-nsq:5.4.0-distroless
     container_name: enrich
     command: [
       "--config", "/snowplow/config/snowplow-enrich.hocon",
