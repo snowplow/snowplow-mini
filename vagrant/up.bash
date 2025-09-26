@@ -12,7 +12,7 @@ sudo sh -c 'echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers' # see https://
 #echo "------------------"
 sudo apt install software-properties-common -y
 sudo add-apt-repository --yes --update ppa:ansible/ansible
-sudo apt install ansible=11.5.0-1ppa~noble -y
+sudo apt install ansible=11.10.0-1ppa~noble -y
 
 #echo "=========================================="
 #echo "RUNNING PLAYBOOKS WITH ANSIBLE*"
