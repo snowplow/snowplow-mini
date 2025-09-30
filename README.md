@@ -74,12 +74,6 @@ Some advice on how to handle certain errors if you're trying to build this local
 
 Your Vagrant version is probably outdated. Use Vagrant 2.0.0+.
 
-### `npm install` results in `enoent ENOENT: no such file or directory, open '/package.json'`
-
-This is caused by trying to use NFS. Comment the relevant lines in `Vagrantfile`.
-
-Most likely this will happen on `TASK [sp_mini_5_build_ui : Install npm packages based on package.json.]` but see also: [https://discourse.snowplowanalytics.com/t/snowplow-mini-local-vagrant/2930](https://discourse.snowplowanalytics.com/t/snowplow-mini-local-vagrant/2930).
-
 ## Topology
 
 Snowplow Mini runs several distinct applications on the same box which are all linked by NSQ topics.  In a production deployment each instance could be an Autoscaling Group and each NSQ topic would be a distinct Kinesis Stream.

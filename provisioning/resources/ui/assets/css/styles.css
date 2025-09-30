@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background-color: #4a5568;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header .logo {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.header .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.nav-tabs {
+    background-color: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    padding: 0 1rem;
+}
+
+.nav-tab {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    color: #718096;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.nav-tab.active {
+    color: #2d3748;
+    border-bottom-color: #4299e1;
+    background-color: #f7fafc;
+}
+
+.nav-tab:hover {
+    background-color: #f7fafc;
+    color: #2d3748;
+}
+
+.content {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.description {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.section {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.section h2 {
+    color: #2d3748;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.section h3 {
+    color: #4a5568;
+    margin: 1.5rem 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.section p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: #4a5568;
+}
+
+.link-list {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+.link-list li {
+    margin-bottom: 0.5rem;
+}
+
+.link-list a {
+    color: #3182ce;
+    text-decoration: underline;
+}
+
+.link-list a:hover {
+    color: #2c5282;
+}
+
+.quicklinks h3 {
+    margin-top: 0;
+}
+
+.software-stack {
+    margin-top: 1.5rem;
+}
+
+.software-list {
+    list-style: disc;
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.software-list li {
+    margin-bottom: 0.3rem;
+    color: #4a5568;
+}
+
+.stack-topology {
+    color: #4a5568;
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Event buttons styling */
+.event-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+.event-btn {
+    background-color: #e2e8f0;
+    color: #2d3748;
+    border: 1px solid #cbd5e0;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.event-btn:hover {
+    background-color: #cbd5e0;
+    border-color: #a0aec0;
+}
+
+.event-btn:active {
+    background-color: #a0aec0;
+}
+
+/* Footer styling */
+.footer {
+    background-color: #f8f9fa;
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #6c757d;
+    border-top: 1px solid #e9ecef;
+    margin-top: auto;
+}
+
+/* Inline styles moved from HTML */
+.stack-topology img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    margin-top: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+#example-events .section p:first-of-type {
+    margin-bottom: 1.5rem;
+}
+
+#example-events .section p:last-of-type {
+    margin-top: 2rem;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+#opensearch .section p {
+    margin-bottom: 1.5rem;
+}
+
+#opensearch .section h3 {
+    margin: 1.5rem 0 1rem 0;
+    color: #4a5568;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+#iglu-server .section p {
+    margin-bottom: 1.5rem;
+}
+
+#iglu-server .section h3 {
+    margin: 1.5rem 0 1rem 0;
+    color: #4a5568;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+#control-plane .section p {
+    margin-bottom: 1.5rem;
+}
+
+#control-plane .section h3 {
+    margin: 1.5rem 0 1rem 0;
+    color: #4a5568;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
