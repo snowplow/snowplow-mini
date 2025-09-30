@@ -1,0 +1,370 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background-color: #4a5568;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header .logo {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.header .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.nav-tabs {
+    background-color: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    padding: 0 1rem;
+}
+
+.nav-tab {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    color: #718096;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.nav-tab.active {
+    color: #2d3748;
+    border-bottom-color: #4299e1;
+    background-color: #f7fafc;
+}
+
+.nav-tab:hover {
+    background-color: #f7fafc;
+    color: #2d3748;
+}
+
+.content {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.description {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.section {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.section h2 {
+    color: #2d3748;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.section h3 {
+    color: #4a5568;
+    margin: 1.5rem 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.section p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: #4a5568;
+}
+
+.link-list {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+.link-list li {
+    margin-bottom: 0.5rem;
+}
+
+.link-list a {
+    color: #3182ce;
+    text-decoration: underline;
+}
+
+.link-list a:hover {
+    color: #2c5282;
+}
+
+.quicklinks h3 {
+    margin-top: 0;
+}
+
+.software-stack {
+    margin-top: 1.5rem;
+}
+
+.software-list {
+    list-style: disc;
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.software-list li {
+    margin-bottom: 0.3rem;
+    color: #4a5568;
+}
+
+.stack-topology {
+    color: #4a5568;
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Example Events Tab Styles */
+.workflow-header {
+    background: linear-gradient(135deg, #24292e 0%, #2f363d 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 0;
+    border: 1px solid #d1d5da;
+    border-bottom: none;
+}
+
+.workflow-trigger {
+    font-size: 0.9rem;
+    color: #f6f8fa;
+    margin-bottom: 0.5rem;
+}
+
+.workflow-controls {
+    background-color: #f6f8fa;
+    padding: 1rem 1.5rem;
+    border: 1px solid #d1d5da;
+    border-top: none;
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.run-workflow-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.run-workflow-btn:hover {
+    background-color: #218838;
+}
+
+.workflow-form {
+    background-color: #24292e;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid #d1d5da;
+    border-top: none;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #444d56;
+    border-radius: 6px;
+    background-color: #2f363d;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+    font-family: 'SFMono-Regular', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #0366d6;
+    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
+}
+
+.form-description {
+    font-size: 0.8rem;
+    color: #8b949e;
+    margin-top: 0.25rem;
+}
+
+.form-checkbox {
+    margin-right: 0.5rem;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.required {
+    color: #f85149;
+}
+
+.workflow-list {
+    background-color: white;
+    border: 1px solid #d1d5da;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.workflow-item {
+    padding: 1rem;
+    border-bottom: 1px solid #e1e4e8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.workflow-item:last-child {
+    border-bottom: none;
+}
+
+.workflow-status {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.workflow-status.success {
+    background-color: #28a745;
+}
+
+.workflow-status.error {
+    background-color: #dc3545;
+}
+
+.workflow-info h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+    color: #24292e;
+}
+
+.workflow-meta {
+    font-size: 0.85rem;
+    color: #586069;
+}
+
+.workflow-branch {
+    background-color: #f1f8ff;
+    color: #0969da;
+    padding: 0.125rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Event buttons styling */
+.event-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+.event-btn {
+    background-color: #e2e8f0;
+    color: #2d3748;
+    border: 1px solid #cbd5e0;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.event-btn:hover {
+    background-color: #cbd5e0;
+    border-color: #a0aec0;
+}
+
+.event-btn:active {
+    background-color: #a0aec0;
+}
+
+/* Footer styling */
+.footer {
+    background-color: #f8f9fa;
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #6c757d;
+    border-top: 1px solid #e9ecef;
+    margin-top: auto;
+}

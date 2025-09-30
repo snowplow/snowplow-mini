@@ -1,43 +1,248 @@
-<!doctype html>
-<html lang="en" data-framework="typescript">
-  <head>
-    <meta charset="utf-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snowplow Mini</title>
-    <link rel="shortcut icon" href="/home/assets/img/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="/home/assets/css/main.css">
-  </head>
-
-  <body>
+    <link rel="stylesheet" href="/home/assets/css/styles.css">
+</head>
+<body>
     <header class="header">
-      <a href="#/overview"><img id="logo" src="/home/assets/img/logo-white.png" /></a>
-      <h1 id="text">SNOWPLOW MINI</h1>
+        <h1>SNOWPLOW MINI</h1>
     </header>
-    <div class="snowplowminiapp"></div>
+
+    <nav class="nav-tabs">
+        <a href="#" class="nav-tab active" onclick="showTab('overview')">Overview</a>
+        <a href="#" class="nav-tab" onclick="showTab('example-events')">Example events</a>
+        <a href="#" class="nav-tab" onclick="showTab('opensearch')">Opensearch</a>
+        <a href="#" class="nav-tab" onclick="showTab('iglu-server')">Iglu Server</a>
+        <a href="#" class="nav-tab" onclick="showTab('control-plane')">Control Plane</a>
+    </nav>
+
+    <main class="content">
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="description">
+                Snowplow Mini is, in essence, the Snowplow real time pipeline containerized within a single box. In place of Kinesis Streams we are using NSQ and instead of distributing all of the applications across Autoscaling Groups they are deployed onto a single instance.
+            </div>
+
+            <section class="section">
+                <h2>1. Sending events</h2>
+                <p>You can send events into Snowplow Mini automatically from the <a href="#" onclick="showTab('example-events')">Example events</a> page. Simply go to that page and click the sample event buttons.</p>
+                <p>Alternatively, you can setup any of the Snowplow trackers to send data to this endpoint: <span id="collector-endpoint"></span></p>
+            </section>
+
+            <section class="section">
+                <h2>2. Viewing the events</h2>
+                <p>You can view the events that have been sent to Opensearch in the <a href="/kibana">Opensearch Dashboards</a>.</p>
+                <p>You can also submit queries directly to the <a href="/elasticsearch">Opensearch endpoint</a>.</p>
+            </section>
+
+            <section class="section">
+                <h2>3. Understanding how Snowplow Mini works</h2>
+
+                <div class="quicklinks">
+                    <h3>Quicklinks:</h3>
+                    <ul class="link-list">
+                        <li><a href="https://docs.snowplowanalytics.com/docs/understanding-your-pipeline/what-is-snowplow-mini">What is Snowplow Mini?</a></li>
+                        <li><a href="https://docs.snowplowanalytics.com/docs/pipeline-components-and-applications/snowplow-mini/usage-guide/">Usage guide</a></li>
+                        <li><a href="https://docs.snowplowanalytics.com/docs/pipeline-components-and-applications/snowplow-mini/control-plane-api/">Control Plane API</a></li>
+                        <li>Link to <a href="https://github.com/snowplow/snowplow-mini">Snowplow Mini</a> repository</li>
+                        <li>Collector endpoint <a href="/" id="collector-link"></a></li>
+                        <li>Metrics endpoint <a href="/metrics" id="metrics-link"></a></li>
+                    </ul>
+                </div>
+
+                <div class="software-stack">
+                    <h3>The software stack installed:</h3>
+                    <ul class="software-list">
+                        <li>Snowplow Mini 0.23.2</li>
+                        <li>Snowplow Collector NSQ 3.4.0</li>
+                        <li>Snowplow Enrich NSQ 5.4.0</li>
+                        <li>Snowplow Elasticsearch Loader 2.1.3</li>
+                        <li>Snowplow Iglu Server 0.14.0</li>
+                        <li>Postgres 15.1</li>
+                        <li>NSQ v1.3.0</li>
+                        <li>Opensearch 2.19.1</li>
+                        <li>Opensearch Dashboards 2.19.1</li>
+                        <li>Cadvisor 0.52.1</li>
+                    </ul>
+
+                    <div class="stack-topology">
+                        <h3>Stack topology:</h3>
+                        <img src="/home/assets/img/snowplow-mini-topology.jpg" alt="Snowplow Mini Real-time Processing Topology" style="width: 100%; max-width: 800px; height: auto; margin-top: 1rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Example Events Tab -->
+        <div id="example-events" class="tab-content">
+            <div class="section">
+                <p style="margin-bottom: 1.5rem;">Press the buttons below to trigger individual tracking events:</p>
+
+                <div class="event-buttons">
+                    <button class="event-btn" onclick="trackPageView()">Track this page view</button>
+                    <button class="event-btn" onclick="playMix()">Play a mix</button>
+                    <button class="event-btn" onclick="addProduct()">Add a product</button>
+                </div>
+
+                <p style="margin-top: 2rem; color: #4a5568; line-height: 1.6;">
+                    All of these events are sent using the Snowplow Javascript Tracker and will be sent directly to the Snowplow Mini collector.
+                </p>
+            </div>
+        </div>
+
+        <!-- Opensearch Tab -->
+        <div id="opensearch" class="tab-content">
+            <div class="section">
+                <p style="margin-bottom: 1.5rem;">The local Opensearch cluster contains your enriched and failed events in two distinct indices. For ease of management Snowplow Mini comes pre-installed with Opensearch Dashboards.</p>
+
+                <p style="margin-bottom: 1.5rem;"><strong>Opensearch Dashboards</strong> can be used to view, query and discover the data sent into Snowplow Mini. You can also build visualizations and dashboards from the information available.</p>
+
+                <h3 style="margin: 1.5rem 0 1rem 0; color: #4a5568; font-size: 1.1rem; font-weight: 600;">Quicklinks:</h3>
+                <ul class="link-list">
+                    <li>Link to <a href="/kibana">Opensearch Dashboards</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Iglu Server Tab -->
+        <div id="iglu-server" class="tab-content">
+            <div class="section">
+                <p style="margin-bottom: 1.5rem;">The local Iglu Server contains all of your own custom JsonSchemas that have been uploaded to the server.</p>
+
+                <h3 style="margin: 1.5rem 0 1rem 0; color: #4a5568; font-size: 1.1rem; font-weight: 600;">Quicklinks:</h3>
+                <ul class="link-list">
+                    <li>Link to <a href="/iglu-server/static/swagger-ui/index.html">Iglu Server management</a> page</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Control Plane Tab -->
+        <div id="control-plane" class="tab-content">
+            <div class="section">
+                <p style="margin-bottom: 1.5rem;">The control-plan can be used to interact with the internal systems of Snowplow Mini:</p>
+
+                <h3 style="margin: 1.5rem 0 1rem 0; color: #4a5568; font-size: 1.1rem; font-weight: 600;">Quicklinks:</h3>
+                <ul class="link-list">
+                    <li><a href="/swagger">Control Plane Swagger ui</a> page</li>
+                    <li><a href="https://docs.snowplowanalytics.com/docs/pipeline-components-and-applications/snowplow-mini/control-plane-api/">Guide to using the Control Plane API</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
     <footer class="footer">
-      <p>COPYRIGHT &#169; 2016-2021 SNOWPLOW ANALYTICS LTD. ALL RIGHTS RESERVED. PRIVACY POLICY.</p>
+        COPYRIGHT © 2016-2025 SNOWPLOW ANALYTICS LTD. ALL RIGHTS RESERVED. PRIVACY POLICY.
     </footer>
 
     <!-- Snowplow starts plowing -->
     <script type="text/javascript">
-      ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
-      p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
-      };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
-      n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","https://cdn.jsdelivr.net/gh/snowplow/sp-js-assets@2.17.3/sp.js","snowplow"));
-      var collector = window.location.host;
-      window.snowplow('newTracker', 'rt', collector, {
-        encodeBase64: false,
-        appId: 'SnowplowMini',
-        contexts: {
-          webPage: true,
-          performanceTiming: true
-        }
-      });
-      window.snowplow('setUserId', 'SnowplowMini-User');
-      window.snowplow('enableActivityTracking', 10, 10);
+        ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
+        p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
+        };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
+        n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","https://cdn.jsdelivr.net/npm/@snowplow/javascript-tracker@4.6.6/dist/sp.min.js","snowplow"));
+
+        var collector = window.location.host;
+
+        snowplow('newTracker', 'sp', collector, {
+            appId: 'SnowplowMini',
+            contexts: {
+                webPage: true,
+                performanceTiming: true
+            }
+        });
+
+        snowplow('disableActivityTracking');
+
+        snowplow('setUserId', 'SnowplowMini-User');
     </script>
     <!-- Snowplow stops plowing -->
 
-    <script type="text/javascript" src="/home/node_modules/director/build/director.js"></script>
-    <script type="text/javascript" src="/home/dist/snowplow-mini.js"></script>
-  </body>
+    <script>
+        function trackPageView() {
+            alert("Tracking this page view");
+            window.snowplow('trackPageView', 'Example events');
+        }
+
+        function playMix() {
+            alert("Playing a mix");
+            snowplow('trackStructEvent', {
+                category: 'Mixes',
+                action: 'Play',
+                label: 'MrC/fabric-0503-mix',
+                property: '',
+                value: 0.0
+            });
+        }
+
+        function addProduct() {
+            alert("Adding a product to basket");
+            snowplow('trackStructEvent', {
+                category: 'Checkout',
+                action: 'Add',
+                label: 'ASO01043',
+                property: 'blue:xxl',
+                value: 2.0
+            });
+        }
+
+        // Handle URL hash on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(hash)) {
+                showTab(hash);
+            }
+
+            // Set collector endpoint dynamically based on current address
+            const collectorUrl = window.location.host;
+            const collectorEndpoint = document.getElementById('collector-endpoint');
+            const collectorLink = document.getElementById('collector-link');
+            const metricsLink = document.getElementById('metrics-link');
+
+            if (collectorEndpoint) {
+                collectorEndpoint.textContent = collectorUrl;
+            }
+            if (collectorLink) {
+                collectorLink.textContent = collectorUrl;
+                collectorLink.href = collectorUrl;
+            }
+            if (metricsLink) {
+                metricsLink.textContent = collectorUrl + '/metrics';
+                metricsLink.href = collectorUrl + '/metrics';
+            }
+        });
+
+        // Update showTab function to update URL hash
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all nav tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+
+            // Add active class to corresponding nav tab
+            const navTab = document.querySelector(`[onclick="showTab('${tabName}')"]`);
+            if (navTab) {
+                navTab.classList.add('active');
+            }
+
+            // Update URL hash
+            window.location.hash = tabName;
+        }
+    </script>
+</body>
 </html>
