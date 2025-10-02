@@ -131,7 +131,7 @@ services:
     mem_limit: 64m
 
   scala-stream-collector:
-    image: snowplow/scala-stream-collector-nsq:3.4.0-distroless
+    image: snowplow/scala-stream-collector-nsq:3.7.0-distroless
     container_name: scala-stream-collector-nsq
     command: [ "--config", "/snowplow/config/snowplow-stream-collector.hocon" ]
     restart: always
@@ -151,7 +151,7 @@ services:
     mem_limit: ${SP_COLLECTOR_MEM_SIZE}
 
   enrich:
-    image: snowplow/snowplow-enrich-nsq:5.4.0-distroless
+    image: snowplow/snowplow-enrich-nsq:6.1.2-distroless
     container_name: enrich
     command: [
       "--config", "/snowplow/config/snowplow-enrich.hocon",
@@ -173,7 +173,7 @@ services:
     mem_limit: ${SP_ENRICH_MEM_SIZE}
 
   postgres:
-    image: postgres:15.1-alpine
+    image: postgres:16.10-alpine
     container_name: postgres
     restart: always
     volumes:
@@ -209,7 +209,7 @@ services:
     mem_limit: ${SP_IGLU_SERVER_MEM_SIZE}
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    image: ghcr.io/google/cadvisor:v0.53.0
     container_name: cadvisor
     restart: always
     privileged: true

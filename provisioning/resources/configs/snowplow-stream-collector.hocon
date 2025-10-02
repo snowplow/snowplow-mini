@@ -71,7 +71,6 @@ collector {
   streams {
     good = RawEvents
     bad = BadRawEvents
-    useIpAddressAsPartitionKey = false
 
     sink {
       enabled = nsq

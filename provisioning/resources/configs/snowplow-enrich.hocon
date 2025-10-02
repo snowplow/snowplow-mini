@@ -5,6 +5,7 @@
   
   "input": {
     "topic": "RawEvents"
+    "channel": "RawEventsChannel"
     "lookupHost": "nsqlookupd"
     "lookupPort": 4161
   }
@@ -20,18 +21,6 @@
       "topic": "BadEnrichedEvents"
       "nsqdHost": "nsqd"
       "nsqdPort": 4150
-    }
-
-    "pii": {
-      "type": "Nsq"
-      "topic": "PiiEvents"
-      "nsqdHost": "nsqd"
-      "nsqdPort": 4150
-      "backoffPolicy": {
-        "minBackoff": 100 milliseconds
-        "maxBackoff": 10 seconds
-        "maxRetries": 10
-      }
     }
   }
   "featureFlags": {
