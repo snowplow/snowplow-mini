@@ -1,3 +1,9 @@
+Version 0.24.0 (2025-10-03)
+---------------------------
+Replace current frontend code with simpler html (#421)
+Upgrade components (#422)
+Bump ansible to 11.10.0-1ppa~noble (#421)
+
 Version 0.23.2 (2025-06-11)
 ---------------------------
 Bump Enrich to 5.4.0
