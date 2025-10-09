@@ -1,0 +1,68 @@
+name: sync-public-main
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PUBLIC_REPO_MAIN: master
+  PUBLIC_REPO_URL: https://github.com/snowplow/snowplow-mini
+  SYNC_BRANCH: public-main
+
+jobs:
+  sync:
+    if: ${{ github.event.repository.private == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout private repo (${{ env.SYNC_BRANCH }})
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SYNC_BRANCH }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Generate GitHub App Token for Snowplow Incubator Org
+        id: generate_token
+        run: |
+          echo "Using Snowplow Incubator org token"
+          echo "installation_id=${{ secrets.GH_APP_INSTALLATION_ID }}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate GitHub App Token
+        id: auth_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          installation_id: ${{ steps.generate_token.outputs.installation_id }}
+
+      - name: Add public repo as remote
+        run: |
+          REPO_PATH="${PUBLIC_REPO_URL#https://}"
+          git remote add public-origin https://x-access-token:${{ steps.auth_token.outputs.token }}@$REPO_PATH
+          git fetch public-origin
+
+      - name: Fast-forward merge to main
+        run: |
+          git checkout public-origin/${{ env.PUBLIC_REPO_MAIN }}
+          git merge --ff-only ${{ env.SYNC_BRANCH }}
+
+      - name: Push Changes to Public Repo
+        run: |
+          if ! git push public-origin ${{ env.SYNC_BRANCH }}:${{ env.PUBLIC_REPO_MAIN }}; then
+            echo "Push failed; check for conflicts or diverged branches."
+            exit 1
+          fi
+
+      - name: Push missing tags to Public Repo
+        run: |
+          TAGS_TO_PUSH=$(git tag --merged ${{ env.SYNC_BRANCH }} | grep -E '^[0-9]+(\.[0-9]+){1,2}$')
+          for TAG in $TAGS_TO_PUSH; do
+            git push public-origin $TAG || {
+              echo "Push failed for tag $TAG; check for conflicts or invalid tag state."
+            }
+          done
