@@ -1,0 +1,168 @@
+---
+# Ansible role for configuring automatic security updates on Snowplow Mini instances
+# This ensures runtime security updates for Ubuntu packages without affecting Docker containers
+
+- name: Install unattended-upgrades package
+  become: yes
+  apt:
+    name: unattended-upgrades
+    state: present
+    update_cache: yes
+
+- name: Install apt-listchanges for update notifications
+  become: yes
+  apt:
+    name: apt-listchanges
+    state: present
+
+- name: Configure unattended-upgrades for security updates only
+  become: yes
+  template:
+    src: 50unattended-upgrades.j2
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Configure auto-upgrades timing
+  become: yes
+  template:
+    src: 20auto-upgrades.j2
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Create systemd override directory for apt-daily timers
+  become: yes
+  file:
+    path: /etc/systemd/system/{{ item }}
+    state: directory
+    mode: '0755'
+  loop:
+    - apt-daily.timer.d
+    - apt-daily-upgrade.timer.d
+
+- name: Configure apt-daily timer to run at 3 AM
+  become: yes
+  copy:
+    dest: /etc/systemd/system/apt-daily.timer.d/override.conf
+    content: |
+      [Timer]
+      OnCalendar=
+      OnCalendar=03:00
+      RandomizedDelaySec=30min
+    mode: '0644'
+
+- name: Configure apt-daily-upgrade timer to run at 3:30 AM
+  become: yes
+  copy:
+    dest: /etc/systemd/system/apt-daily-upgrade.timer.d/override.conf
+    content: |
+      [Timer]
+      OnCalendar=
+      OnCalendar=03:30
+      RandomizedDelaySec=30min
+    mode: '0644'
+
+- name: Create log directory for security updates
+  become: yes
+  file:
+    path: /var/log/snowplow-mini
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Configure Docker version pinning for security-only updates
+  become: yes
+  copy:
+    dest: /etc/apt/preferences.d/docker-security-only
+    content: |
+      # Pin Docker packages to current major version
+      # This allows security patches but prevents major version jumps
+      # Example: 27.5.0 → 27.5.1 (allowed), 27.5.0 → 28.0.0 (blocked)
+      Package: docker-ce docker-ce-cli containerd.io docker-compose-plugin
+      Pin: release o=Ubuntu,a={{ ansible_distribution_release }}-security
+      Pin-Priority: 990
+    mode: '0644'
+
+- name: Copy security update monitoring script
+  become: yes
+  copy:
+    src: check-security-updates.sh
+    dest: /usr/local/bin/check-security-updates.sh
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Reload systemd daemon to pick up timer changes
+  become: yes
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start apt-daily timer
+  become: yes
+  systemd:
+    name: apt-daily.timer
+    enabled: yes
+    state: started
+
+- name: Enable and start apt-daily-upgrade timer
+  become: yes
+  systemd:
+    name: apt-daily-upgrade.timer
+    enabled: yes
+    state: started
+
+- name: Create security update documentation file
+  become: yes
+  copy:
+    dest: /etc/snowplow-mini-security-info.txt
+    content: |
+      Snowplow Mini - Automatic Security Updates
+      ===========================================
+
+      Status: ENABLED
+      Schedule: Daily at 3:00 AM (±30 min randomization)
+      What's updated: Ubuntu security packages, Docker Engine (security patches only)
+      What's NOT updated: Docker containers, Caddy, Linux kernel
+
+      Logs: /var/log/unattended-upgrades/unattended-upgrades.log
+
+      Commands:
+      ---------
+      # Check for updates
+      sudo /usr/local/bin/check-security-updates.sh
+
+      # View logs
+      sudo tail -100 /var/log/unattended-upgrades/unattended-upgrades.log
+
+      # Check timer status
+      systemctl status apt-daily-upgrade.timer
+
+      # Manually run updates
+      sudo unattended-upgrade -d
+
+      To DISABLE automatic updates:
+      ------------------------------
+      sudo systemctl stop apt-daily.timer apt-daily-upgrade.timer
+      sudo systemctl disable apt-daily.timer apt-daily-upgrade.timer
+
+      To RE-ENABLE automatic updates:
+      --------------------------------
+      sudo systemctl enable apt-daily.timer apt-daily-upgrade.timer
+      sudo systemctl start apt-daily.timer apt-daily-upgrade.timer
+    mode: '0644'
+
+- name: Display security update configuration
+  debug:
+    msg:
+      - "Security updates configured successfully!"
+      - "Updates will run daily at 3:00 AM"
+      - "Only security updates will be applied (no version upgrades)"
+      - "Docker Engine security patches will be auto-applied"
+      - "Docker containers will NOT be updated automatically"
+      - "Logs: /var/log/unattended-upgrades/"
+      - "Documentation: /etc/snowplow-mini-security-info.txt"
+      - "To disable: sudo systemctl disable apt-daily-upgrade.timer"

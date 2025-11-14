@@ -1,0 +1,14 @@
+# Trivy Ignore File for Snowplow Mini
+# Use this file to suppress false positives or accepted risks
+# Format: CVE-ID or vulnerability ID per line
+#
+# Example:
+# CVE-2024-1234
+#
+# Documentation: https://aquasecurity.github.io/trivy/latest/docs/configuration/filtering/
+
+# Add CVE IDs below to ignore specific vulnerabilities
+# Always add a comment explaining WHY the CVE is ignored
+
+# Example ignored CVE (remove this):
+# CVE-2024-9999  # False positive - not applicable to our use case

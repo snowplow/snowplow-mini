@@ -1,0 +1,17 @@
+// Enable automatic updates for Snowplow Mini
+// This file controls whether unattended-upgrades runs automatically
+
+// Update package lists automatically (1 = enabled)
+APT::Periodic::Update-Package-Lists "1";
+
+// Download upgradeable packages automatically (1 = enabled)
+APT::Periodic::Download-Upgradeable-Packages "1";
+
+// Run unattended-upgrade to install security updates (1 = enabled)
+APT::Periodic::Unattended-Upgrade "1";
+
+// Clean local download archive (days between runs)
+APT::Periodic::AutocleanInterval "7";
+
+// Verbose logging level (0-3, higher = more verbose)
+APT::Periodic::Verbose "2";

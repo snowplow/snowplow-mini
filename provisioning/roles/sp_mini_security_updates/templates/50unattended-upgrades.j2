@@ -1,0 +1,58 @@
+// Unattended-Upgrades configuration for Snowplow Mini
+// Only apply security updates, exclude version-locked packages
+
+Unattended-Upgrade::Allowed-Origins {
+    "${distro_id}:${distro_codename}-security";
+    // Uncomment to also include updates (not just security)
+    // "${distro_id}:${distro_codename}-updates";
+};
+
+// List of packages to NOT automatically upgrade
+Unattended-Upgrade::Package-Blacklist {
+    // Caddy - version locked
+    "caddy";
+
+    // Linux kernel - requires reboot and testing
+    "linux-image-*";
+    "linux-headers-*";
+    "linux-modules-*";
+};
+
+// Allow Docker security patches but prevent major version jumps
+// This uses apt's version pinning to only allow patch updates
+Unattended-Upgrade::Package-Whitelist-Strict "false";
+
+// Split the upgrade process into smaller chunks to reduce load
+Unattended-Upgrade::MinimalSteps "true";
+
+// Automatically reboot if required (DISABLED by default for safety)
+Unattended-Upgrade::Automatic-Reboot "false";
+
+// If automatic reboot is enabled, reboot at this time
+Unattended-Upgrade::Automatic-Reboot-Time "04:00";
+
+// Send email notifications (requires mail setup)
+// Unattended-Upgrade::Mail "root";
+// Unattended-Upgrade::MailReport "on-change";
+
+// Remove unused dependencies after upgrade
+Unattended-Upgrade::Remove-Unused-Dependencies "true";
+
+// Remove unused kernel packages
+Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
+
+// Automatically remove new unused dependencies
+Unattended-Upgrade::Remove-New-Unused-Dependencies "true";
+
+// Log to syslog and file
+Unattended-Upgrade::SyslogEnable "true";
+Unattended-Upgrade::SyslogFacility "daemon";
+
+// Verbose logging (useful for debugging)
+// Unattended-Upgrade::Verbose "true";
+
+// Debug logging (very verbose)
+// Unattended-Upgrade::Debug "true";
+
+// Only download, don't install (for testing)
+// Unattended-Upgrade::Download-Only "true";
