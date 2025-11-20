@@ -1,6 +1,6 @@
 module control-plane
 
-go 1.23.0
+go 1.24.0
 
 toolchain go1.24.1
 
@@ -8,7 +8,7 @@ require (
 	github.com/BurntSushi/toml v1.4.0
 	github.com/stretchr/testify v1.9.0
 	github.com/trustelem/zxcvbn v1.0.1
-	golang.org/x/crypto v0.35.0
+	golang.org/x/crypto v0.45.0
 	gopkg.in/pg.v5 v5.3.3
 )
 
