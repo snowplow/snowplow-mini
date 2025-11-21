@@ -1,25 +1,10 @@
 version: 2
 updates:
-  # Docker images in docker-compose.yml
-  - package-ecosystem: "docker"
-    directory: "/provisioning/roles/docker/files"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 10
-    labels:
-      - "dependencies"
-      - "docker"
-    commit-message:
-      prefix: "docker"
-      include: "scope"
-
   # Go modules in control-plane API
   - package-ecosystem: "gomod"
     directory: "/provisioning/resources/control-plane"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 5

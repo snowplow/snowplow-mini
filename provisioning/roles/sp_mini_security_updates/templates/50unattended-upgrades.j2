@@ -12,14 +12,18 @@ Unattended-Upgrade::Package-Blacklist {
     // Caddy - version locked
     "caddy";
 
+    // Docker - managed separately to avoid container disruption
+    "docker-ce";
+    "docker-ce-cli";
+    "containerd.io";
+    "docker-compose-plugin";
+
     // Linux kernel - requires reboot and testing
     "linux-image-*";
     "linux-headers-*";
     "linux-modules-*";
 };
 
-// Allow Docker security patches but prevent major version jumps
-// This uses apt's version pinning to only allow patch updates
 Unattended-Upgrade::Package-Whitelist-Strict "false";
 
 // Split the upgrade process into smaller chunks to reduce load

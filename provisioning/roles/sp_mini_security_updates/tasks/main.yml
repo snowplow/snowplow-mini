@@ -74,19 +74,6 @@
     owner: root
     group: root
 
-- name: Configure Docker version pinning for security-only updates
-  become: yes
-  copy:
-    dest: /etc/apt/preferences.d/docker-security-only
-    content: |
-      # Pin Docker packages to current major version
-      # This allows security patches but prevents major version jumps
-      # Example: 27.5.0 → 27.5.1 (allowed), 27.5.0 → 28.0.0 (blocked)
-      Package: docker-ce docker-ce-cli containerd.io docker-compose-plugin
-      Pin: release o=Ubuntu,a={{ ansible_distribution_release }}-security
-      Pin-Priority: 990
-    mode: '0644'
-
 - name: Copy security update monitoring script
   become: yes
   copy:
@@ -125,8 +112,8 @@
 
       Status: ENABLED
       Schedule: Daily at 3:00 AM (±30 min randomization)
-      What's updated: Ubuntu security packages, Docker Engine (security patches only)
-      What's NOT updated: Docker containers, Caddy, Linux kernel
+      What's updated: Ubuntu security packages only
+      What's NOT updated: Docker Engine, Docker containers, Caddy, Linux kernel
 
       Logs: /var/log/unattended-upgrades/unattended-upgrades.log
 
@@ -160,9 +147,8 @@
     msg:
       - "Security updates configured successfully!"
       - "Updates will run daily at 3:00 AM"
-      - "Only security updates will be applied (no version upgrades)"
-      - "Docker Engine security patches will be auto-applied"
-      - "Docker containers will NOT be updated automatically"
+      - "Only Ubuntu security packages will be applied"
+      - "Docker Engine and containers will NOT be updated automatically"
       - "Logs: /var/log/unattended-upgrades/"
       - "Documentation: /etc/snowplow-mini-security-info.txt"
       - "To disable: sudo systemctl disable apt-daily-upgrade.timer"
