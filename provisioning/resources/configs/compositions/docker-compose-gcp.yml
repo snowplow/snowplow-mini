@@ -1,6 +1,6 @@
 services:
   elasticsearch:
-    image: opensearchproject/opensearch:2.19.1
+    image: opensearchproject/opensearch:3.3.0
     container_name: elasticsearch
     restart: always
     environment:
@@ -28,7 +28,7 @@ services:
     mem_limit: ${ELASTICSEARCH_MEM_SIZE}
 
   kibana:
-    image: opensearchproject/opensearch-dashboards:2.19.1
+    image: opensearchproject/opensearch-dashboards:3.3.0
     container_name: kibana
     restart: always
     environment:
@@ -135,7 +135,7 @@ services:
     mem_limit: ${SP_COLLECTOR_MEM_SIZE}
 
   enrich:
-    image: snowplow/snowplow-enrich-nsq:6.1.2-distroless
+    image: snowplow/snowplow-enrich-nsq:6.3.0-distroless
     container_name: enrich
     command: [
       "--config", "/snowplow/config/snowplow-enrich.hocon",
@@ -207,7 +207,7 @@ services:
     mem_limit: ${CA_ADVISOR_MEM_SIZE}
 
   swagger:
-    image: swaggerapi/swagger-ui:v5.20.5
+    image: swaggerapi/swagger-ui:v5.30.3
     container_name: swagger-ui
     restart: always
     ports:
