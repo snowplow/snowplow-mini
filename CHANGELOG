@@ -1,3 +1,9 @@
+Version 0.24.1 (2025-11-27)
+---------------------------
+Upgrade components (#5)
+Improve Packer security and resource cleanup (#4)
+Add sync workflow for snowplow-mini
+
 Version 0.24.0 (2025-10-03)
 ---------------------------
 Replace current frontend code with simpler html (#421)
