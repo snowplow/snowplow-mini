@@ -8,7 +8,7 @@
       "ami_name": "snowplow-mini-{{user `aws_version`}}-{{user `sp_mini_size`}}-{{ timestamp }}-hvm-ebs-amd64",
       "ami_regions": "us-east-2,us-west-1,us-west-2,ca-central-1,eu-west-1,eu-central-1,eu-west-2,ap-southeast-1,ap-southeast-2,ap-northeast-2,ap-northeast-1,ap-south-1,sa-east-1",
       "instance_type": "{{user `aws_instance_type`}}",
-      "region": "us-east-1",
+      "region": "{{user `aws_build_region`}}",
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
@@ -20,6 +20,10 @@
         "most_recent": true
       },
       "ssh_username": "ubuntu",
+      "run_tags": {
+        "TemporaryResource": "snowplow-mini-packer",
+        "ManagedBy": "github-actions"
+      },
       "tags": {
         "OS_Version": "Ubuntu-24.04",
         "Release": "{{user `aws_version`}}"
@@ -74,6 +78,7 @@
   ],
   "variables": {
     "aws_version": "{{env `AWS_SP_MINI_VERSION`}}",
+    "aws_build_region": "{{env `AWS_BUILD_REGION`}}",
     "gcp_version": "{{env `GCP_SP_MINI_VERSION`}}",
     "gcp_image_name": "snowplow-mini-{{user `gcp_version`}}-{{user `sp_mini_size`}}-{{timestamp}}",
     "gcp_machine_type": "{{env `GCP_MACHINE_TYPE`}}",

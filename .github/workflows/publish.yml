@@ -7,6 +7,8 @@ jobs:
   publish:
     name: Publish artifacts
     runs-on: ubuntu-24.04
+    env:
+      AWS_BUILD_REGION: us-east-1
 
     steps:
       - uses: actions/checkout@v3
@@ -75,7 +77,36 @@ jobs:
         run: $GITHUB_WORKSPACE/.github/workflows/deploy.sh ${{ github.ref_name }}
       
       - name: Remove SSH firewall rule
-        if: contains(github.ref_name, 'gcp')
+        if: contains(github.ref_name, 'gcp') && always()
         continue-on-error: true
         run: |
           gcloud compute firewall-rules delete allow-ssh-$GCP_RULE_SUFFIX --quiet
+
+      - name: Cleanup temporary AWS security groups
+        if: contains(github.ref_name, 'aws') && always()
+        continue-on-error: true
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEPLOY_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEPLOY_SECRET_KEY }}
+        run: |
+          echo "Searching for temporary Packer security groups in $AWS_BUILD_REGION..."
+
+          aws ec2 describe-security-groups \
+            --region $AWS_BUILD_REGION \
+            --filters \
+              "Name=group-name,Values=packer*" \
+              "Name=tag:TemporaryResource,Values=snowplow-mini-packer" \
+            --query 'SecurityGroups[*].[GroupId,GroupName]' \
+            --output text | \
+          while read -r group_id group_name; do
+            if [ -n "$group_id" ]; then
+              echo "Found security group: $group_id ($group_name)"
+              if aws ec2 delete-security-group --group-id "$group_id" --region $AWS_BUILD_REGION 2>&1; then
+                echo "  ✓ Deleted security group: $group_id"
+              else
+                echo "  ✗ Failed to delete $group_id (may be in use or have dependencies)"
+              fi
+            fi
+          done
+
+          echo "Cleanup complete"
