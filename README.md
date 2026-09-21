@@ -5,6 +5,9 @@
 [![Release][release-image]][releases]
 [![License][license-image]][license]
 
+> [!IMPORTANT]
+> Snowplow Mini entered [Maintenance Mode](https://docs.snowplow.io/lifecycle-policy/#maintenance-mode) on August 11, 2026 and is scheduled to reach [End of Life](https://docs.snowplow.io/lifecycle-policy/#sunset--end-of-life-eol) on November 11, 2026.
+
 An easily-deployable, single instance version of Snowplow that serves three use cases:
 
 1. Gives a Snowplow consumer (e.g. an analyst / data team / marketing team) a way to quickly understand what Snowplow "does" i.e. what you put in at one end and take out of the other
